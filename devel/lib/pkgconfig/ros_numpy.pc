@@ -1,0 +1,8 @@
+prefix=/home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/project/devel
+
+Name: ros_numpy
+Description: Description of ros_numpy
+Version: 0.0.2
+Cflags: 
+Libs: -L/home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/project/devel/lib 
+Requires: 
