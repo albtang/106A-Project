@@ -28,6 +28,9 @@ else:
     from intera_interface import CameraController
 
 from skimage.measure import block_reduce
+from sklearn.cluster import KMeans
+from collections import Counter
+from skimage.color import rgb2lab, deltaE_cie76
 import time
 import pdb
 
@@ -92,6 +95,27 @@ def show_image(img_name, title='Fig', grayscale=False):
         plt.title(title)
         plt.show()
 
+def get_colors(image, number_of_colors, show_chart):
+    
+    modified_image = cv2.resize(image, (600, 400), interpolation = cv2.INTER_AREA)
+    modified_image = modified_image.reshape(modified_image.shape[0]*modified_image.shape[1], 3)
+    
+    clf = KMeans(n_clusters = number_of_colors)
+    labels = clf.fit_predict(modified_image)
+    
+    counts = Counter(labels)
+    
+    center_colors = clf.cluster_centers_
+    # We get ordered colors by iterating through the keys
+    ordered_colors = [center_colors[i]/255 for i in counts.keys()]
+    hex_colors = [RGB2HEX(ordered_colors[i]*255) for i in counts.keys()]
+    rgb_colors = [ordered_colors[i]*255 for i in counts.keys()]
+    
+    if (show_chart):
+        plt.figure(figsize = (8, 6))
+        plt.pie(counts.values(), labels = hex_colors, colors = ordered_colors)
+    
+    return rgb_colors
 
 def threshold_segment_naive(gray_img, lower_thresh, upper_thresh):
     """perform grayscale thresholding using a lower and upper threshold by
@@ -131,49 +155,6 @@ def threshold_segment_naive(gray_img, lower_thresh, upper_thresh):
     # out = not between
     # print gcopy
     return gcopy
-
-
-
-
-
-
-def edge_detect_naive(gray_img):
-    """perform edge detection using first two steps of Canny (Gaussian blurring and Sobel
-    filtering)
-
-    Parameter
-    ---------
-    gray_img : ndarray
-        grayscale image array
-
-    Returns
-    -------test_img
-    ndarray
-        gray_img with edges outlined
-    """
-
-    gray_s = gray_img.astype('int16') # convert to int16 for better img quality 
-    # TODO: Blur gray_s using Gaussian blurring, convole the blurred image with
-    # Sobel filters, and combine to compute the intensity gradient image (image with edges highlighted)
-    # Hints: open-cv GaussianBlur will be helpful https://medium.com/analytics-vidhya/gaussian-blurring-with-python-and-opencv-ba8429eb879b 
-    # the scipy.ndimage.filters class (imported already) has a useful convolve function
-
-    # Steps
-    # 1. apply a gaussian blur with a 5x5 kernel.
-    # 2. define the convolution kernel Kx and Ky as defined in the doc.
-    # 3. compute Gx and Gy by convolving Kx and Ky respectively with the blurred image.
-    # 4. compute G = sqrt(Gx ** 2 + Gy ** 2)
-    # 5. Return G
-    blur = cv2.GaussianBlur(gray_s, (5, 5), 0)
-    Kx = np.array([[-1,0,1],[-2,0,2],[-1,0,1]])
-    Ky = Kx.T
-    Gx = ndimage.filters.convolve(blur, Kx)
-    Gy = ndimage.filters.convolve(blur, Ky)
-    G = np.sqrt(Gx ** 2 + Gy ** 2)
-    return G
-
-
-    # raise NotImplementedError()
 
 def edge_detect_canny(gray_img):
     """perform Canny edge detection
