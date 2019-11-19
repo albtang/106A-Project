@@ -77,6 +77,27 @@ def main():
         # piece = actual.pop(0)
         piece = "O"
 
+        # # Start at neutral position
+        # x, y, z = 0.5, -0.75, 0.3
+        # neutral = PoseStamped()
+        # neutral.header.frame_id = "base"
+
+        # #x, y, and z position
+        # neutral.pose.position.x = x
+        # neutral.pose.position.y = y
+        # neutral.pose.position.z = z
+
+        # #Orientation as a quaternion
+        # neutral.pose.orientation.x = 0.0
+        # neutral.pose.orientation.y = -1.0
+        # neutral.pose.orientation.z = 0.0
+        # neutral.pose.orientation.w = 0.0
+        # neutral.pose.position.z += .2
+        # plan = planner.plan_to_pose(neutral, [orien_const])
+
+        # if not planner.execute_plan(plan):
+        #     raise Exception("Execution failed")
+
         ### ACTUAL LOCATION ###
         while not rospy.is_shutdown() and not picked:
             try:
@@ -124,21 +145,20 @@ def main():
         while not rospy.is_shutdown() and picked and not placed:
 
             try:
-                desired = goals.get(piece)[0]
-                print(desired)
                 # Translate over such that the piece is above the desired position
-                goal = desired.copy()
+                goal = goals.get(piece)[0]
                 goal.pose.position.z += .2
                 plan = planner.plan_to_pose(goal, [orien_const])
                 print(goal)
 
                 raw_input("Press <Enter> to move the right arm to place the piece: ")
                 if not planner.execute_plan(plan):
+                    goal.pose.position.z -= .2
                     raise Exception("Execution failed")
                 print("A")
 
                 # Actually place the piece on table
-                goal = desired
+                goal.pose.position.z -= .2
 
                 print(goal)
                 plan = planner.plan_to_pose(goal, [orien_const])
