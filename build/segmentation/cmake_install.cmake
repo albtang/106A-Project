@@ -1,8 +1,8 @@
-# Install script for directory: /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/project/src/segmentation
+# Install script for directory: /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/src/segmentation
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/project/install")
+  set(CMAKE_INSTALL_PREFIX "/home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/install")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -33,17 +33,17 @@ if(NOT DEFINED CMAKE_INSTALL_SO_NO_EXE)
 endif()
 
 if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/project/build/segmentation/catkin_generated/installspace/segmentation.pc")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build/segmentation/catkin_generated/installspace/segmentation.pc")
 endif()
 
 if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/segmentation/cmake" TYPE FILE FILES
-    "/home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/project/build/segmentation/catkin_generated/installspace/segmentationConfig.cmake"
-    "/home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/project/build/segmentation/catkin_generated/installspace/segmentationConfig-version.cmake"
+    "/home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build/segmentation/catkin_generated/installspace/segmentationConfig.cmake"
+    "/home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build/segmentation/catkin_generated/installspace/segmentationConfig-version.cmake"
     )
 endif()
 
 if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/segmentation" TYPE FILE FILES "/home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/project/src/segmentation/package.xml")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/segmentation" TYPE FILE FILES "/home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/src/segmentation/package.xml")
 endif()
 

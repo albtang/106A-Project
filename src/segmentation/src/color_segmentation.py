@@ -19,7 +19,7 @@ COLORS = {
     "yellow": [[25, 100, 100], [45, 255, 255]],
     "blue": [[110,30,30], [130,255,255]],
     "green": [[40,60,60], [70,255,255]],
-    "black": [[0, 0, 0], [180, 35, 35]],
+    "black": [[0, 0, 0], [180, 230, 30]],
     "purple": [[140, 100, 100], [160, 255, 255]]
 }
 
@@ -35,10 +35,10 @@ def segment_by_color(image, color):
         mask = mask1 + mask2
     else:
         mask = cv2.inRange(img, np.array(COLORS[color][0]), np.array(COLORS[color][1]))
-    return mask
-    # plt.imshow(mask, cmap='gray')
-    # plt.title("Segmentation by %s" % color)
-    # plt.show()
+    # return mask
+    plt.imshow(mask, cmap='gray')
+    plt.title("Segmentation by %s" % color)
+    plt.show()
 
 def segment_all(image):
     fig,axes = plt.subplots(nrows = 4, ncols = 2, figsize=(50, 50))
@@ -64,6 +64,11 @@ def segment_all(image):
 
 
 if __name__ == '__main__':
-    # segment_by_color('./testdata/test.jpg', "black")
-    segment_all('./testdata/test.jpg')
+    test = './testdata/test.jpg'
+    mult = './testdata/multiple_pieces.jpg'
+    org_yel = './testdata/org_yel.jpg'
+    crossed = './testdata/crossed.jpg'
+    cross = './testdata/cross.jpg'
+    segment_by_color(cross, "yellow")
+    # segment_all('./testdata/test.jpg')
    

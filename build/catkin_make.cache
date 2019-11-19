@@ -1,2 +1,2 @@
 planning:ros_numpy:segmentation
--DCATKIN_DEVEL_PREFIX=/home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/project/devel -DCMAKE_INSTALL_PREFIX=/home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/project/install -G Unix Makefiles
+-DCATKIN_DEVEL_PREFIX=/home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/devel -DCMAKE_INSTALL_PREFIX=/home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/install -G Unix Makefiles

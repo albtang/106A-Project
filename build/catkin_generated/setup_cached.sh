@@ -7,5 +7,6 @@
 # new environment variables
 
 # modified environment variables
-export PWD="/home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/project/build"
-export PYTHONPATH="/home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/project/devel/lib/python2.7/dist-packages:$PYTHONPATH"
+export PKG_CONFIG_PATH="/scratch/shared/baxter_ws/devel/lib/pkgconfig:/opt/ros/kinetic/lib/pkgconfig:/opt/ros/kinetic/lib/x86_64-linux-gnu/pkgconfig"
+export PWD="/home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build"
+export ROS_PACKAGE_PATH="/home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/src:/scratch/shared/baxter_ws/src:/opt/ros/kinetic/share"

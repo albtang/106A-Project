@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/project/src
+CMAKE_SOURCE_DIR = /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/project/build
+CMAKE_BINARY_DIR = /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build
 
 # Utility rule file for rosgraph_msgs_generate_messages_nodejs.
 
@@ -63,10 +63,10 @@ segmentation/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/build: rosgra
 .PHONY : segmentation/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/build
 
 segmentation/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/clean:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/project/build/segmentation && $(CMAKE_COMMAND) -P CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/cmake_clean.cmake
+	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build/segmentation && $(CMAKE_COMMAND) -P CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/cmake_clean.cmake
 .PHONY : segmentation/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/clean
 
 segmentation/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/depend:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/project/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/project/src /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/project/src/segmentation /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/project/build /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/project/build/segmentation /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/project/build/segmentation/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/src /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/src/segmentation /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build/segmentation /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build/segmentation/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : segmentation/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/depend
 

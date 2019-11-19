@@ -20,8 +20,8 @@ from moveit_msgs.msg import OrientationConstraint
 from geometry_msgs.msg import PoseStamped
 
 from path_planner import PathPlanner
-from controller import Controller
-# import decipher_final_configuration
+# from controller import Controller
+from final_calculation import decipher_final_configuration
 
 def main():
     """
@@ -68,21 +68,23 @@ def main():
     actual = []
 
     # Get the desired position and orientation of each piece
-    goals = raw_input("Enter in a 2D matrix of your desired layout: ")
-    # goals = decipher_final_configuration(goals)
+    # goals = raw_input("Enter in a 2D matrix of your desired layout: ")
+    goals = [["O","O"], ["O","O"]]
+    goals = decipher_final_configuration(goals)
 
     while not rospy.is_shutdown():
         picked, placed = False, False
-        piece = actual.pop(0)
+        # piece = actual.pop(0)
+        piece = "O"
 
         ### ACTUAL LOCATION ###
         while not rospy.is_shutdown() and not picked:
             try:
                 # Pick up the piece in the original position
-                # if ROBOT == "baxter":
-                #     x, y, z = 0.47, -0.85, 0.07
+                if ROBOT == "baxter":
+                    x, y, z = 0.47, -0.85, 0.07
                 # else:
-                #     x, y, z = 0.8, 0.05, -0.23
+                    # x, y, z = 0.8, 0.05, -0.23
                 
                 original = PoseStamped()
                 original.header.frame_id = "base"
@@ -105,11 +107,11 @@ def main():
                     raise Exception("Execution failed")
 
                 # Raise the arm a little bit so that other pieces are not affected
-                original.pose.position.z += .1
+                original.pose.position.z += .2
                 plan = planner.plan_to_pose(original, [orien_const])
                 if not planner.execute_plan(plan):
                     raise Exception("Execution failed")
-                
+
                 picked = True
 
             except Exception as e:
@@ -122,42 +124,35 @@ def main():
         while not rospy.is_shutdown() and picked and not placed:
 
             try:
-                desired = goals.get(piece).pop(0)
-
+                desired = goals.get(piece)[0]
+                print(desired)
                 # Translate over such that the piece is above the desired position
-                goal = PoseStamped()
-                goal.header.frame_id = "base"
-
-                #x, y, and z position
-                goal.pose.position.x = desired[0]
-                goal.pose.position.y = desired[1]
-                goal.pose.position.z = desired[2]
-
-                #Orientation as a quaternion
-                goal.pose.orientation.x = desired[3]
-                goal.pose.orientation.y = desired[4]
-                goal.pose.orientation.z = desired[5]
-                goal.pose.orientation.w = desired[6]
-                
+                goal = desired.copy()
+                goal.pose.position.z += .2
                 plan = planner.plan_to_pose(goal, [orien_const])
+                print(goal)
 
                 raw_input("Press <Enter> to move the right arm to place the piece: ")
                 if not planner.execute_plan(plan):
                     raise Exception("Execution failed")
+                print("A")
 
                 # Actually place the piece on table
-                original.pose.position.z += .1
-                plan = planner.plan_to_pose(original, [orien_const])
+                goal = desired
+
+                print(goal)
+                plan = planner.plan_to_pose(goal, [orien_const])
                 if not planner.execute_plan(plan):
                     raise Exception("Execution failed")
-                
+                print("B")
+
+                # goals.get(piece).pop(0)
                 placed = True
                 picked = False
 
             except Exception as e:
                 print e
             else:
-                goals[piece] = goals.get(piece).insert(0, desired)
                 break
 
 if __name__ == '__main__':

@@ -1,4 +1,5 @@
-from geometry_msgs import Pose
+import rospy
+from geometry_msgs.msg import PoseStamped
 from tf.transformations import quaternion_from_euler
 
 '''
@@ -13,211 +14,214 @@ def decipher_final_configuration(ideal):
     pieces = {"I": [], "O": [], "J": [], "L": [], "S": [], "Z": [], "T": []}
     ignore = []
     block_size = 0.1016 # 4 inches in m
+    x, y, z = 0.47, -0.5, 0.07
 
-    for i in ideal: #horizontal?
-    	for j in i: #vertical
+    for i in range(len(ideal)): #horizontal?
+    	for j in range(len(ideal)): #vertical
             if [i,j] in ignore:
                 ignore.remove([i,j])
                 continue
-            pose = Pose()
+            pose = PoseStamped()
+            pose.header.frame_id = "base"
             # Determine relative position in relation to the other pieces
-            pose.position.x = i*block_size
-            pose.position.y = j*block_size
-            pose.position.z = 0
+            pose.pose.position.x = x + i*block_size
+            pose.pose.position.y = y + j*block_size
+            pose.pose.position.z = z + 0
 
             # Determine the specific piece that the letter corresponds to
-            if ideal[i,j] == "I":
+            if ideal[i][j] == "I":
                 # Determine orientation of the piece in the configuration passed in
-    			if ideal[i,j+1] == "I" and ideal[i,j+2] == "I" and ideal[i,j+3] == "I": #horizontal
-    				ignore.append([i, j+1])
+                if ideal[i,j+1] == "I" and ideal[i,j+2] == "I" and ideal[i,j+3] == "I": #horizontal
+                    ignore.append([i, j+1])
                     ignore.append([i, j+2])
                     ignore.append([i, j+3])
                     #orientation
-                    pose.orientation.x = 0
-                    pose.orientation.y = 0
-                    pose.orientation.z = 0
-                    pose.orientation.w = 1.0
+                    pose.pose.orientation.x = 0
+                    pose.pose.orientation.y = 1.0
+                    pose.pose.orientation.z = 0
+                    pose.pose.orientation.w = 0
                 else: #vertical
                     ignore.append([i+1, j])
                     ignore.append([i+2, j])
                     ignore.append([i+3, j])
                     #orientation
-                    pose.orientation.x = 0
-                    pose.orientation.y = 0
-                    pose.orientation.z = 0
-                    pose.orientation.w = 1.0
+                    pose.pose.orientation.x = 0
+                    pose.pose.orientation.y = 1.0
+                    pose.pose.orientation.z = 0
+                    pose.pose.orientation.w = 0
                 # ADD POSITION AND ORIENTATION
-                pieces["I"] = pieces.get("I").add(pose)
+                pieces.get("I").append(pose)
 
-    		elif ideal[i,j] == "Z":
+            elif ideal[i][j] == "Z":
                 if ideal[i,j+1] == "Z": #horizontal
                     ignore.append([i+1, j])
                     ignore.append([i+1, j+1])
                     ignore.append([i+1, j+2])
                     #orientation
-                    pose.orientation.x = 0
-                    pose.orientation.y = 0
-                    pose.orientation.z = 0
-                    pose.orientation.w = 1.0
+                    pose.pose.orientation.x = 0
+                    pose.pose.orientation.y = 1.0
+                    pose.pose.orientation.z = 0
+                    pose.pose.orientation.w = 0
                 else: #vertical
                     ignore.append([i, j+1])
                     ignore.append([i-1, j+1])
                     ignore.append([i-1, j+2])
                     #orientation
-                    pose.orientation.x = 0
-                    pose.orientation.y = 0
-                    pose.orientation.z = 0
-                    pose.orientation.w = 1.0
-                pieces["Z"] = pieces.get("Z").add(pose)
+                    pose.pose.orientation.x = 0
+                    pose.pose.orientation.y = 1.0
+                    pose.pose.orientation.z = 0
+                    pose.pose.orientation.w = 0
+                pieces.get("Z").append(pose)
 
-    		elif ideal[i,j] == "O":
+            elif ideal[i][j] == "O":
                 ignore.append([i, j+1])
                 ignore.append([i+1, j])
                 ignore.append([i+1, j+1])
                 #orientation
-                pose.orientation.x = 0
-                pose.orientation.y = 0
-                pose.orientation.z = 0
-                pose.orientation.w = 1.0
-                pieces["O"] = pieces.get("O").add(pose)
+                pose.pose.orientation.x = 0
+                pose.pose.orientation.y = 1.0
+                pose.pose.orientation.z = 0
+                pose.pose.orientation.w = 0
+                pieces.get("O").append(pose)
 
-    		elif ideal[i,j] == "L":
+            elif ideal[i][j] == "L":
                 if ideal[i+1,j] == "L" and ideal[i, j+1] == "L":
                     ignore.append([i, j+1])
                     ignore.append([i+1, j])
                     ignore.append([i, j+2])
                     #orientation
-                    pose.orientation.x = 0
-                    pose.orientation.y = 0
-                    pose.orientation.z = 0
-                    pose.orientation.w = 1.0
+                    pose.pose.orientation.x = 0
+                    pose.pose.orientation.y = 1.0
+                    pose.pose.orientation.z = 0
+                    pose.pose.orientation.w = 0
                 elif ideal[i+1,j] != "L" and ideal[i, j+1] == "L":
                     ignore.append([i, j+1])
                     ignore.append([i+1, j+1])
                     ignore.append([i+2, j+1])
                     #orientation
-                    pose.orientation.x = 0
-                    pose.orientation.y = 0
-                    pose.orientation.z = 0
-                    pose.orientation.w = 1.0
+                    pose.pose.orientation.x = 0
+                    pose.pose.orientation.y = 1.0
+                    pose.pose.orientation.z = 0
+                    pose.pose.orientation.w = 0
                 elif ideal[i+1,j] == "L" and ideal[i, j+1] != "L":
                     ignore.append([i+1, j])
                     ignore.append([i+2, j])
                     ignore.append([i+2, j+1])
                     #orientation
-                    pose.orientation.x = 0
-                    pose.orientation.y = 0
-                    pose.orientation.z = 0
-                    pose.orientation.w = 1.0
+                    pose.pose.orientation.x = 0
+                    pose.pose.orientation.y = 1.0
+                    pose.pose.orientation.z = 0
+                    pose.pose.orientation.w = 0
                 else:
                     ignore.append([i+1, j])
                     ignore.append([i+1, j-1])
                     ignore.append([i+1, j-2])
                     #orientation
-                    pose.orientation.x = 0
-                    pose.orientation.y = 0
-                    pose.orientation.z = 0
-                    pose.orientation.w = 1.0
-                pieces["L"] = pieces.get("L").add(pose)   
+                    pose.pose.orientation.x = 0
+                    pose.pose.orientation.y = 1.0
+                    pose.pose.orientation.z = 0
+                    pose.pose.orientation.w = 0
+                pieces.get("L").append(pose)   
 
-    		elif ideal[i,j] == "J":
+            elif ideal[i][j] == "J":
                 if ideal[i+1,j] == "J" and ideal[i+1, j+1] == "J":
                     ignore.append([i+1, j])
                     ignore.append([i+1, j+1])
                     ignore.append([i+1, j+2])
                     #orientation
-                    pose.orientation.x = 0
-                    pose.orientation.y = 0
-                    pose.orientation.z = 0
-                    pose.orientation.w = 1.0
+                    pose.pose.orientation.x = 0
+                    pose.pose.orientation.y = 1.0
+                    pose.pose.orientation.z = 0
+                    pose.pose.orientation.w = 0
                 elif ideal[i+1,j] == "J" and ideal[i, j+1] == "J":
                     ignore.append([i, j+1])
                     ignore.append([i+1, j])
                     ignore.append([i+2, j])
                     #orientation
-                    pose.orientation.x = 0
-                    pose.orientation.y = 0
-                    pose.orientation.z = 0
-                    pose.orientation.w = 1.0
+                    pose.pose.orientation.x = 0
+                    pose.pose.orientation.y = 1.0
+                    pose.pose.orientation.z = 0
+                    pose.pose.orientation.w = 0
                 elif ideal[i+1,j] == "J" and ideal[i+2, j] == "J":
                     ignore.append([i+1, j])
                     ignore.append([i+2, j])
                     ignore.append([i+2, j-1])
                     #orientation
-                    pose.orientation.x = 0
-                    pose.orientation.y = 0
-                    pose.orientation.z = 0
-                    pose.orientation.w = 1.0
+                    pose.pose.orientation.x = 0
+                    pose.pose.orientation.y = 1.0
+                    pose.pose.orientation.z = 0
+                    pose.pose.orientation.w = 0
                 else:
                     ignore.append([i, j+1])
                     ignore.append([i, j+2])
                     ignore.append([i+1, j+2])
                     #orientation
-                    pose.orientation.x = 0
-                    pose.orientation.y = 0
-                    pose.orientation.z = 0
-                    pose.orientation.w = 1.0
-                pieces["J"] = pieces.get("J").add(pose)
+                    pose.pose.orientation.x = 0
+                    pose.pose.orientation.y = 1.0
+                    pose.pose.orientation.z = 0
+                    pose.pose.orientation.w = 0
+                pieces.get("J").append(pose)
 
-    		elif ideal[i,j] == "S":
+            elif ideal[i][j] == "S":
                 if ideal[i,j+1] == "S": #horizontal
                     ignore.append([i, j+1])
                     ignore.append([i+1, j])
                     ignore.append([i+1, j-1])
                     #orientation
-                    pose.orientation.x = 0
-                    pose.orientation.y = 0
-                    pose.orientation.z = 0
-                    pose.orientation.w = 1.0
+                    pose.pose.orientation.x = 0
+                    pose.pose.orientation.y = 1.0
+                    pose.pose.orientation.z = 0
+                    pose.pose.orientation.w = 0
                 else: #vertical
                     ignore.append([i+1, j])
                     ignore.append([i+1, j+1])
                     ignore.append([i+2, j+1])
                     #orientation
-                    pose.orientation.x = 0
-                    pose.orientation.y = 0
-                    pose.orientation.z = 0
-                    pose.orientation.w = 1.0
-                pieces["S"] = pieces.get("S").add(pose)
+                    pose.pose.orientation.x = 0
+                    pose.pose.orientation.y = 1.0
+                    pose.pose.orientation.z = 0
+                    pose.pose.orientation.w = 0
+                pieces.get("S").append(pose)
 
-    		elif ideal[i,j] == "T":
+            elif ideal[i][j] == "T":
                 if ideal[i,j+1] == "T":
                     ignore.append([i, j+1])
                     ignore.append([i, j+2])
                     ignore.append([i+1, j+1])
                     #orientation
-                    pose.orientation.x = 0
-                    pose.orientation.y = 0
-                    pose.orientation.z = 0
-                    pose.orientation.w = 1.0
+                    pose.pose.orientation.x = 0
+                    pose.pose.orientation.y = 1.0
+                    pose.pose.orientation.z = 0
+                    pose.pose.orientation.w = 0
                 elif ideal[i+2,j] == "T" and ideal[i+1, j+1] == "T":
                     ignore.append([i+1, j])
                     ignore.append([i+1, j+1])
                     ignore.append([i+2, j])
                     #orientation
-                    pose.orientation.x = 0
-                    pose.orientation.y = 0
-                    pose.orientation.z = 0
-                    pose.orientation.w = 1.0
+                    pose.pose.orientation.x = 0
+                    pose.pose.orientation.y = 1.0
+                    pose.pose.orientation.z = 0
+                    pose.pose.orientation.w = 0
                 elif ideal[i+2,j] == "T" and ideal[i+1, j-1] == "T":
                     ignore.append([i+1, j])
                     ignore.append([i+1, j-1])
                     ignore.append([i+2, j])
                     #orientation
-                    pose.orientation.x = 0
-                    pose.orientation.y = 0
-                    pose.orientation.z = 0
-                    pose.orientation.w = 1.0
+                    pose.pose.orientation.x = 0
+                    pose.pose.orientation.y = 1.0
+                    pose.pose.orientation.z = 0
+                    pose.pose.orientation.w = 0
                 else:
                     ignore.append([i+1, j])
                     ignore.append([i+1, j+1])
                     ignore.append([i+1, j-1])
                     #orientation
-                    pose.orientation.x = 0
-                    pose.orientation.y = 0
-                    pose.orientation.z = 0
-                    pose.orientation.w = 1.0
-                pieces["T"] = pieces.get("T").add(pose)
+                    pose.pose.orientation.x = 0
+                    pose.pose.orientation.y = 1.0
+                    pose.pose.orientation.z = 0
+                    pose.pose.orientation.w = 0
+                pieces.get("T").append(pose)
                 
-    		else:
+            else:
                 continue
+    return pieces

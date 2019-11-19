@@ -1,8 +1,8 @@
-prefix=/home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/project/devel
+prefix=/home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/devel
 
 Name: ros_numpy
 Description: Description of ros_numpy
 Version: 0.0.2
 Cflags: 
-Libs: -L/home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/project/devel/lib 
+Libs: -L/home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/devel/lib 
 Requires: 
