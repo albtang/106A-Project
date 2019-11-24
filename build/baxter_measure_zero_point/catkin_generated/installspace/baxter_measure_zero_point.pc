@@ -1,0 +1,8 @@
+prefix=/home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/install
+
+Name: baxter_measure_zero_point
+Description: Description of baxter_measure_zero_point
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/install/lib -lbaxter_measure_zero_point
+Requires: OpenCv roscpp sensor_msg/Image

@@ -6,5 +6,7 @@
 # testing this directory and lists subdirectories to be tested as well.
 subdirs(gtest)
 subdirs(ros_numpy)
+subdirs(baxter_measure_table)
+subdirs(baxter_measure_zero_point)
 subdirs(segmentation)
 subdirs(planning)
