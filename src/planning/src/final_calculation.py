@@ -43,7 +43,6 @@ def decipher_final_configuration(ideal):
             pose.pose.orientation.y = 1.0
             pose.pose.orientation.z = 0
             pose.pose.orientation.w = 0
-            print(ignore)
         elif i+2 < len(ideal) and j+1 < len(ideal[i])  and j+1 < len(ideal[i+1]) and ideal[i+1][j] == "Z" and ideal[i+1][j+1] == "Z" and ideal[i+2][j+1] == "Z": #horizontal: #vertical
             ignore.append([i+1, j])
             ignore.append([i+1, j+1])

@@ -29,6 +29,8 @@ def main():
     """
 
     planner = PathPlanner("right_arm")
+
+    #GRIPPER SETUP AND TEST
     # right_gripper = robot_gripper.Gripper('right_gripper')
 
     # #Calibrate the gripper (other commands won't work unless you do this first)
@@ -44,6 +46,7 @@ def main():
 
     # ##
     # ## Add the obstacle to the planning scene here
+    ### SHOULD WE ADD PLACED PIECES AS OBSTACLES ????
     # ##
     # pose = PoseStamped()
     # pose.header.frame_id = "base"
@@ -77,127 +80,135 @@ def main():
     orien_const.weight = 1.0;
 
     # Get the initial position and orientation of each piece ###PARTH"S FUNCTION
-    actual = []
+    actual = ["L", "O", "S", "Z"]
 
     # Get the desired position and orientation of each piece by parsing the desired string
     # goals = raw_input("Enter in a 2D matrix of your desired layout, with each element separated by spaces and each row separated by periods: ")
     goals = "L O O G S S.L O O S S Z Z.L L I I I I Z Z"
-    # goals = "Z Z.G Z Z"
-    goals = goals.split(".")
-    for row_i in range(len(goals)):
-        goals[row_i] = goals[row_i].split()
-    # goals = [[None, "L", "L"], ["O","O", "L"], ["O","O", "L"]]
-    goals = decipher_final_configuration(goals)
+    while goals:
+        goals = goals.split(".")
+        for row_i in range(len(goals)):
+            goals[row_i] = goals[row_i].split()
+        # goals = [[None, "L", "L"], ["O","O", "L"], ["O","O", "L"]]
+        goals = decipher_final_configuration(goals)
 
-    while not rospy.is_shutdown():
-        picked, placed = False, False
-        # piece = actual.pop(0)
-        piece = "O"
-
-        # # Start at neutral position
-        # x, y, z = 0.5, -0.75, 0.3
-        # neutral = PoseStamped()
-        # neutral.header.frame_id = "base"
-
-        # #x, y, and z position
-        # neutral.pose.position.x = x
-        # neutral.pose.position.y = y
-        # neutral.pose.position.z = z
-
-        # #Orientation as a quaternion
-        # neutral.pose.orientation.x = 0.0
-        # neutral.pose.orientation.y = -1.0
-        # neutral.pose.orientation.z = 0.0
-        # neutral.pose.orientation.w = 0.0
-        # neutral.pose.position.z += .2
-
-        ### ACTUAL LOCATION ###
         raw_input("Press <Enter> to move the right arm to pick up a piece: ")
-        while not rospy.is_shutdown() and not picked:
+        while not rospy.is_shutdown() and len(actual) > 0:
+            # Booleans to track state
+            in_hand, picked, placed = False, False, False
+            piece = actual.pop(0)
 
-            try:
+            ### PICKING UP PIECE FROM ACTUAL LOCATION ###
+            while not rospy.is_shutdown() and not picked:
+                try:
+                    # Pick up the piece in the original position
+                    if ROBOT == "baxter":
+                        x, y, z = 0.47, -0.85, 0.07
+                    else:
+                        x, y, z = 0.8, 0.05, -0.23
+                    
+                    original = PoseStamped()
+                    original.header.frame_id = "base"
 
-                # Pick up the piece in the original position
-                if ROBOT == "baxter":
-                    x, y, z = 0.47, -0.85, 0.07
-                # else:
-                    # x, y, z = 0.8, 0.05, -0.23
-                
-                original = PoseStamped()
-                original.header.frame_id = "base"
+                    # x, y, and z position
+                    original.pose.position.x = x
+                    original.pose.position.y = y
+                    original.pose.position.z = z
+                    # Orientation as a quaternion
+                    original.pose.orientation.x = 0.0
+                    original.pose.orientation.y = -1.0
+                    original.pose.orientation.z = 0.0
+                    original.pose.orientation.w = 0.0
 
-                #x, y, and z position
-                original.pose.position.x = x
-                original.pose.position.y = y
-                original.pose.position.z = z
+                    if not in_hand:
+                        # Translate over such that the piece is above the actual position
+                        original.pose.position.z += .2
+                        plan = planner.plan_to_pose(original, [orien_const])
+                        if not planner.execute_plan(plan):
+                            # Reset position of z such that if the loop fails, we haven't mutated it
+                            original.pose.position.z -= .2
+                            raise Exception("Execution failed")
 
-                #Orientation as a quaternion
-                original.pose.orientation.x = 0.0
-                original.pose.orientation.y = -1.0
-                original.pose.orientation.z = 0.0
-                original.pose.orientation.w = 0.0
+                        # Actually pick up the piece
+                        original.pose.position.z -= .2
+                        plan = planner.plan_to_pose(original, [orien_const])
+                        if not planner.execute_plan(plan):
+                            raise Exception("Execution failed")
+                        ## GRIPPER OPEN (succ)
+                        in_hand = True
 
-                original.pose.position.z += .2
-                plan = planner.plan_to_pose(original, [orien_const])
-                if not planner.execute_plan(plan):
-                    original.pose.position.z -= .2
-                    raise Exception("Execution failed")
+                    # Raise the arm a little bit so that other pieces are not affected
+                    original.pose.position.z += .2
+                    plan = planner.plan_to_pose(original, [orien_const])
+                    if not planner.execute_plan(plan):
+                        # Reset position of z such that if the loop fails, we haven't mutated it
+                        original.pose.position.z -= .2
+                        raise Exception("Execution failed")
 
-                original.pose.position.z -= .2
-                plan = planner.plan_to_pose(original, [orien_const])
-                if not planner.execute_plan(plan):
-                    raise Exception("Execution failed")
+                    picked = True
 
-                # Raise the arm a little bit so that other pieces are not affected
-                original.pose.position.z += .2
-                plan = planner.plan_to_pose(original, [orien_const])
-                if not planner.execute_plan(plan):
-                    raise Exception("Execution failed")
+                except Exception as e:
+                    print e
+                    traceback.print_exc()
+                else:
+                    break
 
-                picked = True
-
-            except Exception as e:
-                print e
-                traceback.print_exc()
-            else:
-                break
-
-        ### DESIRED LOCATION ###
-        raw_input("Press <Enter> to move the right arm to place the piece: ")
-        while not rospy.is_shutdown() and picked and not placed:
-
-            try:
-                # Translate over such that the piece is above the desired position
-                goal = goals.get(piece)[0]
-
-                goal.pose.position.z += .2
-                plan = planner.plan_to_pose(goal, [orien_const])
-                if not planner.execute_plan(plan):
-                    goal.pose.position.z -= .2
-                    raise Exception("Execution failed")
-
-                # Actually place the piece on table
-                goal.pose.position.z -= .2
-                plan = planner.plan_to_pose(goal, [orien_const])
-                if not planner.execute_plan(plan):
-                    raise Exception("Execution failed")
-
-                goal.pose.position.z += .2
-                plan = planner.plan_to_pose(goal, [orien_const])
-                if not planner.execute_plan(plan):
-                    goal.pose.position.z -= .2
-                    raise Exception("Execution failed")
-
-                goal.pose.position.z -= .2
-                # goals.get(piece).pop(0)
-                placed = True
+            ### PLACING PIECE AT DESIRED LOCATION ###
+            text = raw_input("Press <Enter> to move the right arm to place the piece or 'back' to redo the previous step: ")
+            if text is "back":
                 picked = False
 
-            except Exception as e:
-                print e
-                traceback.print_exc()
-            else:
-                break
+            while not rospy.is_shutdown() and picked and not placed:
+
+                try:
+                    goal = goals.get(piece)[0]
+                    print(goal)
+
+                    if in_hand:
+                        # Translate over such that the piece is above the desired position
+                        goal.pose.position.z += .2
+                        plan = planner.plan_to_pose(goal, [orien_const])
+                        if not planner.execute_plan(plan):
+                            # Reset position of z such that if the loop fails, we haven't mutated it
+                            goal.pose.position.z -= .2
+                            raise Exception("Execution failed")
+
+                        # Actually place the piece on table
+                        goal.pose.position.z -= .2
+                        plan = planner.plan_to_pose(goal, [orien_const])
+                        if not planner.execute_plan(plan):
+                            raise Exception("Execution failed")
+                        ## GRIPPER CLOSE
+
+                        in_hand = False
+
+                    # Raise the arm a little bit so that other pieces are not affected
+                    goal.pose.position.z += .2
+                    plan = planner.plan_to_pose(goal, [orien_const])
+                    if not planner.execute_plan(plan):
+                        # Reset position of z such that if the loop fails, we haven't mutated it
+                        goal.pose.position.z -= .2
+                        raise Exception("Execution failed")
+
+                    temp = goals.get(piece).pop(0)
+                    placed = True
+                    picked = False
+
+                except Exception as e:
+                    print e
+                    traceback.print_exc()
+                else:
+                    break
+                
+            raw_input("Press <Enter> to move onto the next piece or 'back': ")
+            if raw_input is "back":
+                placed = False
+                picked = True
+                goals.insert(0, temp)
+        
+        print("We have finished solving the puzzle. If you would like to continue: ")
+        goals = None
+        # goals = raw_input("Enter in a 2D matrix of your desired layout, with each element separated by spaces and each row separated by periods: ")
 
 if __name__ == '__main__':
     rospy.init_node('moveit_node')
