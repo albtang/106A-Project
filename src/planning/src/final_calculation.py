@@ -17,7 +17,7 @@ def decipher_final_configuration(ideal):
     x, y, z = 0.47, -0.5, 0.07
 
     for i in range(len(ideal)): #horizontal?
-    	for j in range(len(ideal)): #vertical
+    	for j in range(len(ideal[i])): #vertical
             if [i,j] in ignore:
                 ignore.remove([i,j])
                 continue

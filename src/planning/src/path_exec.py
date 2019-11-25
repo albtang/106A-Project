@@ -28,7 +28,7 @@ def main():
     Main Script
     """
 
-    planner = PathPlanner("right_arm")
+    # planner = PathPlanner("right_arm")
 
     # ##
     # ## Add the obstacle to the planning scene here
@@ -68,8 +68,12 @@ def main():
     actual = []
 
     # Get the desired position and orientation of each piece
-    # goals = raw_input("Enter in a 2D matrix of your desired layout: ")
-    goals = [["O","O"], ["O","O"]]
+    goals = raw_input("Enter in a 2D matrix of your desired layout, with each element separated by spaces and each row separated by periods: ")
+    goals = goals.split(".")
+    for row_i in range(len(goals)):
+        goals[row_i] = goals[row_i].split()
+    # goals = [[None, "L", "L"], ["O","O", "L"], ["O","O", "L"]]
+    print(goals)
     goals = decipher_final_configuration(goals)
 
     while not rospy.is_shutdown():
