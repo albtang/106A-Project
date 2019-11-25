@@ -98,7 +98,7 @@ def move(arm, *arg):
         # maximum step size of 1 mm between the waypoints. It return the plan and the fraction
         # which says how good it followed the requested trajectory.
         # (example: fraction= 0.95.454545 -> followed 95.454545% of requested trajectory)
-        (plan, fraction) = right_arm.compute_cartesian_path (waypoints, 0.001, 0.0, True)
+        (plan, fraction) = right_arm.compute_cartesian_path(waypoints, 0.001, 0.0, True)
         right_arm.execute(plan, wait=True) 
         # Read the position of the right arm to compare it with the goal.
         a=right_arm.get_current_pose()
@@ -148,7 +148,7 @@ def measure_zero_point():
     # This function find the height from the ground to the zero point in MoveIt with the base frame. (in my case 0.903 m)
     # It is necessary to know the height of the table or the object which stands in front of the robot.
     # Add the real table size in z direction.
-    table_size_z = 0
+    table_size_z = 0.62
     # Define positions.
     pos1 = {'left_e0': -1.69483279891317, 'left_e1':  1.8669726956453, 'left_s0': 0.472137005716569, 'left_s1': -0.38852045702393034, 'left_w0': -1.9770933862776057, 'left_w1': -1.5701993084642143, 'left_w2': -0.6339059781326424, 'right_e0': 1.7238109084167481, 'right_e1': 1.7169079948791506, 'right_s0': 0.36930587426147465, 'right_s1': -0.33249033539428713, 'right_w0': -1.2160632682067871, 'right_w1': 1.668587600115967, 'right_w2': -1.810097327636719}
     lpos1 = {'left_e0': -1.69483279891317, 'left_e1':  1.8669726956453, 'left_s0': 0.472137005716569, 'left_s1': -0.38852045702393034, 'left_w0': -1.9770933862776057, 'left_w1': -1.5701993084642143, 'left_w2': -0.6339059781326424}
