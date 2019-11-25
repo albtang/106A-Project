@@ -202,8 +202,7 @@ def decipher_final_configuration(ideal):
     pieces = {"I": [], "O": [], "J": [], "L": [], "S": [], "Z": [], "T": []}
     ignore = []
     block_size = 0.1016 # 4 inches in m
-    # x, y, z = 0.47, -0.5, 0.07
-    x, y, z = 0, 0, 0
+    x, y, z = 0.47, -0.5, 0.07
 
     for i in range(len(ideal)): #horizontal?
     	for j in range(len(ideal[i])): #vertical

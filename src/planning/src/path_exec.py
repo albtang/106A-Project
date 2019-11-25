@@ -8,9 +8,9 @@ assert sys.argv[1] in ("sawyer", "baxter")
 ROBOT = sys.argv[1]
 
 if ROBOT == "baxter":
-    from baxter_interface import Limb
+    from baxter_interface import Limb, gripper as robot_gripper
 else:
-    from intera_interface import Limb
+    from intera_interface import Limb, gripper as robot_gripper
 
 import rospy
 import numpy as np
@@ -28,7 +28,19 @@ def main():
     Main Script
     """
 
-    # planner = PathPlanner("right_arm")
+    planner = PathPlanner("right_arm")
+    # right_gripper = robot_gripper.Gripper('right_gripper')
+
+    # #Calibrate the gripper (other commands won't work unless you do this first)
+    # print('Calibrating...')
+    # right_gripper.calibrate()
+    # rospy.sleep(2.0)
+
+    # #Open the right gripper
+    # print('Opening...')
+    # right_gripper.open()
+    # rospy.sleep(1.0)
+    # print('Gripper!')
 
     # ##
     # ## Add the obstacle to the planning scene here
@@ -75,11 +87,7 @@ def main():
     for row_i in range(len(goals)):
         goals[row_i] = goals[row_i].split()
     # goals = [[None, "L", "L"], ["O","O", "L"], ["O","O", "L"]]
-    print(goals)
     goals = decipher_final_configuration(goals)
-    print(goals)
-
-    return
 
     while not rospy.is_shutdown():
         picked, placed = False, False
@@ -102,14 +110,13 @@ def main():
         # neutral.pose.orientation.z = 0.0
         # neutral.pose.orientation.w = 0.0
         # neutral.pose.position.z += .2
-        # plan = planner.plan_to_pose(neutral, [orien_const])
-
-        # if not planner.execute_plan(plan):
-        #     raise Exception("Execution failed")
 
         ### ACTUAL LOCATION ###
+        raw_input("Press <Enter> to move the right arm to pick up a piece: ")
         while not rospy.is_shutdown() and not picked:
+
             try:
+
                 # Pick up the piece in the original position
                 if ROBOT == "baxter":
                     x, y, z = 0.47, -0.85, 0.07
@@ -130,9 +137,14 @@ def main():
                 original.pose.orientation.z = 0.0
                 original.pose.orientation.w = 0.0
 
+                original.pose.position.z += .2
                 plan = planner.plan_to_pose(original, [orien_const])
+                if not planner.execute_plan(plan):
+                    original.pose.position.z -= .2
+                    raise Exception("Execution failed")
 
-                raw_input("Press <Enter> to move the right arm to pick up a piece: ")
+                original.pose.position.z -= .2
+                plan = planner.plan_to_pose(original, [orien_const])
                 if not planner.execute_plan(plan):
                     raise Exception("Execution failed")
 
@@ -151,36 +163,39 @@ def main():
                 break
 
         ### DESIRED LOCATION ###
+        raw_input("Press <Enter> to move the right arm to place the piece: ")
         while not rospy.is_shutdown() and picked and not placed:
 
             try:
                 # Translate over such that the piece is above the desired position
                 goal = goals.get(piece)[0]
+
                 goal.pose.position.z += .2
                 plan = planner.plan_to_pose(goal, [orien_const])
-                print(goal)
-
-                raw_input("Press <Enter> to move the right arm to place the piece: ")
                 if not planner.execute_plan(plan):
                     goal.pose.position.z -= .2
                     raise Exception("Execution failed")
-                print("A")
 
                 # Actually place the piece on table
                 goal.pose.position.z -= .2
-
-                print(goal)
                 plan = planner.plan_to_pose(goal, [orien_const])
                 if not planner.execute_plan(plan):
                     raise Exception("Execution failed")
-                print("B")
 
+                goal.pose.position.z += .2
+                plan = planner.plan_to_pose(goal, [orien_const])
+                if not planner.execute_plan(plan):
+                    goal.pose.position.z -= .2
+                    raise Exception("Execution failed")
+
+                goal.pose.position.z -= .2
                 # goals.get(piece).pop(0)
                 placed = True
                 picked = False
 
             except Exception as e:
                 print e
+                traceback.print_exc()
             else:
                 break
 
