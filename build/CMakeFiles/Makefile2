@@ -387,6 +387,56 @@ clean: gtest/gtest/CMakeFiles/gtest_main.dir/clean
 .PHONY : clean
 
 #=============================================================================
+# Directory level rules for directory moveit_python
+
+# Convenience name for "all" pass in the directory.
+moveit_python/all:
+
+.PHONY : moveit_python/all
+
+# Convenience name for "clean" pass in the directory.
+moveit_python/clean: moveit_python/CMakeFiles/_catkin_empty_exported_target.dir/clean
+
+.PHONY : moveit_python/clean
+
+# Convenience name for "preinstall" pass in the directory.
+moveit_python/preinstall:
+
+.PHONY : moveit_python/preinstall
+
+#=============================================================================
+# Target rules for target moveit_python/CMakeFiles/_catkin_empty_exported_target.dir
+
+# All Build rule for target.
+moveit_python/CMakeFiles/_catkin_empty_exported_target.dir/all:
+	$(MAKE) -f moveit_python/CMakeFiles/_catkin_empty_exported_target.dir/build.make moveit_python/CMakeFiles/_catkin_empty_exported_target.dir/depend
+	$(MAKE) -f moveit_python/CMakeFiles/_catkin_empty_exported_target.dir/build.make moveit_python/CMakeFiles/_catkin_empty_exported_target.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build/CMakeFiles --progress-num= "Built target _catkin_empty_exported_target"
+.PHONY : moveit_python/CMakeFiles/_catkin_empty_exported_target.dir/all
+
+# Build rule for subdir invocation for target.
+moveit_python/CMakeFiles/_catkin_empty_exported_target.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build/CMakeFiles 0
+	$(MAKE) -f CMakeFiles/Makefile2 moveit_python/CMakeFiles/_catkin_empty_exported_target.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build/CMakeFiles 0
+.PHONY : moveit_python/CMakeFiles/_catkin_empty_exported_target.dir/rule
+
+# Convenience name for target.
+_catkin_empty_exported_target: moveit_python/CMakeFiles/_catkin_empty_exported_target.dir/rule
+
+.PHONY : _catkin_empty_exported_target
+
+# clean rule for target.
+moveit_python/CMakeFiles/_catkin_empty_exported_target.dir/clean:
+	$(MAKE) -f moveit_python/CMakeFiles/_catkin_empty_exported_target.dir/build.make moveit_python/CMakeFiles/_catkin_empty_exported_target.dir/clean
+.PHONY : moveit_python/CMakeFiles/_catkin_empty_exported_target.dir/clean
+
+# clean rule for target.
+clean: moveit_python/CMakeFiles/_catkin_empty_exported_target.dir/clean
+
+.PHONY : clean
+
+#=============================================================================
 # Directory level rules for directory ros_numpy
 
 # Convenience name for "all" pass in the directory.
@@ -395,11 +445,10 @@ ros_numpy/all:
 .PHONY : ros_numpy/all
 
 # Convenience name for "clean" pass in the directory.
-ros_numpy/clean: ros_numpy/CMakeFiles/run_tests_ros_numpy.dir/clean
-ros_numpy/clean: ros_numpy/CMakeFiles/run_tests_ros_numpy_nosetests.dir/clean
-ros_numpy/clean: ros_numpy/CMakeFiles/_catkin_empty_exported_target.dir/clean
-ros_numpy/clean: ros_numpy/CMakeFiles/_run_tests_ros_numpy_nosetests_test.dir/clean
 ros_numpy/clean: ros_numpy/CMakeFiles/_run_tests_ros_numpy_nosetests.dir/clean
+ros_numpy/clean: ros_numpy/CMakeFiles/run_tests_ros_numpy_nosetests.dir/clean
+ros_numpy/clean: ros_numpy/CMakeFiles/_run_tests_ros_numpy_nosetests_test.dir/clean
+ros_numpy/clean: ros_numpy/CMakeFiles/run_tests_ros_numpy.dir/clean
 ros_numpy/clean: ros_numpy/CMakeFiles/run_tests_ros_numpy_nosetests_test.dir/clean
 ros_numpy/clean: ros_numpy/CMakeFiles/_run_tests_ros_numpy.dir/clean
 ros_numpy/clean: ros_numpy/CMakeFiles/clean_test_results_ros_numpy.dir/clean
@@ -412,34 +461,34 @@ ros_numpy/preinstall:
 .PHONY : ros_numpy/preinstall
 
 #=============================================================================
-# Target rules for target ros_numpy/CMakeFiles/run_tests_ros_numpy.dir
+# Target rules for target ros_numpy/CMakeFiles/_run_tests_ros_numpy_nosetests.dir
 
 # All Build rule for target.
-ros_numpy/CMakeFiles/run_tests_ros_numpy.dir/all: ros_numpy/CMakeFiles/run_tests_ros_numpy_nosetests.dir/all
-	$(MAKE) -f ros_numpy/CMakeFiles/run_tests_ros_numpy.dir/build.make ros_numpy/CMakeFiles/run_tests_ros_numpy.dir/depend
-	$(MAKE) -f ros_numpy/CMakeFiles/run_tests_ros_numpy.dir/build.make ros_numpy/CMakeFiles/run_tests_ros_numpy.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build/CMakeFiles --progress-num= "Built target run_tests_ros_numpy"
-.PHONY : ros_numpy/CMakeFiles/run_tests_ros_numpy.dir/all
+ros_numpy/CMakeFiles/_run_tests_ros_numpy_nosetests.dir/all: ros_numpy/CMakeFiles/_run_tests_ros_numpy_nosetests_test.dir/all
+	$(MAKE) -f ros_numpy/CMakeFiles/_run_tests_ros_numpy_nosetests.dir/build.make ros_numpy/CMakeFiles/_run_tests_ros_numpy_nosetests.dir/depend
+	$(MAKE) -f ros_numpy/CMakeFiles/_run_tests_ros_numpy_nosetests.dir/build.make ros_numpy/CMakeFiles/_run_tests_ros_numpy_nosetests.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build/CMakeFiles --progress-num= "Built target _run_tests_ros_numpy_nosetests"
+.PHONY : ros_numpy/CMakeFiles/_run_tests_ros_numpy_nosetests.dir/all
 
 # Build rule for subdir invocation for target.
-ros_numpy/CMakeFiles/run_tests_ros_numpy.dir/rule: cmake_check_build_system
+ros_numpy/CMakeFiles/_run_tests_ros_numpy_nosetests.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build/CMakeFiles 0
-	$(MAKE) -f CMakeFiles/Makefile2 ros_numpy/CMakeFiles/run_tests_ros_numpy.dir/all
+	$(MAKE) -f CMakeFiles/Makefile2 ros_numpy/CMakeFiles/_run_tests_ros_numpy_nosetests.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build/CMakeFiles 0
-.PHONY : ros_numpy/CMakeFiles/run_tests_ros_numpy.dir/rule
+.PHONY : ros_numpy/CMakeFiles/_run_tests_ros_numpy_nosetests.dir/rule
 
 # Convenience name for target.
-run_tests_ros_numpy: ros_numpy/CMakeFiles/run_tests_ros_numpy.dir/rule
+_run_tests_ros_numpy_nosetests: ros_numpy/CMakeFiles/_run_tests_ros_numpy_nosetests.dir/rule
 
-.PHONY : run_tests_ros_numpy
-
-# clean rule for target.
-ros_numpy/CMakeFiles/run_tests_ros_numpy.dir/clean:
-	$(MAKE) -f ros_numpy/CMakeFiles/run_tests_ros_numpy.dir/build.make ros_numpy/CMakeFiles/run_tests_ros_numpy.dir/clean
-.PHONY : ros_numpy/CMakeFiles/run_tests_ros_numpy.dir/clean
+.PHONY : _run_tests_ros_numpy_nosetests
 
 # clean rule for target.
-clean: ros_numpy/CMakeFiles/run_tests_ros_numpy.dir/clean
+ros_numpy/CMakeFiles/_run_tests_ros_numpy_nosetests.dir/clean:
+	$(MAKE) -f ros_numpy/CMakeFiles/_run_tests_ros_numpy_nosetests.dir/build.make ros_numpy/CMakeFiles/_run_tests_ros_numpy_nosetests.dir/clean
+.PHONY : ros_numpy/CMakeFiles/_run_tests_ros_numpy_nosetests.dir/clean
+
+# clean rule for target.
+clean: ros_numpy/CMakeFiles/_run_tests_ros_numpy_nosetests.dir/clean
 
 .PHONY : clean
 
@@ -472,38 +521,6 @@ ros_numpy/CMakeFiles/run_tests_ros_numpy_nosetests.dir/clean:
 
 # clean rule for target.
 clean: ros_numpy/CMakeFiles/run_tests_ros_numpy_nosetests.dir/clean
-
-.PHONY : clean
-
-#=============================================================================
-# Target rules for target ros_numpy/CMakeFiles/_catkin_empty_exported_target.dir
-
-# All Build rule for target.
-ros_numpy/CMakeFiles/_catkin_empty_exported_target.dir/all:
-	$(MAKE) -f ros_numpy/CMakeFiles/_catkin_empty_exported_target.dir/build.make ros_numpy/CMakeFiles/_catkin_empty_exported_target.dir/depend
-	$(MAKE) -f ros_numpy/CMakeFiles/_catkin_empty_exported_target.dir/build.make ros_numpy/CMakeFiles/_catkin_empty_exported_target.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build/CMakeFiles --progress-num= "Built target _catkin_empty_exported_target"
-.PHONY : ros_numpy/CMakeFiles/_catkin_empty_exported_target.dir/all
-
-# Build rule for subdir invocation for target.
-ros_numpy/CMakeFiles/_catkin_empty_exported_target.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build/CMakeFiles 0
-	$(MAKE) -f CMakeFiles/Makefile2 ros_numpy/CMakeFiles/_catkin_empty_exported_target.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build/CMakeFiles 0
-.PHONY : ros_numpy/CMakeFiles/_catkin_empty_exported_target.dir/rule
-
-# Convenience name for target.
-_catkin_empty_exported_target: ros_numpy/CMakeFiles/_catkin_empty_exported_target.dir/rule
-
-.PHONY : _catkin_empty_exported_target
-
-# clean rule for target.
-ros_numpy/CMakeFiles/_catkin_empty_exported_target.dir/clean:
-	$(MAKE) -f ros_numpy/CMakeFiles/_catkin_empty_exported_target.dir/build.make ros_numpy/CMakeFiles/_catkin_empty_exported_target.dir/clean
-.PHONY : ros_numpy/CMakeFiles/_catkin_empty_exported_target.dir/clean
-
-# clean rule for target.
-clean: ros_numpy/CMakeFiles/_catkin_empty_exported_target.dir/clean
 
 .PHONY : clean
 
@@ -541,34 +558,34 @@ clean: ros_numpy/CMakeFiles/_run_tests_ros_numpy_nosetests_test.dir/clean
 .PHONY : clean
 
 #=============================================================================
-# Target rules for target ros_numpy/CMakeFiles/_run_tests_ros_numpy_nosetests.dir
+# Target rules for target ros_numpy/CMakeFiles/run_tests_ros_numpy.dir
 
 # All Build rule for target.
-ros_numpy/CMakeFiles/_run_tests_ros_numpy_nosetests.dir/all: ros_numpy/CMakeFiles/_run_tests_ros_numpy_nosetests_test.dir/all
-	$(MAKE) -f ros_numpy/CMakeFiles/_run_tests_ros_numpy_nosetests.dir/build.make ros_numpy/CMakeFiles/_run_tests_ros_numpy_nosetests.dir/depend
-	$(MAKE) -f ros_numpy/CMakeFiles/_run_tests_ros_numpy_nosetests.dir/build.make ros_numpy/CMakeFiles/_run_tests_ros_numpy_nosetests.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build/CMakeFiles --progress-num= "Built target _run_tests_ros_numpy_nosetests"
-.PHONY : ros_numpy/CMakeFiles/_run_tests_ros_numpy_nosetests.dir/all
+ros_numpy/CMakeFiles/run_tests_ros_numpy.dir/all: ros_numpy/CMakeFiles/run_tests_ros_numpy_nosetests.dir/all
+	$(MAKE) -f ros_numpy/CMakeFiles/run_tests_ros_numpy.dir/build.make ros_numpy/CMakeFiles/run_tests_ros_numpy.dir/depend
+	$(MAKE) -f ros_numpy/CMakeFiles/run_tests_ros_numpy.dir/build.make ros_numpy/CMakeFiles/run_tests_ros_numpy.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build/CMakeFiles --progress-num= "Built target run_tests_ros_numpy"
+.PHONY : ros_numpy/CMakeFiles/run_tests_ros_numpy.dir/all
 
 # Build rule for subdir invocation for target.
-ros_numpy/CMakeFiles/_run_tests_ros_numpy_nosetests.dir/rule: cmake_check_build_system
+ros_numpy/CMakeFiles/run_tests_ros_numpy.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build/CMakeFiles 0
-	$(MAKE) -f CMakeFiles/Makefile2 ros_numpy/CMakeFiles/_run_tests_ros_numpy_nosetests.dir/all
+	$(MAKE) -f CMakeFiles/Makefile2 ros_numpy/CMakeFiles/run_tests_ros_numpy.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build/CMakeFiles 0
-.PHONY : ros_numpy/CMakeFiles/_run_tests_ros_numpy_nosetests.dir/rule
+.PHONY : ros_numpy/CMakeFiles/run_tests_ros_numpy.dir/rule
 
 # Convenience name for target.
-_run_tests_ros_numpy_nosetests: ros_numpy/CMakeFiles/_run_tests_ros_numpy_nosetests.dir/rule
+run_tests_ros_numpy: ros_numpy/CMakeFiles/run_tests_ros_numpy.dir/rule
 
-.PHONY : _run_tests_ros_numpy_nosetests
-
-# clean rule for target.
-ros_numpy/CMakeFiles/_run_tests_ros_numpy_nosetests.dir/clean:
-	$(MAKE) -f ros_numpy/CMakeFiles/_run_tests_ros_numpy_nosetests.dir/build.make ros_numpy/CMakeFiles/_run_tests_ros_numpy_nosetests.dir/clean
-.PHONY : ros_numpy/CMakeFiles/_run_tests_ros_numpy_nosetests.dir/clean
+.PHONY : run_tests_ros_numpy
 
 # clean rule for target.
-clean: ros_numpy/CMakeFiles/_run_tests_ros_numpy_nosetests.dir/clean
+ros_numpy/CMakeFiles/run_tests_ros_numpy.dir/clean:
+	$(MAKE) -f ros_numpy/CMakeFiles/run_tests_ros_numpy.dir/build.make ros_numpy/CMakeFiles/run_tests_ros_numpy.dir/clean
+.PHONY : ros_numpy/CMakeFiles/run_tests_ros_numpy.dir/clean
+
+# clean rule for target.
+clean: ros_numpy/CMakeFiles/run_tests_ros_numpy.dir/clean
 
 .PHONY : clean
 

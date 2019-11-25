@@ -1,0 +1,8 @@
+prefix=/home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/devel
+
+Name: moveit_python
+Description: Description of moveit_python
+Version: 0.3.3
+Cflags: 
+Libs: -L/home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/devel/lib 
+Requires: 

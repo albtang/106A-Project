@@ -1,2 +1,2 @@
-baxter_measure_table:baxter_measure_zero_point:planning:ros_numpy:segmentation
+baxter_measure_table:baxter_measure_zero_point:moveit_python:planning:ros_numpy:segmentation
 -DCATKIN_DEVEL_PREFIX=/home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/devel -DCMAKE_INSTALL_PREFIX=/home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/install -G Unix Makefiles

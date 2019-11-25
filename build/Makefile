@@ -283,17 +283,30 @@ gtest_main/fast:
 .PHONY : gtest_main/fast
 
 #=============================================================================
-# Target rules for targets named run_tests_ros_numpy
+# Target rules for targets named _catkin_empty_exported_target
 
 # Build rule for target.
-run_tests_ros_numpy: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 run_tests_ros_numpy
-.PHONY : run_tests_ros_numpy
+_catkin_empty_exported_target: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 _catkin_empty_exported_target
+.PHONY : _catkin_empty_exported_target
 
 # fast build rule for target.
-run_tests_ros_numpy/fast:
-	$(MAKE) -f ros_numpy/CMakeFiles/run_tests_ros_numpy.dir/build.make ros_numpy/CMakeFiles/run_tests_ros_numpy.dir/build
-.PHONY : run_tests_ros_numpy/fast
+_catkin_empty_exported_target/fast:
+	$(MAKE) -f moveit_python/CMakeFiles/_catkin_empty_exported_target.dir/build.make moveit_python/CMakeFiles/_catkin_empty_exported_target.dir/build
+.PHONY : _catkin_empty_exported_target/fast
+
+#=============================================================================
+# Target rules for targets named _run_tests_ros_numpy_nosetests
+
+# Build rule for target.
+_run_tests_ros_numpy_nosetests: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 _run_tests_ros_numpy_nosetests
+.PHONY : _run_tests_ros_numpy_nosetests
+
+# fast build rule for target.
+_run_tests_ros_numpy_nosetests/fast:
+	$(MAKE) -f ros_numpy/CMakeFiles/_run_tests_ros_numpy_nosetests.dir/build.make ros_numpy/CMakeFiles/_run_tests_ros_numpy_nosetests.dir/build
+.PHONY : _run_tests_ros_numpy_nosetests/fast
 
 #=============================================================================
 # Target rules for targets named run_tests_ros_numpy_nosetests
@@ -309,19 +322,6 @@ run_tests_ros_numpy_nosetests/fast:
 .PHONY : run_tests_ros_numpy_nosetests/fast
 
 #=============================================================================
-# Target rules for targets named _catkin_empty_exported_target
-
-# Build rule for target.
-_catkin_empty_exported_target: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 _catkin_empty_exported_target
-.PHONY : _catkin_empty_exported_target
-
-# fast build rule for target.
-_catkin_empty_exported_target/fast:
-	$(MAKE) -f ros_numpy/CMakeFiles/_catkin_empty_exported_target.dir/build.make ros_numpy/CMakeFiles/_catkin_empty_exported_target.dir/build
-.PHONY : _catkin_empty_exported_target/fast
-
-#=============================================================================
 # Target rules for targets named _run_tests_ros_numpy_nosetests_test
 
 # Build rule for target.
@@ -335,17 +335,17 @@ _run_tests_ros_numpy_nosetests_test/fast:
 .PHONY : _run_tests_ros_numpy_nosetests_test/fast
 
 #=============================================================================
-# Target rules for targets named _run_tests_ros_numpy_nosetests
+# Target rules for targets named run_tests_ros_numpy
 
 # Build rule for target.
-_run_tests_ros_numpy_nosetests: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 _run_tests_ros_numpy_nosetests
-.PHONY : _run_tests_ros_numpy_nosetests
+run_tests_ros_numpy: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 run_tests_ros_numpy
+.PHONY : run_tests_ros_numpy
 
 # fast build rule for target.
-_run_tests_ros_numpy_nosetests/fast:
-	$(MAKE) -f ros_numpy/CMakeFiles/_run_tests_ros_numpy_nosetests.dir/build.make ros_numpy/CMakeFiles/_run_tests_ros_numpy_nosetests.dir/build
-.PHONY : _run_tests_ros_numpy_nosetests/fast
+run_tests_ros_numpy/fast:
+	$(MAKE) -f ros_numpy/CMakeFiles/run_tests_ros_numpy.dir/build.make ros_numpy/CMakeFiles/run_tests_ros_numpy.dir/build
+.PHONY : run_tests_ros_numpy/fast
 
 #=============================================================================
 # Target rules for targets named run_tests_ros_numpy_nosetests_test
@@ -1747,11 +1747,11 @@ help:
 	@echo "... gmock_main"
 	@echo "... gtest"
 	@echo "... gtest_main"
-	@echo "... run_tests_ros_numpy"
-	@echo "... run_tests_ros_numpy_nosetests"
 	@echo "... _catkin_empty_exported_target"
-	@echo "... _run_tests_ros_numpy_nosetests_test"
 	@echo "... _run_tests_ros_numpy_nosetests"
+	@echo "... run_tests_ros_numpy_nosetests"
+	@echo "... _run_tests_ros_numpy_nosetests_test"
+	@echo "... run_tests_ros_numpy"
 	@echo "... run_tests_ros_numpy_nosetests_test"
 	@echo "... _run_tests_ros_numpy"
 	@echo "... clean_test_results_ros_numpy"

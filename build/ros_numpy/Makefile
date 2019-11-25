@@ -90,17 +90,6 @@ edit_cache/fast: edit_cache
 
 .PHONY : edit_cache/fast
 
-# Special rule for the target test
-test:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running tests..."
-	/usr/bin/ctest --force-new-ctest-process $(ARGS)
-.PHONY : test
-
-# Special rule for the target test
-test/fast: test
-
-.PHONY : test/fast
-
 # Special rule for the target list_install_components
 list_install_components:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
@@ -132,6 +121,17 @@ install/local: preinstall
 install/local/fast: install/local
 
 .PHONY : install/local/fast
+
+# Special rule for the target test
+test:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running tests..."
+	/usr/bin/ctest --force-new-ctest-process $(ARGS)
+.PHONY : test
+
+# Special rule for the target test
+test/fast: test
+
+.PHONY : test/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -166,19 +166,19 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
-ros_numpy/CMakeFiles/run_tests_ros_numpy.dir/rule:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 ros_numpy/CMakeFiles/run_tests_ros_numpy.dir/rule
-.PHONY : ros_numpy/CMakeFiles/run_tests_ros_numpy.dir/rule
+ros_numpy/CMakeFiles/_run_tests_ros_numpy_nosetests.dir/rule:
+	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 ros_numpy/CMakeFiles/_run_tests_ros_numpy_nosetests.dir/rule
+.PHONY : ros_numpy/CMakeFiles/_run_tests_ros_numpy_nosetests.dir/rule
 
 # Convenience name for target.
-run_tests_ros_numpy: ros_numpy/CMakeFiles/run_tests_ros_numpy.dir/rule
+_run_tests_ros_numpy_nosetests: ros_numpy/CMakeFiles/_run_tests_ros_numpy_nosetests.dir/rule
 
-.PHONY : run_tests_ros_numpy
+.PHONY : _run_tests_ros_numpy_nosetests
 
 # fast build rule for target.
-run_tests_ros_numpy/fast:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f ros_numpy/CMakeFiles/run_tests_ros_numpy.dir/build.make ros_numpy/CMakeFiles/run_tests_ros_numpy.dir/build
-.PHONY : run_tests_ros_numpy/fast
+_run_tests_ros_numpy_nosetests/fast:
+	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f ros_numpy/CMakeFiles/_run_tests_ros_numpy_nosetests.dir/build.make ros_numpy/CMakeFiles/_run_tests_ros_numpy_nosetests.dir/build
+.PHONY : _run_tests_ros_numpy_nosetests/fast
 
 # Convenience name for target.
 ros_numpy/CMakeFiles/run_tests_ros_numpy_nosetests.dir/rule:
@@ -196,21 +196,6 @@ run_tests_ros_numpy_nosetests/fast:
 .PHONY : run_tests_ros_numpy_nosetests/fast
 
 # Convenience name for target.
-ros_numpy/CMakeFiles/_catkin_empty_exported_target.dir/rule:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 ros_numpy/CMakeFiles/_catkin_empty_exported_target.dir/rule
-.PHONY : ros_numpy/CMakeFiles/_catkin_empty_exported_target.dir/rule
-
-# Convenience name for target.
-_catkin_empty_exported_target: ros_numpy/CMakeFiles/_catkin_empty_exported_target.dir/rule
-
-.PHONY : _catkin_empty_exported_target
-
-# fast build rule for target.
-_catkin_empty_exported_target/fast:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f ros_numpy/CMakeFiles/_catkin_empty_exported_target.dir/build.make ros_numpy/CMakeFiles/_catkin_empty_exported_target.dir/build
-.PHONY : _catkin_empty_exported_target/fast
-
-# Convenience name for target.
 ros_numpy/CMakeFiles/_run_tests_ros_numpy_nosetests_test.dir/rule:
 	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 ros_numpy/CMakeFiles/_run_tests_ros_numpy_nosetests_test.dir/rule
 .PHONY : ros_numpy/CMakeFiles/_run_tests_ros_numpy_nosetests_test.dir/rule
@@ -226,19 +211,19 @@ _run_tests_ros_numpy_nosetests_test/fast:
 .PHONY : _run_tests_ros_numpy_nosetests_test/fast
 
 # Convenience name for target.
-ros_numpy/CMakeFiles/_run_tests_ros_numpy_nosetests.dir/rule:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 ros_numpy/CMakeFiles/_run_tests_ros_numpy_nosetests.dir/rule
-.PHONY : ros_numpy/CMakeFiles/_run_tests_ros_numpy_nosetests.dir/rule
+ros_numpy/CMakeFiles/run_tests_ros_numpy.dir/rule:
+	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 ros_numpy/CMakeFiles/run_tests_ros_numpy.dir/rule
+.PHONY : ros_numpy/CMakeFiles/run_tests_ros_numpy.dir/rule
 
 # Convenience name for target.
-_run_tests_ros_numpy_nosetests: ros_numpy/CMakeFiles/_run_tests_ros_numpy_nosetests.dir/rule
+run_tests_ros_numpy: ros_numpy/CMakeFiles/run_tests_ros_numpy.dir/rule
 
-.PHONY : _run_tests_ros_numpy_nosetests
+.PHONY : run_tests_ros_numpy
 
 # fast build rule for target.
-_run_tests_ros_numpy_nosetests/fast:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f ros_numpy/CMakeFiles/_run_tests_ros_numpy_nosetests.dir/build.make ros_numpy/CMakeFiles/_run_tests_ros_numpy_nosetests.dir/build
-.PHONY : _run_tests_ros_numpy_nosetests/fast
+run_tests_ros_numpy/fast:
+	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f ros_numpy/CMakeFiles/run_tests_ros_numpy.dir/build.make ros_numpy/CMakeFiles/run_tests_ros_numpy.dir/build
+.PHONY : run_tests_ros_numpy/fast
 
 # Convenience name for target.
 ros_numpy/CMakeFiles/run_tests_ros_numpy_nosetests_test.dir/rule:
@@ -294,18 +279,17 @@ help:
 	@echo "... install"
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
-	@echo "... test"
-	@echo "... run_tests_ros_numpy"
-	@echo "... run_tests_ros_numpy_nosetests"
-	@echo "... _catkin_empty_exported_target"
-	@echo "... _run_tests_ros_numpy_nosetests_test"
 	@echo "... _run_tests_ros_numpy_nosetests"
+	@echo "... run_tests_ros_numpy_nosetests"
+	@echo "... _run_tests_ros_numpy_nosetests_test"
+	@echo "... run_tests_ros_numpy"
 	@echo "... run_tests_ros_numpy_nosetests_test"
 	@echo "... list_install_components"
 	@echo "... _run_tests_ros_numpy"
 	@echo "... install/strip"
 	@echo "... install/local"
 	@echo "... clean_test_results_ros_numpy"
+	@echo "... test"
 .PHONY : help
 
 
