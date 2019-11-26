@@ -1,4 +1,6 @@
+#!/usr/bin/env python
 import os
+import sys
 import rospy
 import roslib
 roslib.load_manifest("moveit_python")
@@ -8,6 +10,9 @@ import cmath
 from geometry_msgs.msg import Pose, PoseArray
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge, CvBridgeError
+
+OBJECTS_PUB_TOPIC = 'detected_objects'
+IMAGE_SUB_TOPIC = '/cameras/right_hand_camera/image'
 
 class ImgPos:
     def __init__(self, x, y, angle, size):
@@ -25,10 +30,6 @@ class WorldPos:
         self.angle = angle
         self.size = size
 
-rospy.init_node('object_positions', anonymous=True)
-position_publisher = rospy.Publisher('detected_objects', PoseArray, queue_size=10)
-image_subscriber = rospy.Subscriber('/cameras/right_hand_camera/image', 1, imageCallback)
-
 def imageCallback():
     return None
 
@@ -43,3 +44,12 @@ def getRealPosition():
 
 def filterColor():
     return None
+
+def main(args):
+    rospy.init_node('object_positions', anonymous=True)
+    position_publisher = rospy.Publisher(OBJECTS_PUB_TOPIC, PoseArray, queue_size=10)
+    image_subscriber = rospy.Subscriber(IMAGE_SUB_TOPIC, 1, imageCallback)
+    return None
+
+if __name__ == 'main':
+    main(sys.argv)
