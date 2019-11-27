@@ -30,7 +30,7 @@ class WorldPos:
         self.angle = angle
         self.size = size
 
-def imageCallback():
+def imageCallback(img_msg):
     return None
 
 def getPosition():
