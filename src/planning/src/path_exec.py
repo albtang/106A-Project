@@ -27,22 +27,15 @@ def main():
     """
     Main Script
     """
+    # rospy.init_node('gripper_test')
 
     planner = PathPlanner("right_arm")
+    gripper = robot_gripper.Gripper('right')
 
-    #GRIPPER SETUP AND TEST
-    # right_gripper = robot_gripper.Gripper('right_gripper')
-
-    # #Calibrate the gripper (other commands won't work unless you do this first)
-    # print('Calibrating...')
-    # right_gripper.calibrate()
-    # rospy.sleep(2.0)
-
-    # #Open the right gripper
-    # print('Opening...')
-    # right_gripper.open()
-    # rospy.sleep(1.0)
-    # print('Gripper!')
+    #Calibrate the gripper (other commands won't work unless you do this first)
+    gripper.clear_calibration()
+    gripper.calibrate()
+    rospy.sleep(2.0)
 
     # ##
     # ## Add the obstacle to the planning scene here
@@ -134,7 +127,9 @@ def main():
                         plan = planner.plan_to_pose(original, [orien_const])
                         if not planner.execute_plan(plan):
                             raise Exception("Execution failed")
-                        ## GRIPPER OPEN (succ)
+                        ## GRIPPER CLOSE (succ)
+                        gripper.close()
+                        rospy.sleep(2.0)
                         in_hand = True
 
                     # Raise the arm a little bit so that other pieces are not affected
@@ -178,8 +173,9 @@ def main():
                         plan = planner.plan_to_pose(goal, [orien_const])
                         if not planner.execute_plan(plan):
                             raise Exception("Execution failed")
-                        ## GRIPPER CLOSE
-
+                        ## GRIPPER OPEN (release)
+                        gripper.open()
+                        rospy.sleep(2.0)
                         in_hand = False
 
                     # Raise the arm a little bit so that other pieces are not affected
@@ -210,6 +206,7 @@ def main():
         goals = None
         # goals = raw_input("Enter in a 2D matrix of your desired layout, with each element separated by spaces and each row separated by periods: ")
 
+rospy.init_node('moveit_node')
+
 if __name__ == '__main__':
-    rospy.init_node('moveit_node')
     main()
