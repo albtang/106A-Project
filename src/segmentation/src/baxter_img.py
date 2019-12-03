@@ -97,6 +97,41 @@ def sift_transform_object(img_src, desired_obj):
     plt.imshow(img3)
     plt.show()
 
+def findHomography(img1, img2):
+    MIN_DIST_THRESHOLD = 0.7
+    RANSAC_REPROJ_THRESHOLD = 5.0
+
+     # Initiate SIFT detector
+    sift = cv2.xfeatures2d.SIFT_create()
+
+    # find the keypoints and descriptors with SIFT
+    kp1, des1 = sift.detectAndCompute(img1, None)
+    kp2, des2 = sift.detectAndCompute(img2, None)
+
+    # find matches
+    FLANN_INDEX_KDTREE = 1
+    index_params = dict(algorithm=FLANN_INDEX_KDTREE, trees=5)
+    search_params = dict(checks=50)
+
+    flann = cv2.FlannBasedMatcher(index_params, search_params)
+    matches = flann.knnMatch(des1, des2, k=2)
+
+    # store all the good matches as per Lowe's ratio test.
+    good = []
+    for m, n in matches:
+        if m.distance < MIN_DIST_THRESHOLD * n.distance:
+            good.append(m)
+
+
+    if len(good) > MIN_MATCH_COUNT:
+        src_pts = np.float32([kp1[m.queryIdx].pt for m in good]).reshape(-1, 1, 2)
+        dst_pts = np.float32([kp2[m.trainIdx].pt for m in good]).reshape(-1, 1, 2)
+
+        H, _ = cv2.findHomography(src_pts, dst_pts, cv2.RANSAC, RANSAC_REPROJ_THRESHOLD)
+        return H
+
+    else: raise Exception("Not enough matches are found - {}/{}".format(len(good), MIN_MATCH_COUNT))
+
 
 def getPosition():
     return None
