@@ -11,6 +11,7 @@ from geometry_msgs.msg import Pose, PoseArray
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge, CvBridgeError
 from matplotlib import pyplot as plt
+from color_segmentation import COLORS, segment_by_color
 
 OBJECTS_PUB_TOPIC = 'detected_objects'
 IMAGE_SUB_TOPIC = '/cameras/right_hand_camera/image'
@@ -42,6 +43,7 @@ class WorldPos:
         self.size = size
 
 def imageCallback(img_msg):
+    segment_by_color(img_msg)
     return None
 
 def sift_transform_object(img_src, desired_obj):
