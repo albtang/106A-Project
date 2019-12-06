@@ -12,11 +12,12 @@ COLORS = {
     "blue": [[110,30,30], [130,255,255]],
     "green": [[40,60,60], [70,255,255]],
     "black": [[0, 0, 0], [180, 230, 30]],
-    "purple": [[140, 100, 100], [160, 255, 255]]
+    "purple": [[140, 100, 100], [160, 255, 255]],
+    "wood": [[10, 50, 175], [21, 150, 240]]
 }
 
 def segment_by_color(image, color):
-    img = cv2.imread(image)
+    # img = cv2.imread(image)
     img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
     mask = None
     if color == "red":
@@ -27,7 +28,10 @@ def segment_by_color(image, color):
         mask = mask1 + mask2
     else:
         mask = cv2.inRange(img, np.array(COLORS[color][0]), np.array(COLORS[color][1]))
-    return mask
+    # return mask
+    masked_img = cv2.bitwise_and(cv_image, cv_image, mask = mask)
+    image, contours, hierarchy = cv2.findContours(masked_img,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
+    img = cv2.drawContours(img, contours, -1, (0,255,0), 3)
     # plt.imshow(mask, cmap='gray')
     # plt.title("Segmentation by %s" % color)
     # plt.show()
@@ -38,6 +42,7 @@ if __name__ == '__main__':
     org_yel = './testdata/org_yel.jpg'
     crossed = './testdata/crossed.jpg'
     cross = './testdata/cross.jpg'
-    segment_by_color(cross, "yellow")
-    # segment_all('./testdata/test.jpg')
+    wood = './testdata/wood.jpg'
+    image = cv2.imread(wood)
+    segment_by_color(image, "wood")
    

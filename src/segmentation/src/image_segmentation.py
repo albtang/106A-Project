@@ -247,13 +247,6 @@ def test_edge_canny(img):
     show_image(edges, title='edge canny', grayscale=True)
     cv2.imwrite(IMG_DIR + "/edges_canny.jpg", edges)
 
-def test_cluster(img, n_clusters):
-    clusters = cluster_segment(img, n_clusters).astype(np.uint8)
-
-    cv2.imwrite(IMG_DIR + "/cluster.jpg", clusters)
-    clusters = cv2.imread(IMG_DIR + '/cluster.jpg')
-    show_image(clusters, title='cluster')
-
 if __name__ == '__main__':
     # adjust the file names here
     test_img = read_image(IMG_DIR + '/legos.jpg', grayscale=True)
