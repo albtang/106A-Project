@@ -96,7 +96,9 @@ def main():
                 try:
                     # Pick up the piece in the original position
                     if ROBOT == "baxter":
-                        x, y, z = 0.47, -0.85, 0.07
+                        # x, y, z = 0.47, -0.85, 0.07
+                        x, y, z = 0.6, -0.4, -.1
+                        # x, y, z = .68,-0.85,-0.1
                     else:
                         x, y, z = 0.8, 0.05, -0.23
                     

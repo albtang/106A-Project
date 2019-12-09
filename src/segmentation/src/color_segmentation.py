@@ -9,10 +9,10 @@ COLORS = {
     "red_high": [[160, 100, 100], [179, 255, 255]],
     "orange": [[15, 100, 100], [20, 255, 255]],
     "yellow": [[25, 100, 100], [45, 255, 255]],
-    "blue": [[110,30,30], [130,255,255]],
+    "blue": [[110,50,100], [130,255,240]],
     "green": [[40,60,60], [70,255,255]],
     "black": [[0, 0, 0], [180, 230, 30]],
-    "purple": [[140, 100, 100], [160, 255, 255]],
+    "purple": [[150, 70, 80], [170, 255, 255]],
     "wood": [[0, 0, 100], [21, 150, 255]],
     "bleach": [[0, 0, 100], [0, 50, 255]],
     "white": [[0,30,205], [166,100,255]]
@@ -30,44 +30,55 @@ def segment_by_color(image, color):
         mask = mask1 + mask2
     else:
         mask = cv2.inRange(img, np.array(COLORS[color][0]), np.array(COLORS[color][1]))
-    return mask
+    # return mask
     plt.imshow(mask, cmap='gray')
     plt.title("Segmentation by %s" % color)
     plt.show()
 
-def mask_white(mask, image):
-    masked_img = cv2.bitwise_and(image, image, mask = mask)
-    masked_img = cv2.cvtColor(masked_img, cv2.COLOR_BGR2GRAY)
-    masked_img = cv2.inRange(image, np.array(COLORS['white'][0]), np.array(COLORS['white'][1]))
-    return masked_img
+# def mask_white(mask, image):
+#     masked_img = cv2.bitwise_and(image, image, mask = mask)
+#     masked_img = cv2.cvtColor(masked_img, cv2.COLOR_BGR2GRAY)
+#     masked_img = cv2.inRange(image, np.array(COLORS['white'][0]), np.array(COLORS['white'][1]))
+#     return masked_img
+
+def grayscale(image):
+    img = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    ret, thresh = cv2.threshold(img,170,255,cv2.THRESH_BINARY_INV)
+    return thresh
+    # plt.imshow(thresh)
+    # plt.show()
 
 def contours(mask, cv_image):
-    image, contours, hierarchy = cv2.findContours(mask,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
-    # cnt_image = cv2.drawContours(cv_image, contours, -1, (0,255,0), 3)
-    cnt_image = np.zeros(mask.shape, np.uint8)
-    for cnt in contours:
-        epsilon = 0.1*cv2.arcLength(cnt,True)
-        approx = cv2.approxPolyDP(cnt, epsilon, True)
-        cv2.drawContours(cnt_image, approx, -1, (0,255,0), 3)
-    # cnts = contours[0]
-    # print(len(contours))
-    # x,y,w,h = cv2.boundingRect(cnts)
-    # cv2.circle(image,(x,y), 3, (0,0,255), -1)
-    # cv2.circle(image,(x+w,y), 3, (0,0,255), -1)
-    # cv2.circle(image,(x+w,y+h), 3, (0,0,255), -1)
-    # cv2.circle(image,(x,y+h), 3, (0,0,255), -1)
-    # # # cv2.imshow("Corners of grid", image)
-    plt.imshow(cnt_image)
-    plt.show()
-    # return contours, cnt_image
+    image, contours, hierarchy = cv2.findContours(mask, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+    cnt = contours[0]
+    max_area = cv2.contourArea(cnt)
+    for cont in contours:
+        if cv2.contourArea(cont) > max_area and cv2.contourArea(cont) <= cv_image.shape[0]*cv_image.shape[1]*0.99:
+            cnt= cont
+            max_area = cv2.contourArea(cont)
+    perimeter = cv2.arcLength(cnt,True)
+    epsilon = 0.01*cv2.arcLength(cnt,True)
+    approx = cv2.approxPolyDP(cnt,epsilon,True)
 
-def corners(img, color):
-    mask = segment_by_color(img, color)
-    gray = np.float32(mask)
-    dst = cv2.cornerHarris(gray, 2, 3, 0.04)
-    # cv2.imshow('dst',img)
-    # if cv2.waitKey(0) & 0xff == 27:
-    #     cv2.destroyAllWindows()
+    return approx
+
+def corners(img, cnts):
+    left = tuple(cnts[cnts[:, :, 0].argmin()][0])
+    right = tuple(cnts[cnts[:, :, 0].argmax()][0])
+    top = tuple(cnts[cnts[:, :, 1].argmin()][0])
+    bottom = tuple(cnts[cnts[:, :, 1].argmax()][0])
+    cv2.drawContours(img, [cnts], -1, (0, 255, 255), 2)
+    cv2.circle(img, left, 8, (0, 0, 255), -1)
+    cv2.circle(img, right, 8, (0, 255, 0), -1)
+    cv2.circle(img, top, 8, (255, 0, 0), -1)
+    cv2.circle(img, bottom, 8, (255, 255, 0), -1)
+
+    return [left, right, top, bottom]
+ 
+    # show the output image
+    # plt.imshow(img)
+    # plt.show()
+
 
 if __name__ == '__main__':
     test = './testdata/test.jpg'
@@ -78,10 +89,15 @@ if __name__ == '__main__':
     wood = './testdata/wood.jpg'
     table = './testdata/table2.jpg'
     baxter = './testdata/baxter.png'
-    baxter2 = './testdata/baxter2.jpg'
-    image = cv2.imread(baxter2)
-    # segment_by_color(image, "wood")
-    mask = segment_by_color(image, "wood")
-    contours(mask, image) 
-    # corners(image, "wood")
+    baxter2 = './testdata/baxter2.png'
+    less_pieces = './testdata/less_pieces.png'
+    pieces = './testdata/pieces.png'
+    image = cv2.imread(pieces)
+    # grayscale(image)
+    # thresh = grayscale(image)
+    # contours = contours(thresh, image)
+    segment_by_color(image, "blue")
+    # mask = segment_by_color(image, "wood")
+    # contours(mask, image) 
+    # corners(image, contours)
    
