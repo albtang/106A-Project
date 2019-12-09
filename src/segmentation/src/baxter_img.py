@@ -25,7 +25,6 @@ def image_callback(img_msg):
         cv_image = bridge.imgmsg_to_cv2(img_msg, "bgr8")
     except CvBridgeError as e:
         print(e)
-    
     mask = segment_by_color(cv_image, "wood")
     mask = mask_white(mask, cv_image)
     conts, cont_img = contours(mask, cv_image)
