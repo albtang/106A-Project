@@ -100,16 +100,16 @@ install/strip/fast: install/strip
 
 .PHONY : install/strip/fast
 
-# Special rule for the target test
-test:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running tests..."
-	/usr/bin/ctest --force-new-ctest-process $(ARGS)
-.PHONY : test
+# Special rule for the target edit_cache
+edit_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
+	/usr/bin/ccmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+.PHONY : edit_cache
 
-# Special rule for the target test
-test/fast: test
+# Special rule for the target edit_cache
+edit_cache/fast: edit_cache
 
-.PHONY : test/fast
+.PHONY : edit_cache/fast
 
 # Special rule for the target install/local
 install/local: preinstall
@@ -122,16 +122,16 @@ install/local/fast: install/local
 
 .PHONY : install/local/fast
 
-# Special rule for the target edit_cache
-edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
-	/usr/bin/ccmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
-.PHONY : edit_cache
+# Special rule for the target test
+test:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running tests..."
+	/usr/bin/ctest --force-new-ctest-process $(ARGS)
+.PHONY : test
 
-# Special rule for the target edit_cache
-edit_cache/fast: edit_cache
+# Special rule for the target test
+test/fast: test
 
-.PHONY : edit_cache/fast
+.PHONY : test/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -164,51 +164,6 @@ preinstall/fast:
 depend:
 	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
-
-# Convenience name for target.
-planning/CMakeFiles/tf2_msgs_generate_messages_nodejs.dir/rule:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/tf2_msgs_generate_messages_nodejs.dir/rule
-.PHONY : planning/CMakeFiles/tf2_msgs_generate_messages_nodejs.dir/rule
-
-# Convenience name for target.
-tf2_msgs_generate_messages_nodejs: planning/CMakeFiles/tf2_msgs_generate_messages_nodejs.dir/rule
-
-.PHONY : tf2_msgs_generate_messages_nodejs
-
-# fast build rule for target.
-tf2_msgs_generate_messages_nodejs/fast:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/tf2_msgs_generate_messages_nodejs.dir/build.make planning/CMakeFiles/tf2_msgs_generate_messages_nodejs.dir/build
-.PHONY : tf2_msgs_generate_messages_nodejs/fast
-
-# Convenience name for target.
-planning/CMakeFiles/tf2_msgs_generate_messages_lisp.dir/rule:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/tf2_msgs_generate_messages_lisp.dir/rule
-.PHONY : planning/CMakeFiles/tf2_msgs_generate_messages_lisp.dir/rule
-
-# Convenience name for target.
-tf2_msgs_generate_messages_lisp: planning/CMakeFiles/tf2_msgs_generate_messages_lisp.dir/rule
-
-.PHONY : tf2_msgs_generate_messages_lisp
-
-# fast build rule for target.
-tf2_msgs_generate_messages_lisp/fast:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/tf2_msgs_generate_messages_lisp.dir/build.make planning/CMakeFiles/tf2_msgs_generate_messages_lisp.dir/build
-.PHONY : tf2_msgs_generate_messages_lisp/fast
-
-# Convenience name for target.
-planning/CMakeFiles/tf2_msgs_generate_messages_eus.dir/rule:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/tf2_msgs_generate_messages_eus.dir/rule
-.PHONY : planning/CMakeFiles/tf2_msgs_generate_messages_eus.dir/rule
-
-# Convenience name for target.
-tf2_msgs_generate_messages_eus: planning/CMakeFiles/tf2_msgs_generate_messages_eus.dir/rule
-
-.PHONY : tf2_msgs_generate_messages_eus
-
-# fast build rule for target.
-tf2_msgs_generate_messages_eus/fast:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/tf2_msgs_generate_messages_eus.dir/build.make planning/CMakeFiles/tf2_msgs_generate_messages_eus.dir/build
-.PHONY : tf2_msgs_generate_messages_eus/fast
 
 # Convenience name for target.
 planning/CMakeFiles/octomap_msgs_generate_messages_py.dir/rule:
@@ -271,139 +226,94 @@ object_recognition_msgs_generate_messages_py/fast:
 .PHONY : object_recognition_msgs_generate_messages_py/fast
 
 # Convenience name for target.
-planning/CMakeFiles/object_recognition_msgs_generate_messages_nodejs.dir/rule:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/object_recognition_msgs_generate_messages_nodejs.dir/rule
-.PHONY : planning/CMakeFiles/object_recognition_msgs_generate_messages_nodejs.dir/rule
+planning/CMakeFiles/baxter_core_msgs_generate_messages_py.dir/rule:
+	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/baxter_core_msgs_generate_messages_py.dir/rule
+.PHONY : planning/CMakeFiles/baxter_core_msgs_generate_messages_py.dir/rule
 
 # Convenience name for target.
-object_recognition_msgs_generate_messages_nodejs: planning/CMakeFiles/object_recognition_msgs_generate_messages_nodejs.dir/rule
+baxter_core_msgs_generate_messages_py: planning/CMakeFiles/baxter_core_msgs_generate_messages_py.dir/rule
 
-.PHONY : object_recognition_msgs_generate_messages_nodejs
+.PHONY : baxter_core_msgs_generate_messages_py
 
 # fast build rule for target.
-object_recognition_msgs_generate_messages_nodejs/fast:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/object_recognition_msgs_generate_messages_nodejs.dir/build.make planning/CMakeFiles/object_recognition_msgs_generate_messages_nodejs.dir/build
-.PHONY : object_recognition_msgs_generate_messages_nodejs/fast
+baxter_core_msgs_generate_messages_py/fast:
+	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/baxter_core_msgs_generate_messages_py.dir/build.make planning/CMakeFiles/baxter_core_msgs_generate_messages_py.dir/build
+.PHONY : baxter_core_msgs_generate_messages_py/fast
 
 # Convenience name for target.
-planning/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/rule:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/rule
-.PHONY : planning/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/rule
+planning/CMakeFiles/baxter_core_msgs_generate_messages_eus.dir/rule:
+	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/baxter_core_msgs_generate_messages_eus.dir/rule
+.PHONY : planning/CMakeFiles/baxter_core_msgs_generate_messages_eus.dir/rule
 
 # Convenience name for target.
-object_recognition_msgs_generate_messages_lisp: planning/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/rule
+baxter_core_msgs_generate_messages_eus: planning/CMakeFiles/baxter_core_msgs_generate_messages_eus.dir/rule
 
-.PHONY : object_recognition_msgs_generate_messages_lisp
+.PHONY : baxter_core_msgs_generate_messages_eus
 
 # fast build rule for target.
-object_recognition_msgs_generate_messages_lisp/fast:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/build.make planning/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/build
-.PHONY : object_recognition_msgs_generate_messages_lisp/fast
+baxter_core_msgs_generate_messages_eus/fast:
+	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/baxter_core_msgs_generate_messages_eus.dir/build.make planning/CMakeFiles/baxter_core_msgs_generate_messages_eus.dir/build
+.PHONY : baxter_core_msgs_generate_messages_eus/fast
 
 # Convenience name for target.
-planning/CMakeFiles/object_recognition_msgs_generate_messages_eus.dir/rule:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/object_recognition_msgs_generate_messages_eus.dir/rule
-.PHONY : planning/CMakeFiles/object_recognition_msgs_generate_messages_eus.dir/rule
+planning/CMakeFiles/intera_motion_msgs_generate_messages_py.dir/rule:
+	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/intera_motion_msgs_generate_messages_py.dir/rule
+.PHONY : planning/CMakeFiles/intera_motion_msgs_generate_messages_py.dir/rule
 
 # Convenience name for target.
-object_recognition_msgs_generate_messages_eus: planning/CMakeFiles/object_recognition_msgs_generate_messages_eus.dir/rule
+intera_motion_msgs_generate_messages_py: planning/CMakeFiles/intera_motion_msgs_generate_messages_py.dir/rule
 
-.PHONY : object_recognition_msgs_generate_messages_eus
+.PHONY : intera_motion_msgs_generate_messages_py
 
 # fast build rule for target.
-object_recognition_msgs_generate_messages_eus/fast:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/object_recognition_msgs_generate_messages_eus.dir/build.make planning/CMakeFiles/object_recognition_msgs_generate_messages_eus.dir/build
-.PHONY : object_recognition_msgs_generate_messages_eus/fast
+intera_motion_msgs_generate_messages_py/fast:
+	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/intera_motion_msgs_generate_messages_py.dir/build.make planning/CMakeFiles/intera_motion_msgs_generate_messages_py.dir/build
+.PHONY : intera_motion_msgs_generate_messages_py/fast
 
 # Convenience name for target.
-planning/CMakeFiles/octomap_msgs_generate_messages_eus.dir/rule:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/octomap_msgs_generate_messages_eus.dir/rule
-.PHONY : planning/CMakeFiles/octomap_msgs_generate_messages_eus.dir/rule
+planning/CMakeFiles/baxter_core_msgs_generate_messages_cpp.dir/rule:
+	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/baxter_core_msgs_generate_messages_cpp.dir/rule
+.PHONY : planning/CMakeFiles/baxter_core_msgs_generate_messages_cpp.dir/rule
 
 # Convenience name for target.
-octomap_msgs_generate_messages_eus: planning/CMakeFiles/octomap_msgs_generate_messages_eus.dir/rule
+baxter_core_msgs_generate_messages_cpp: planning/CMakeFiles/baxter_core_msgs_generate_messages_cpp.dir/rule
 
-.PHONY : octomap_msgs_generate_messages_eus
+.PHONY : baxter_core_msgs_generate_messages_cpp
 
 # fast build rule for target.
-octomap_msgs_generate_messages_eus/fast:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/octomap_msgs_generate_messages_eus.dir/build.make planning/CMakeFiles/octomap_msgs_generate_messages_eus.dir/build
-.PHONY : octomap_msgs_generate_messages_eus/fast
+baxter_core_msgs_generate_messages_cpp/fast:
+	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/baxter_core_msgs_generate_messages_cpp.dir/build.make planning/CMakeFiles/baxter_core_msgs_generate_messages_cpp.dir/build
+.PHONY : baxter_core_msgs_generate_messages_cpp/fast
 
 # Convenience name for target.
-planning/CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/rule:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/rule
-.PHONY : planning/CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/rule
+planning/CMakeFiles/baxter_core_msgs_generate_messages_lisp.dir/rule:
+	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/baxter_core_msgs_generate_messages_lisp.dir/rule
+.PHONY : planning/CMakeFiles/baxter_core_msgs_generate_messages_lisp.dir/rule
 
 # Convenience name for target.
-object_recognition_msgs_generate_messages_cpp: planning/CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/rule
+baxter_core_msgs_generate_messages_lisp: planning/CMakeFiles/baxter_core_msgs_generate_messages_lisp.dir/rule
 
-.PHONY : object_recognition_msgs_generate_messages_cpp
+.PHONY : baxter_core_msgs_generate_messages_lisp
 
 # fast build rule for target.
-object_recognition_msgs_generate_messages_cpp/fast:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/build.make planning/CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/build
-.PHONY : object_recognition_msgs_generate_messages_cpp/fast
+baxter_core_msgs_generate_messages_lisp/fast:
+	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/baxter_core_msgs_generate_messages_lisp.dir/build.make planning/CMakeFiles/baxter_core_msgs_generate_messages_lisp.dir/build
+.PHONY : baxter_core_msgs_generate_messages_lisp/fast
 
 # Convenience name for target.
-planning/CMakeFiles/shape_msgs_generate_messages_py.dir/rule:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/shape_msgs_generate_messages_py.dir/rule
-.PHONY : planning/CMakeFiles/shape_msgs_generate_messages_py.dir/rule
+planning/CMakeFiles/intera_core_msgs_generate_messages_cpp.dir/rule:
+	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/intera_core_msgs_generate_messages_cpp.dir/rule
+.PHONY : planning/CMakeFiles/intera_core_msgs_generate_messages_cpp.dir/rule
 
 # Convenience name for target.
-shape_msgs_generate_messages_py: planning/CMakeFiles/shape_msgs_generate_messages_py.dir/rule
+intera_core_msgs_generate_messages_cpp: planning/CMakeFiles/intera_core_msgs_generate_messages_cpp.dir/rule
 
-.PHONY : shape_msgs_generate_messages_py
+.PHONY : intera_core_msgs_generate_messages_cpp
 
 # fast build rule for target.
-shape_msgs_generate_messages_py/fast:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/shape_msgs_generate_messages_py.dir/build.make planning/CMakeFiles/shape_msgs_generate_messages_py.dir/build
-.PHONY : shape_msgs_generate_messages_py/fast
-
-# Convenience name for target.
-planning/CMakeFiles/shape_msgs_generate_messages_lisp.dir/rule:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/shape_msgs_generate_messages_lisp.dir/rule
-.PHONY : planning/CMakeFiles/shape_msgs_generate_messages_lisp.dir/rule
-
-# Convenience name for target.
-shape_msgs_generate_messages_lisp: planning/CMakeFiles/shape_msgs_generate_messages_lisp.dir/rule
-
-.PHONY : shape_msgs_generate_messages_lisp
-
-# fast build rule for target.
-shape_msgs_generate_messages_lisp/fast:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/shape_msgs_generate_messages_lisp.dir/build.make planning/CMakeFiles/shape_msgs_generate_messages_lisp.dir/build
-.PHONY : shape_msgs_generate_messages_lisp/fast
-
-# Convenience name for target.
-planning/CMakeFiles/moveit_msgs_generate_messages_py.dir/rule:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/moveit_msgs_generate_messages_py.dir/rule
-.PHONY : planning/CMakeFiles/moveit_msgs_generate_messages_py.dir/rule
-
-# Convenience name for target.
-moveit_msgs_generate_messages_py: planning/CMakeFiles/moveit_msgs_generate_messages_py.dir/rule
-
-.PHONY : moveit_msgs_generate_messages_py
-
-# fast build rule for target.
-moveit_msgs_generate_messages_py/fast:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/moveit_msgs_generate_messages_py.dir/build.make planning/CMakeFiles/moveit_msgs_generate_messages_py.dir/build
-.PHONY : moveit_msgs_generate_messages_py/fast
-
-# Convenience name for target.
-planning/CMakeFiles/trajectory_msgs_generate_messages_py.dir/rule:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/trajectory_msgs_generate_messages_py.dir/rule
-.PHONY : planning/CMakeFiles/trajectory_msgs_generate_messages_py.dir/rule
-
-# Convenience name for target.
-trajectory_msgs_generate_messages_py: planning/CMakeFiles/trajectory_msgs_generate_messages_py.dir/rule
-
-.PHONY : trajectory_msgs_generate_messages_py
-
-# fast build rule for target.
-trajectory_msgs_generate_messages_py/fast:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/trajectory_msgs_generate_messages_py.dir/build.make planning/CMakeFiles/trajectory_msgs_generate_messages_py.dir/build
-.PHONY : trajectory_msgs_generate_messages_py/fast
+intera_core_msgs_generate_messages_cpp/fast:
+	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/intera_core_msgs_generate_messages_cpp.dir/build.make planning/CMakeFiles/intera_core_msgs_generate_messages_cpp.dir/build
+.PHONY : intera_core_msgs_generate_messages_cpp/fast
 
 # Convenience name for target.
 planning/CMakeFiles/baxter_maintenance_msgs_generate_messages_eus.dir/rule:
@@ -421,6 +331,141 @@ baxter_maintenance_msgs_generate_messages_eus/fast:
 .PHONY : baxter_maintenance_msgs_generate_messages_eus/fast
 
 # Convenience name for target.
+planning/CMakeFiles/trajectory_msgs_generate_messages_py.dir/rule:
+	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/trajectory_msgs_generate_messages_py.dir/rule
+.PHONY : planning/CMakeFiles/trajectory_msgs_generate_messages_py.dir/rule
+
+# Convenience name for target.
+trajectory_msgs_generate_messages_py: planning/CMakeFiles/trajectory_msgs_generate_messages_py.dir/rule
+
+.PHONY : trajectory_msgs_generate_messages_py
+
+# fast build rule for target.
+trajectory_msgs_generate_messages_py/fast:
+	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/trajectory_msgs_generate_messages_py.dir/build.make planning/CMakeFiles/trajectory_msgs_generate_messages_py.dir/build
+.PHONY : trajectory_msgs_generate_messages_py/fast
+
+# Convenience name for target.
+planning/CMakeFiles/control_msgs_generate_messages_eus.dir/rule:
+	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/control_msgs_generate_messages_eus.dir/rule
+.PHONY : planning/CMakeFiles/control_msgs_generate_messages_eus.dir/rule
+
+# Convenience name for target.
+control_msgs_generate_messages_eus: planning/CMakeFiles/control_msgs_generate_messages_eus.dir/rule
+
+.PHONY : control_msgs_generate_messages_eus
+
+# fast build rule for target.
+control_msgs_generate_messages_eus/fast:
+	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/control_msgs_generate_messages_eus.dir/build.make planning/CMakeFiles/control_msgs_generate_messages_eus.dir/build
+.PHONY : control_msgs_generate_messages_eus/fast
+
+# Convenience name for target.
+planning/CMakeFiles/shape_msgs_generate_messages_py.dir/rule:
+	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/shape_msgs_generate_messages_py.dir/rule
+.PHONY : planning/CMakeFiles/shape_msgs_generate_messages_py.dir/rule
+
+# Convenience name for target.
+shape_msgs_generate_messages_py: planning/CMakeFiles/shape_msgs_generate_messages_py.dir/rule
+
+.PHONY : shape_msgs_generate_messages_py
+
+# fast build rule for target.
+shape_msgs_generate_messages_py/fast:
+	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/shape_msgs_generate_messages_py.dir/build.make planning/CMakeFiles/shape_msgs_generate_messages_py.dir/build
+.PHONY : shape_msgs_generate_messages_py/fast
+
+# Convenience name for target.
+planning/CMakeFiles/intera_interface_gencfg.dir/rule:
+	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/intera_interface_gencfg.dir/rule
+.PHONY : planning/CMakeFiles/intera_interface_gencfg.dir/rule
+
+# Convenience name for target.
+intera_interface_gencfg: planning/CMakeFiles/intera_interface_gencfg.dir/rule
+
+.PHONY : intera_interface_gencfg
+
+# fast build rule for target.
+intera_interface_gencfg/fast:
+	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/intera_interface_gencfg.dir/build.make planning/CMakeFiles/intera_interface_gencfg.dir/build
+.PHONY : intera_interface_gencfg/fast
+
+# Convenience name for target.
+planning/CMakeFiles/intera_motion_msgs_generate_messages_nodejs.dir/rule:
+	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/intera_motion_msgs_generate_messages_nodejs.dir/rule
+.PHONY : planning/CMakeFiles/intera_motion_msgs_generate_messages_nodejs.dir/rule
+
+# Convenience name for target.
+intera_motion_msgs_generate_messages_nodejs: planning/CMakeFiles/intera_motion_msgs_generate_messages_nodejs.dir/rule
+
+.PHONY : intera_motion_msgs_generate_messages_nodejs
+
+# fast build rule for target.
+intera_motion_msgs_generate_messages_nodejs/fast:
+	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/intera_motion_msgs_generate_messages_nodejs.dir/build.make planning/CMakeFiles/intera_motion_msgs_generate_messages_nodejs.dir/build
+.PHONY : intera_motion_msgs_generate_messages_nodejs/fast
+
+# Convenience name for target.
+planning/CMakeFiles/baxter_maintenance_msgs_generate_messages_nodejs.dir/rule:
+	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/baxter_maintenance_msgs_generate_messages_nodejs.dir/rule
+.PHONY : planning/CMakeFiles/baxter_maintenance_msgs_generate_messages_nodejs.dir/rule
+
+# Convenience name for target.
+baxter_maintenance_msgs_generate_messages_nodejs: planning/CMakeFiles/baxter_maintenance_msgs_generate_messages_nodejs.dir/rule
+
+.PHONY : baxter_maintenance_msgs_generate_messages_nodejs
+
+# fast build rule for target.
+baxter_maintenance_msgs_generate_messages_nodejs/fast:
+	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/baxter_maintenance_msgs_generate_messages_nodejs.dir/build.make planning/CMakeFiles/baxter_maintenance_msgs_generate_messages_nodejs.dir/build
+.PHONY : baxter_maintenance_msgs_generate_messages_nodejs/fast
+
+# Convenience name for target.
+planning/CMakeFiles/shape_msgs_generate_messages_cpp.dir/rule:
+	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/shape_msgs_generate_messages_cpp.dir/rule
+.PHONY : planning/CMakeFiles/shape_msgs_generate_messages_cpp.dir/rule
+
+# Convenience name for target.
+shape_msgs_generate_messages_cpp: planning/CMakeFiles/shape_msgs_generate_messages_cpp.dir/rule
+
+.PHONY : shape_msgs_generate_messages_cpp
+
+# fast build rule for target.
+shape_msgs_generate_messages_cpp/fast:
+	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/shape_msgs_generate_messages_cpp.dir/build.make planning/CMakeFiles/shape_msgs_generate_messages_cpp.dir/build
+.PHONY : shape_msgs_generate_messages_cpp/fast
+
+# Convenience name for target.
+planning/CMakeFiles/control_msgs_generate_messages_cpp.dir/rule:
+	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/control_msgs_generate_messages_cpp.dir/rule
+.PHONY : planning/CMakeFiles/control_msgs_generate_messages_cpp.dir/rule
+
+# Convenience name for target.
+control_msgs_generate_messages_cpp: planning/CMakeFiles/control_msgs_generate_messages_cpp.dir/rule
+
+.PHONY : control_msgs_generate_messages_cpp
+
+# fast build rule for target.
+control_msgs_generate_messages_cpp/fast:
+	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/control_msgs_generate_messages_cpp.dir/build.make planning/CMakeFiles/control_msgs_generate_messages_cpp.dir/build
+.PHONY : control_msgs_generate_messages_cpp/fast
+
+# Convenience name for target.
+planning/CMakeFiles/control_msgs_generate_messages_nodejs.dir/rule:
+	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/control_msgs_generate_messages_nodejs.dir/rule
+.PHONY : planning/CMakeFiles/control_msgs_generate_messages_nodejs.dir/rule
+
+# Convenience name for target.
+control_msgs_generate_messages_nodejs: planning/CMakeFiles/control_msgs_generate_messages_nodejs.dir/rule
+
+.PHONY : control_msgs_generate_messages_nodejs
+
+# fast build rule for target.
+control_msgs_generate_messages_nodejs/fast:
+	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/control_msgs_generate_messages_nodejs.dir/build.make planning/CMakeFiles/control_msgs_generate_messages_nodejs.dir/build
+.PHONY : control_msgs_generate_messages_nodejs/fast
+
+# Convenience name for target.
 planning/CMakeFiles/trajectory_msgs_generate_messages_eus.dir/rule:
 	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/trajectory_msgs_generate_messages_eus.dir/rule
 .PHONY : planning/CMakeFiles/trajectory_msgs_generate_messages_eus.dir/rule
@@ -434,66 +479,6 @@ trajectory_msgs_generate_messages_eus: planning/CMakeFiles/trajectory_msgs_gener
 trajectory_msgs_generate_messages_eus/fast:
 	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/trajectory_msgs_generate_messages_eus.dir/build.make planning/CMakeFiles/trajectory_msgs_generate_messages_eus.dir/build
 .PHONY : trajectory_msgs_generate_messages_eus/fast
-
-# Convenience name for target.
-planning/CMakeFiles/octomap_msgs_generate_messages_nodejs.dir/rule:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/octomap_msgs_generate_messages_nodejs.dir/rule
-.PHONY : planning/CMakeFiles/octomap_msgs_generate_messages_nodejs.dir/rule
-
-# Convenience name for target.
-octomap_msgs_generate_messages_nodejs: planning/CMakeFiles/octomap_msgs_generate_messages_nodejs.dir/rule
-
-.PHONY : octomap_msgs_generate_messages_nodejs
-
-# fast build rule for target.
-octomap_msgs_generate_messages_nodejs/fast:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/octomap_msgs_generate_messages_nodejs.dir/build.make planning/CMakeFiles/octomap_msgs_generate_messages_nodejs.dir/build
-.PHONY : octomap_msgs_generate_messages_nodejs/fast
-
-# Convenience name for target.
-planning/CMakeFiles/shape_msgs_generate_messages_eus.dir/rule:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/shape_msgs_generate_messages_eus.dir/rule
-.PHONY : planning/CMakeFiles/shape_msgs_generate_messages_eus.dir/rule
-
-# Convenience name for target.
-shape_msgs_generate_messages_eus: planning/CMakeFiles/shape_msgs_generate_messages_eus.dir/rule
-
-.PHONY : shape_msgs_generate_messages_eus
-
-# fast build rule for target.
-shape_msgs_generate_messages_eus/fast:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/shape_msgs_generate_messages_eus.dir/build.make planning/CMakeFiles/shape_msgs_generate_messages_eus.dir/build
-.PHONY : shape_msgs_generate_messages_eus/fast
-
-# Convenience name for target.
-planning/CMakeFiles/trajectory_msgs_generate_messages_cpp.dir/rule:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/trajectory_msgs_generate_messages_cpp.dir/rule
-.PHONY : planning/CMakeFiles/trajectory_msgs_generate_messages_cpp.dir/rule
-
-# Convenience name for target.
-trajectory_msgs_generate_messages_cpp: planning/CMakeFiles/trajectory_msgs_generate_messages_cpp.dir/rule
-
-.PHONY : trajectory_msgs_generate_messages_cpp
-
-# fast build rule for target.
-trajectory_msgs_generate_messages_cpp/fast:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/trajectory_msgs_generate_messages_cpp.dir/build.make planning/CMakeFiles/trajectory_msgs_generate_messages_cpp.dir/build
-.PHONY : trajectory_msgs_generate_messages_cpp/fast
-
-# Convenience name for target.
-planning/CMakeFiles/intera_core_msgs_generate_messages_nodejs.dir/rule:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/intera_core_msgs_generate_messages_nodejs.dir/rule
-.PHONY : planning/CMakeFiles/intera_core_msgs_generate_messages_nodejs.dir/rule
-
-# Convenience name for target.
-intera_core_msgs_generate_messages_nodejs: planning/CMakeFiles/intera_core_msgs_generate_messages_nodejs.dir/rule
-
-.PHONY : intera_core_msgs_generate_messages_nodejs
-
-# fast build rule for target.
-intera_core_msgs_generate_messages_nodejs/fast:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/intera_core_msgs_generate_messages_nodejs.dir/build.make planning/CMakeFiles/intera_core_msgs_generate_messages_nodejs.dir/build
-.PHONY : intera_core_msgs_generate_messages_nodejs/fast
 
 # Convenience name for target.
 planning/CMakeFiles/intera_motion_msgs_generate_messages_cpp.dir/rule:
@@ -571,169 +556,49 @@ moveit_msgs_generate_messages_eus/fast:
 .PHONY : moveit_msgs_generate_messages_eus/fast
 
 # Convenience name for target.
-planning/CMakeFiles/control_msgs_generate_messages_nodejs.dir/rule:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/control_msgs_generate_messages_nodejs.dir/rule
-.PHONY : planning/CMakeFiles/control_msgs_generate_messages_nodejs.dir/rule
+planning/CMakeFiles/intera_core_msgs_generate_messages_nodejs.dir/rule:
+	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/intera_core_msgs_generate_messages_nodejs.dir/rule
+.PHONY : planning/CMakeFiles/intera_core_msgs_generate_messages_nodejs.dir/rule
 
 # Convenience name for target.
-control_msgs_generate_messages_nodejs: planning/CMakeFiles/control_msgs_generate_messages_nodejs.dir/rule
+intera_core_msgs_generate_messages_nodejs: planning/CMakeFiles/intera_core_msgs_generate_messages_nodejs.dir/rule
 
-.PHONY : control_msgs_generate_messages_nodejs
+.PHONY : intera_core_msgs_generate_messages_nodejs
 
 # fast build rule for target.
-control_msgs_generate_messages_nodejs/fast:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/control_msgs_generate_messages_nodejs.dir/build.make planning/CMakeFiles/control_msgs_generate_messages_nodejs.dir/build
-.PHONY : control_msgs_generate_messages_nodejs/fast
+intera_core_msgs_generate_messages_nodejs/fast:
+	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/intera_core_msgs_generate_messages_nodejs.dir/build.make planning/CMakeFiles/intera_core_msgs_generate_messages_nodejs.dir/build
+.PHONY : intera_core_msgs_generate_messages_nodejs/fast
 
 # Convenience name for target.
-planning/CMakeFiles/actionlib_msgs_generate_messages_py.dir/rule:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/actionlib_msgs_generate_messages_py.dir/rule
-.PHONY : planning/CMakeFiles/actionlib_msgs_generate_messages_py.dir/rule
+planning/CMakeFiles/baxter_core_msgs_generate_messages_nodejs.dir/rule:
+	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/baxter_core_msgs_generate_messages_nodejs.dir/rule
+.PHONY : planning/CMakeFiles/baxter_core_msgs_generate_messages_nodejs.dir/rule
 
 # Convenience name for target.
-actionlib_msgs_generate_messages_py: planning/CMakeFiles/actionlib_msgs_generate_messages_py.dir/rule
+baxter_core_msgs_generate_messages_nodejs: planning/CMakeFiles/baxter_core_msgs_generate_messages_nodejs.dir/rule
 
-.PHONY : actionlib_msgs_generate_messages_py
+.PHONY : baxter_core_msgs_generate_messages_nodejs
 
 # fast build rule for target.
-actionlib_msgs_generate_messages_py/fast:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/actionlib_msgs_generate_messages_py.dir/build.make planning/CMakeFiles/actionlib_msgs_generate_messages_py.dir/build
-.PHONY : actionlib_msgs_generate_messages_py/fast
+baxter_core_msgs_generate_messages_nodejs/fast:
+	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/baxter_core_msgs_generate_messages_nodejs.dir/build.make planning/CMakeFiles/baxter_core_msgs_generate_messages_nodejs.dir/build
+.PHONY : baxter_core_msgs_generate_messages_nodejs/fast
 
 # Convenience name for target.
-planning/CMakeFiles/moveit_msgs_generate_messages_nodejs.dir/rule:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/moveit_msgs_generate_messages_nodejs.dir/rule
-.PHONY : planning/CMakeFiles/moveit_msgs_generate_messages_nodejs.dir/rule
+planning/CMakeFiles/intera_motion_msgs_generate_messages_eus.dir/rule:
+	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/intera_motion_msgs_generate_messages_eus.dir/rule
+.PHONY : planning/CMakeFiles/intera_motion_msgs_generate_messages_eus.dir/rule
 
 # Convenience name for target.
-moveit_msgs_generate_messages_nodejs: planning/CMakeFiles/moveit_msgs_generate_messages_nodejs.dir/rule
+intera_motion_msgs_generate_messages_eus: planning/CMakeFiles/intera_motion_msgs_generate_messages_eus.dir/rule
 
-.PHONY : moveit_msgs_generate_messages_nodejs
+.PHONY : intera_motion_msgs_generate_messages_eus
 
 # fast build rule for target.
-moveit_msgs_generate_messages_nodejs/fast:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/moveit_msgs_generate_messages_nodejs.dir/build.make planning/CMakeFiles/moveit_msgs_generate_messages_nodejs.dir/build
-.PHONY : moveit_msgs_generate_messages_nodejs/fast
-
-# Convenience name for target.
-planning/CMakeFiles/control_msgs_generate_messages_eus.dir/rule:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/control_msgs_generate_messages_eus.dir/rule
-.PHONY : planning/CMakeFiles/control_msgs_generate_messages_eus.dir/rule
-
-# Convenience name for target.
-control_msgs_generate_messages_eus: planning/CMakeFiles/control_msgs_generate_messages_eus.dir/rule
-
-.PHONY : control_msgs_generate_messages_eus
-
-# fast build rule for target.
-control_msgs_generate_messages_eus/fast:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/control_msgs_generate_messages_eus.dir/build.make planning/CMakeFiles/control_msgs_generate_messages_eus.dir/build
-.PHONY : control_msgs_generate_messages_eus/fast
-
-# Convenience name for target.
-planning/CMakeFiles/actionlib_msgs_generate_messages_eus.dir/rule:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/actionlib_msgs_generate_messages_eus.dir/rule
-.PHONY : planning/CMakeFiles/actionlib_msgs_generate_messages_eus.dir/rule
-
-# Convenience name for target.
-actionlib_msgs_generate_messages_eus: planning/CMakeFiles/actionlib_msgs_generate_messages_eus.dir/rule
-
-.PHONY : actionlib_msgs_generate_messages_eus
-
-# fast build rule for target.
-actionlib_msgs_generate_messages_eus/fast:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/actionlib_msgs_generate_messages_eus.dir/build.make planning/CMakeFiles/actionlib_msgs_generate_messages_eus.dir/build
-.PHONY : actionlib_msgs_generate_messages_eus/fast
-
-# Convenience name for target.
-planning/CMakeFiles/actionlib_generate_messages_lisp.dir/rule:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/actionlib_generate_messages_lisp.dir/rule
-.PHONY : planning/CMakeFiles/actionlib_generate_messages_lisp.dir/rule
-
-# Convenience name for target.
-actionlib_generate_messages_lisp: planning/CMakeFiles/actionlib_generate_messages_lisp.dir/rule
-
-.PHONY : actionlib_generate_messages_lisp
-
-# fast build rule for target.
-actionlib_generate_messages_lisp/fast:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/actionlib_generate_messages_lisp.dir/build.make planning/CMakeFiles/actionlib_generate_messages_lisp.dir/build
-.PHONY : actionlib_generate_messages_lisp/fast
-
-# Convenience name for target.
-planning/CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/rule:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/rule
-.PHONY : planning/CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/rule
-
-# Convenience name for target.
-actionlib_msgs_generate_messages_lisp: planning/CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/rule
-
-.PHONY : actionlib_msgs_generate_messages_lisp
-
-# fast build rule for target.
-actionlib_msgs_generate_messages_lisp/fast:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/build.make planning/CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/build
-.PHONY : actionlib_msgs_generate_messages_lisp/fast
-
-# Convenience name for target.
-planning/CMakeFiles/intera_core_msgs_generate_messages_eus.dir/rule:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/intera_core_msgs_generate_messages_eus.dir/rule
-.PHONY : planning/CMakeFiles/intera_core_msgs_generate_messages_eus.dir/rule
-
-# Convenience name for target.
-intera_core_msgs_generate_messages_eus: planning/CMakeFiles/intera_core_msgs_generate_messages_eus.dir/rule
-
-.PHONY : intera_core_msgs_generate_messages_eus
-
-# fast build rule for target.
-intera_core_msgs_generate_messages_eus/fast:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/intera_core_msgs_generate_messages_eus.dir/build.make planning/CMakeFiles/intera_core_msgs_generate_messages_eus.dir/build
-.PHONY : intera_core_msgs_generate_messages_eus/fast
-
-# Convenience name for target.
-planning/CMakeFiles/actionlib_generate_messages_cpp.dir/rule:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/actionlib_generate_messages_cpp.dir/rule
-.PHONY : planning/CMakeFiles/actionlib_generate_messages_cpp.dir/rule
-
-# Convenience name for target.
-actionlib_generate_messages_cpp: planning/CMakeFiles/actionlib_generate_messages_cpp.dir/rule
-
-.PHONY : actionlib_generate_messages_cpp
-
-# fast build rule for target.
-actionlib_generate_messages_cpp/fast:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/actionlib_generate_messages_cpp.dir/build.make planning/CMakeFiles/actionlib_generate_messages_cpp.dir/build
-.PHONY : actionlib_generate_messages_cpp/fast
-
-# Convenience name for target.
-planning/CMakeFiles/tf2_msgs_generate_messages_py.dir/rule:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/tf2_msgs_generate_messages_py.dir/rule
-.PHONY : planning/CMakeFiles/tf2_msgs_generate_messages_py.dir/rule
-
-# Convenience name for target.
-tf2_msgs_generate_messages_py: planning/CMakeFiles/tf2_msgs_generate_messages_py.dir/rule
-
-.PHONY : tf2_msgs_generate_messages_py
-
-# fast build rule for target.
-tf2_msgs_generate_messages_py/fast:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/tf2_msgs_generate_messages_py.dir/build.make planning/CMakeFiles/tf2_msgs_generate_messages_py.dir/build
-.PHONY : tf2_msgs_generate_messages_py/fast
-
-# Convenience name for target.
-planning/CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/rule:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/rule
-.PHONY : planning/CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/rule
-
-# Convenience name for target.
-actionlib_msgs_generate_messages_nodejs: planning/CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/rule
-
-.PHONY : actionlib_msgs_generate_messages_nodejs
-
-# fast build rule for target.
-actionlib_msgs_generate_messages_nodejs/fast:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/build.make planning/CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/build
-.PHONY : actionlib_msgs_generate_messages_nodejs/fast
+intera_motion_msgs_generate_messages_eus/fast:
+	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/intera_motion_msgs_generate_messages_eus.dir/build.make planning/CMakeFiles/intera_motion_msgs_generate_messages_eus.dir/build
+.PHONY : intera_motion_msgs_generate_messages_eus/fast
 
 # Convenience name for target.
 planning/CMakeFiles/control_msgs_generate_messages_lisp.dir/rule:
@@ -766,304 +631,34 @@ trajectory_msgs_generate_messages_lisp/fast:
 .PHONY : trajectory_msgs_generate_messages_lisp/fast
 
 # Convenience name for target.
-planning/CMakeFiles/control_msgs_generate_messages_cpp.dir/rule:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/control_msgs_generate_messages_cpp.dir/rule
-.PHONY : planning/CMakeFiles/control_msgs_generate_messages_cpp.dir/rule
+planning/CMakeFiles/object_recognition_msgs_generate_messages_nodejs.dir/rule:
+	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/object_recognition_msgs_generate_messages_nodejs.dir/rule
+.PHONY : planning/CMakeFiles/object_recognition_msgs_generate_messages_nodejs.dir/rule
 
 # Convenience name for target.
-control_msgs_generate_messages_cpp: planning/CMakeFiles/control_msgs_generate_messages_cpp.dir/rule
+object_recognition_msgs_generate_messages_nodejs: planning/CMakeFiles/object_recognition_msgs_generate_messages_nodejs.dir/rule
 
-.PHONY : control_msgs_generate_messages_cpp
+.PHONY : object_recognition_msgs_generate_messages_nodejs
 
 # fast build rule for target.
-control_msgs_generate_messages_cpp/fast:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/control_msgs_generate_messages_cpp.dir/build.make planning/CMakeFiles/control_msgs_generate_messages_cpp.dir/build
-.PHONY : control_msgs_generate_messages_cpp/fast
+object_recognition_msgs_generate_messages_nodejs/fast:
+	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/object_recognition_msgs_generate_messages_nodejs.dir/build.make planning/CMakeFiles/object_recognition_msgs_generate_messages_nodejs.dir/build
+.PHONY : object_recognition_msgs_generate_messages_nodejs/fast
 
 # Convenience name for target.
-planning/CMakeFiles/actionlib_generate_messages_py.dir/rule:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/actionlib_generate_messages_py.dir/rule
-.PHONY : planning/CMakeFiles/actionlib_generate_messages_py.dir/rule
+planning/CMakeFiles/intera_core_msgs_generate_messages_eus.dir/rule:
+	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/intera_core_msgs_generate_messages_eus.dir/rule
+.PHONY : planning/CMakeFiles/intera_core_msgs_generate_messages_eus.dir/rule
 
 # Convenience name for target.
-actionlib_generate_messages_py: planning/CMakeFiles/actionlib_generate_messages_py.dir/rule
+intera_core_msgs_generate_messages_eus: planning/CMakeFiles/intera_core_msgs_generate_messages_eus.dir/rule
 
-.PHONY : actionlib_generate_messages_py
+.PHONY : intera_core_msgs_generate_messages_eus
 
 # fast build rule for target.
-actionlib_generate_messages_py/fast:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/actionlib_generate_messages_py.dir/build.make planning/CMakeFiles/actionlib_generate_messages_py.dir/build
-.PHONY : actionlib_generate_messages_py/fast
-
-# Convenience name for target.
-planning/CMakeFiles/actionlib_generate_messages_nodejs.dir/rule:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/actionlib_generate_messages_nodejs.dir/rule
-.PHONY : planning/CMakeFiles/actionlib_generate_messages_nodejs.dir/rule
-
-# Convenience name for target.
-actionlib_generate_messages_nodejs: planning/CMakeFiles/actionlib_generate_messages_nodejs.dir/rule
-
-.PHONY : actionlib_generate_messages_nodejs
-
-# fast build rule for target.
-actionlib_generate_messages_nodejs/fast:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/actionlib_generate_messages_nodejs.dir/build.make planning/CMakeFiles/actionlib_generate_messages_nodejs.dir/build
-.PHONY : actionlib_generate_messages_nodejs/fast
-
-# Convenience name for target.
-planning/CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/rule:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/rule
-.PHONY : planning/CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/rule
-
-# Convenience name for target.
-actionlib_msgs_generate_messages_cpp: planning/CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/rule
-
-.PHONY : actionlib_msgs_generate_messages_cpp
-
-# fast build rule for target.
-actionlib_msgs_generate_messages_cpp/fast:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/build.make planning/CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/build
-.PHONY : actionlib_msgs_generate_messages_cpp/fast
-
-# Convenience name for target.
-planning/CMakeFiles/intera_interface_gencfg.dir/rule:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/intera_interface_gencfg.dir/rule
-.PHONY : planning/CMakeFiles/intera_interface_gencfg.dir/rule
-
-# Convenience name for target.
-intera_interface_gencfg: planning/CMakeFiles/intera_interface_gencfg.dir/rule
-
-.PHONY : intera_interface_gencfg
-
-# fast build rule for target.
-intera_interface_gencfg/fast:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/intera_interface_gencfg.dir/build.make planning/CMakeFiles/intera_interface_gencfg.dir/build
-.PHONY : intera_interface_gencfg/fast
-
-# Convenience name for target.
-planning/CMakeFiles/intera_motion_msgs_generate_messages_nodejs.dir/rule:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/intera_motion_msgs_generate_messages_nodejs.dir/rule
-.PHONY : planning/CMakeFiles/intera_motion_msgs_generate_messages_nodejs.dir/rule
-
-# Convenience name for target.
-intera_motion_msgs_generate_messages_nodejs: planning/CMakeFiles/intera_motion_msgs_generate_messages_nodejs.dir/rule
-
-.PHONY : intera_motion_msgs_generate_messages_nodejs
-
-# fast build rule for target.
-intera_motion_msgs_generate_messages_nodejs/fast:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/intera_motion_msgs_generate_messages_nodejs.dir/build.make planning/CMakeFiles/intera_motion_msgs_generate_messages_nodejs.dir/build
-.PHONY : intera_motion_msgs_generate_messages_nodejs/fast
-
-# Convenience name for target.
-planning/CMakeFiles/actionlib_generate_messages_eus.dir/rule:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/actionlib_generate_messages_eus.dir/rule
-.PHONY : planning/CMakeFiles/actionlib_generate_messages_eus.dir/rule
-
-# Convenience name for target.
-actionlib_generate_messages_eus: planning/CMakeFiles/actionlib_generate_messages_eus.dir/rule
-
-.PHONY : actionlib_generate_messages_eus
-
-# fast build rule for target.
-actionlib_generate_messages_eus/fast:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/actionlib_generate_messages_eus.dir/build.make planning/CMakeFiles/actionlib_generate_messages_eus.dir/build
-.PHONY : actionlib_generate_messages_eus/fast
-
-# Convenience name for target.
-planning/CMakeFiles/baxter_core_msgs_generate_messages_cpp.dir/rule:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/baxter_core_msgs_generate_messages_cpp.dir/rule
-.PHONY : planning/CMakeFiles/baxter_core_msgs_generate_messages_cpp.dir/rule
-
-# Convenience name for target.
-baxter_core_msgs_generate_messages_cpp: planning/CMakeFiles/baxter_core_msgs_generate_messages_cpp.dir/rule
-
-.PHONY : baxter_core_msgs_generate_messages_cpp
-
-# fast build rule for target.
-baxter_core_msgs_generate_messages_cpp/fast:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/baxter_core_msgs_generate_messages_cpp.dir/build.make planning/CMakeFiles/baxter_core_msgs_generate_messages_cpp.dir/build
-.PHONY : baxter_core_msgs_generate_messages_cpp/fast
-
-# Convenience name for target.
-planning/CMakeFiles/tf2_msgs_generate_messages_cpp.dir/rule:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/tf2_msgs_generate_messages_cpp.dir/rule
-.PHONY : planning/CMakeFiles/tf2_msgs_generate_messages_cpp.dir/rule
-
-# Convenience name for target.
-tf2_msgs_generate_messages_cpp: planning/CMakeFiles/tf2_msgs_generate_messages_cpp.dir/rule
-
-.PHONY : tf2_msgs_generate_messages_cpp
-
-# fast build rule for target.
-tf2_msgs_generate_messages_cpp/fast:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/tf2_msgs_generate_messages_cpp.dir/build.make planning/CMakeFiles/tf2_msgs_generate_messages_cpp.dir/build
-.PHONY : tf2_msgs_generate_messages_cpp/fast
-
-# Convenience name for target.
-planning/CMakeFiles/baxter_core_msgs_generate_messages_lisp.dir/rule:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/baxter_core_msgs_generate_messages_lisp.dir/rule
-.PHONY : planning/CMakeFiles/baxter_core_msgs_generate_messages_lisp.dir/rule
-
-# Convenience name for target.
-baxter_core_msgs_generate_messages_lisp: planning/CMakeFiles/baxter_core_msgs_generate_messages_lisp.dir/rule
-
-.PHONY : baxter_core_msgs_generate_messages_lisp
-
-# fast build rule for target.
-baxter_core_msgs_generate_messages_lisp/fast:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/baxter_core_msgs_generate_messages_lisp.dir/build.make planning/CMakeFiles/baxter_core_msgs_generate_messages_lisp.dir/build
-.PHONY : baxter_core_msgs_generate_messages_lisp/fast
-
-# Convenience name for target.
-planning/CMakeFiles/intera_core_msgs_generate_messages_cpp.dir/rule:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/intera_core_msgs_generate_messages_cpp.dir/rule
-.PHONY : planning/CMakeFiles/intera_core_msgs_generate_messages_cpp.dir/rule
-
-# Convenience name for target.
-intera_core_msgs_generate_messages_cpp: planning/CMakeFiles/intera_core_msgs_generate_messages_cpp.dir/rule
-
-.PHONY : intera_core_msgs_generate_messages_cpp
-
-# fast build rule for target.
-intera_core_msgs_generate_messages_cpp/fast:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/intera_core_msgs_generate_messages_cpp.dir/build.make planning/CMakeFiles/intera_core_msgs_generate_messages_cpp.dir/build
-.PHONY : intera_core_msgs_generate_messages_cpp/fast
-
-# Convenience name for target.
-planning/CMakeFiles/baxter_core_msgs_generate_messages_eus.dir/rule:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/baxter_core_msgs_generate_messages_eus.dir/rule
-.PHONY : planning/CMakeFiles/baxter_core_msgs_generate_messages_eus.dir/rule
-
-# Convenience name for target.
-baxter_core_msgs_generate_messages_eus: planning/CMakeFiles/baxter_core_msgs_generate_messages_eus.dir/rule
-
-.PHONY : baxter_core_msgs_generate_messages_eus
-
-# fast build rule for target.
-baxter_core_msgs_generate_messages_eus/fast:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/baxter_core_msgs_generate_messages_eus.dir/build.make planning/CMakeFiles/baxter_core_msgs_generate_messages_eus.dir/build
-.PHONY : baxter_core_msgs_generate_messages_eus/fast
-
-# Convenience name for target.
-planning/CMakeFiles/intera_motion_msgs_generate_messages_py.dir/rule:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/intera_motion_msgs_generate_messages_py.dir/rule
-.PHONY : planning/CMakeFiles/intera_motion_msgs_generate_messages_py.dir/rule
-
-# Convenience name for target.
-intera_motion_msgs_generate_messages_py: planning/CMakeFiles/intera_motion_msgs_generate_messages_py.dir/rule
-
-.PHONY : intera_motion_msgs_generate_messages_py
-
-# fast build rule for target.
-intera_motion_msgs_generate_messages_py/fast:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/intera_motion_msgs_generate_messages_py.dir/build.make planning/CMakeFiles/intera_motion_msgs_generate_messages_py.dir/build
-.PHONY : intera_motion_msgs_generate_messages_py/fast
-
-# Convenience name for target.
-planning/CMakeFiles/intera_motion_msgs_generate_messages_eus.dir/rule:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/intera_motion_msgs_generate_messages_eus.dir/rule
-.PHONY : planning/CMakeFiles/intera_motion_msgs_generate_messages_eus.dir/rule
-
-# Convenience name for target.
-intera_motion_msgs_generate_messages_eus: planning/CMakeFiles/intera_motion_msgs_generate_messages_eus.dir/rule
-
-.PHONY : intera_motion_msgs_generate_messages_eus
-
-# fast build rule for target.
-intera_motion_msgs_generate_messages_eus/fast:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/intera_motion_msgs_generate_messages_eus.dir/build.make planning/CMakeFiles/intera_motion_msgs_generate_messages_eus.dir/build
-.PHONY : intera_motion_msgs_generate_messages_eus/fast
-
-# Convenience name for target.
-planning/CMakeFiles/baxter_core_msgs_generate_messages_nodejs.dir/rule:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/baxter_core_msgs_generate_messages_nodejs.dir/rule
-.PHONY : planning/CMakeFiles/baxter_core_msgs_generate_messages_nodejs.dir/rule
-
-# Convenience name for target.
-baxter_core_msgs_generate_messages_nodejs: planning/CMakeFiles/baxter_core_msgs_generate_messages_nodejs.dir/rule
-
-.PHONY : baxter_core_msgs_generate_messages_nodejs
-
-# fast build rule for target.
-baxter_core_msgs_generate_messages_nodejs/fast:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/baxter_core_msgs_generate_messages_nodejs.dir/build.make planning/CMakeFiles/baxter_core_msgs_generate_messages_nodejs.dir/build
-.PHONY : baxter_core_msgs_generate_messages_nodejs/fast
-
-# Convenience name for target.
-planning/CMakeFiles/baxter_core_msgs_generate_messages_py.dir/rule:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/baxter_core_msgs_generate_messages_py.dir/rule
-.PHONY : planning/CMakeFiles/baxter_core_msgs_generate_messages_py.dir/rule
-
-# Convenience name for target.
-baxter_core_msgs_generate_messages_py: planning/CMakeFiles/baxter_core_msgs_generate_messages_py.dir/rule
-
-.PHONY : baxter_core_msgs_generate_messages_py
-
-# fast build rule for target.
-baxter_core_msgs_generate_messages_py/fast:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/baxter_core_msgs_generate_messages_py.dir/build.make planning/CMakeFiles/baxter_core_msgs_generate_messages_py.dir/build
-.PHONY : baxter_core_msgs_generate_messages_py/fast
-
-# Convenience name for target.
-planning/CMakeFiles/shape_msgs_generate_messages_cpp.dir/rule:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/shape_msgs_generate_messages_cpp.dir/rule
-.PHONY : planning/CMakeFiles/shape_msgs_generate_messages_cpp.dir/rule
-
-# Convenience name for target.
-shape_msgs_generate_messages_cpp: planning/CMakeFiles/shape_msgs_generate_messages_cpp.dir/rule
-
-.PHONY : shape_msgs_generate_messages_cpp
-
-# fast build rule for target.
-shape_msgs_generate_messages_cpp/fast:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/shape_msgs_generate_messages_cpp.dir/build.make planning/CMakeFiles/shape_msgs_generate_messages_cpp.dir/build
-.PHONY : shape_msgs_generate_messages_cpp/fast
-
-# Convenience name for target.
-planning/CMakeFiles/baxter_maintenance_msgs_generate_messages_nodejs.dir/rule:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/baxter_maintenance_msgs_generate_messages_nodejs.dir/rule
-.PHONY : planning/CMakeFiles/baxter_maintenance_msgs_generate_messages_nodejs.dir/rule
-
-# Convenience name for target.
-baxter_maintenance_msgs_generate_messages_nodejs: planning/CMakeFiles/baxter_maintenance_msgs_generate_messages_nodejs.dir/rule
-
-.PHONY : baxter_maintenance_msgs_generate_messages_nodejs
-
-# fast build rule for target.
-baxter_maintenance_msgs_generate_messages_nodejs/fast:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/baxter_maintenance_msgs_generate_messages_nodejs.dir/build.make planning/CMakeFiles/baxter_maintenance_msgs_generate_messages_nodejs.dir/build
-.PHONY : baxter_maintenance_msgs_generate_messages_nodejs/fast
-
-# Convenience name for target.
-planning/CMakeFiles/shape_msgs_generate_messages_nodejs.dir/rule:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/shape_msgs_generate_messages_nodejs.dir/rule
-.PHONY : planning/CMakeFiles/shape_msgs_generate_messages_nodejs.dir/rule
-
-# Convenience name for target.
-shape_msgs_generate_messages_nodejs: planning/CMakeFiles/shape_msgs_generate_messages_nodejs.dir/rule
-
-.PHONY : shape_msgs_generate_messages_nodejs
-
-# fast build rule for target.
-shape_msgs_generate_messages_nodejs/fast:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/shape_msgs_generate_messages_nodejs.dir/build.make planning/CMakeFiles/shape_msgs_generate_messages_nodejs.dir/build
-.PHONY : shape_msgs_generate_messages_nodejs/fast
-
-# Convenience name for target.
-planning/CMakeFiles/baxter_maintenance_msgs_generate_messages_py.dir/rule:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/baxter_maintenance_msgs_generate_messages_py.dir/rule
-.PHONY : planning/CMakeFiles/baxter_maintenance_msgs_generate_messages_py.dir/rule
-
-# Convenience name for target.
-baxter_maintenance_msgs_generate_messages_py: planning/CMakeFiles/baxter_maintenance_msgs_generate_messages_py.dir/rule
-
-.PHONY : baxter_maintenance_msgs_generate_messages_py
-
-# fast build rule for target.
-baxter_maintenance_msgs_generate_messages_py/fast:
-	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/baxter_maintenance_msgs_generate_messages_py.dir/build.make planning/CMakeFiles/baxter_maintenance_msgs_generate_messages_py.dir/build
-.PHONY : baxter_maintenance_msgs_generate_messages_py/fast
+intera_core_msgs_generate_messages_eus/fast:
+	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/intera_core_msgs_generate_messages_eus.dir/build.make planning/CMakeFiles/intera_core_msgs_generate_messages_eus.dir/build
+.PHONY : intera_core_msgs_generate_messages_eus/fast
 
 # Convenience name for target.
 planning/CMakeFiles/intera_core_msgs_generate_messages_lisp.dir/rule:
@@ -1170,6 +765,186 @@ moveit_msgs_generate_messages_lisp/fast:
 	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/moveit_msgs_generate_messages_lisp.dir/build.make planning/CMakeFiles/moveit_msgs_generate_messages_lisp.dir/build
 .PHONY : moveit_msgs_generate_messages_lisp/fast
 
+# Convenience name for target.
+planning/CMakeFiles/moveit_msgs_generate_messages_nodejs.dir/rule:
+	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/moveit_msgs_generate_messages_nodejs.dir/rule
+.PHONY : planning/CMakeFiles/moveit_msgs_generate_messages_nodejs.dir/rule
+
+# Convenience name for target.
+moveit_msgs_generate_messages_nodejs: planning/CMakeFiles/moveit_msgs_generate_messages_nodejs.dir/rule
+
+.PHONY : moveit_msgs_generate_messages_nodejs
+
+# fast build rule for target.
+moveit_msgs_generate_messages_nodejs/fast:
+	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/moveit_msgs_generate_messages_nodejs.dir/build.make planning/CMakeFiles/moveit_msgs_generate_messages_nodejs.dir/build
+.PHONY : moveit_msgs_generate_messages_nodejs/fast
+
+# Convenience name for target.
+planning/CMakeFiles/moveit_msgs_generate_messages_py.dir/rule:
+	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/moveit_msgs_generate_messages_py.dir/rule
+.PHONY : planning/CMakeFiles/moveit_msgs_generate_messages_py.dir/rule
+
+# Convenience name for target.
+moveit_msgs_generate_messages_py: planning/CMakeFiles/moveit_msgs_generate_messages_py.dir/rule
+
+.PHONY : moveit_msgs_generate_messages_py
+
+# fast build rule for target.
+moveit_msgs_generate_messages_py/fast:
+	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/moveit_msgs_generate_messages_py.dir/build.make planning/CMakeFiles/moveit_msgs_generate_messages_py.dir/build
+.PHONY : moveit_msgs_generate_messages_py/fast
+
+# Convenience name for target.
+planning/CMakeFiles/octomap_msgs_generate_messages_nodejs.dir/rule:
+	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/octomap_msgs_generate_messages_nodejs.dir/rule
+.PHONY : planning/CMakeFiles/octomap_msgs_generate_messages_nodejs.dir/rule
+
+# Convenience name for target.
+octomap_msgs_generate_messages_nodejs: planning/CMakeFiles/octomap_msgs_generate_messages_nodejs.dir/rule
+
+.PHONY : octomap_msgs_generate_messages_nodejs
+
+# fast build rule for target.
+octomap_msgs_generate_messages_nodejs/fast:
+	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/octomap_msgs_generate_messages_nodejs.dir/build.make planning/CMakeFiles/octomap_msgs_generate_messages_nodejs.dir/build
+.PHONY : octomap_msgs_generate_messages_nodejs/fast
+
+# Convenience name for target.
+planning/CMakeFiles/trajectory_msgs_generate_messages_cpp.dir/rule:
+	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/trajectory_msgs_generate_messages_cpp.dir/rule
+.PHONY : planning/CMakeFiles/trajectory_msgs_generate_messages_cpp.dir/rule
+
+# Convenience name for target.
+trajectory_msgs_generate_messages_cpp: planning/CMakeFiles/trajectory_msgs_generate_messages_cpp.dir/rule
+
+.PHONY : trajectory_msgs_generate_messages_cpp
+
+# fast build rule for target.
+trajectory_msgs_generate_messages_cpp/fast:
+	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/trajectory_msgs_generate_messages_cpp.dir/build.make planning/CMakeFiles/trajectory_msgs_generate_messages_cpp.dir/build
+.PHONY : trajectory_msgs_generate_messages_cpp/fast
+
+# Convenience name for target.
+planning/CMakeFiles/shape_msgs_generate_messages_eus.dir/rule:
+	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/shape_msgs_generate_messages_eus.dir/rule
+.PHONY : planning/CMakeFiles/shape_msgs_generate_messages_eus.dir/rule
+
+# Convenience name for target.
+shape_msgs_generate_messages_eus: planning/CMakeFiles/shape_msgs_generate_messages_eus.dir/rule
+
+.PHONY : shape_msgs_generate_messages_eus
+
+# fast build rule for target.
+shape_msgs_generate_messages_eus/fast:
+	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/shape_msgs_generate_messages_eus.dir/build.make planning/CMakeFiles/shape_msgs_generate_messages_eus.dir/build
+.PHONY : shape_msgs_generate_messages_eus/fast
+
+# Convenience name for target.
+planning/CMakeFiles/shape_msgs_generate_messages_lisp.dir/rule:
+	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/shape_msgs_generate_messages_lisp.dir/rule
+.PHONY : planning/CMakeFiles/shape_msgs_generate_messages_lisp.dir/rule
+
+# Convenience name for target.
+shape_msgs_generate_messages_lisp: planning/CMakeFiles/shape_msgs_generate_messages_lisp.dir/rule
+
+.PHONY : shape_msgs_generate_messages_lisp
+
+# fast build rule for target.
+shape_msgs_generate_messages_lisp/fast:
+	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/shape_msgs_generate_messages_lisp.dir/build.make planning/CMakeFiles/shape_msgs_generate_messages_lisp.dir/build
+.PHONY : shape_msgs_generate_messages_lisp/fast
+
+# Convenience name for target.
+planning/CMakeFiles/baxter_maintenance_msgs_generate_messages_py.dir/rule:
+	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/baxter_maintenance_msgs_generate_messages_py.dir/rule
+.PHONY : planning/CMakeFiles/baxter_maintenance_msgs_generate_messages_py.dir/rule
+
+# Convenience name for target.
+baxter_maintenance_msgs_generate_messages_py: planning/CMakeFiles/baxter_maintenance_msgs_generate_messages_py.dir/rule
+
+.PHONY : baxter_maintenance_msgs_generate_messages_py
+
+# fast build rule for target.
+baxter_maintenance_msgs_generate_messages_py/fast:
+	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/baxter_maintenance_msgs_generate_messages_py.dir/build.make planning/CMakeFiles/baxter_maintenance_msgs_generate_messages_py.dir/build
+.PHONY : baxter_maintenance_msgs_generate_messages_py/fast
+
+# Convenience name for target.
+planning/CMakeFiles/shape_msgs_generate_messages_nodejs.dir/rule:
+	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/shape_msgs_generate_messages_nodejs.dir/rule
+.PHONY : planning/CMakeFiles/shape_msgs_generate_messages_nodejs.dir/rule
+
+# Convenience name for target.
+shape_msgs_generate_messages_nodejs: planning/CMakeFiles/shape_msgs_generate_messages_nodejs.dir/rule
+
+.PHONY : shape_msgs_generate_messages_nodejs
+
+# fast build rule for target.
+shape_msgs_generate_messages_nodejs/fast:
+	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/shape_msgs_generate_messages_nodejs.dir/build.make planning/CMakeFiles/shape_msgs_generate_messages_nodejs.dir/build
+.PHONY : shape_msgs_generate_messages_nodejs/fast
+
+# Convenience name for target.
+planning/CMakeFiles/octomap_msgs_generate_messages_eus.dir/rule:
+	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/octomap_msgs_generate_messages_eus.dir/rule
+.PHONY : planning/CMakeFiles/octomap_msgs_generate_messages_eus.dir/rule
+
+# Convenience name for target.
+octomap_msgs_generate_messages_eus: planning/CMakeFiles/octomap_msgs_generate_messages_eus.dir/rule
+
+.PHONY : octomap_msgs_generate_messages_eus
+
+# fast build rule for target.
+octomap_msgs_generate_messages_eus/fast:
+	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/octomap_msgs_generate_messages_eus.dir/build.make planning/CMakeFiles/octomap_msgs_generate_messages_eus.dir/build
+.PHONY : octomap_msgs_generate_messages_eus/fast
+
+# Convenience name for target.
+planning/CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/rule:
+	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/rule
+.PHONY : planning/CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/rule
+
+# Convenience name for target.
+object_recognition_msgs_generate_messages_cpp: planning/CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/rule
+
+.PHONY : object_recognition_msgs_generate_messages_cpp
+
+# fast build rule for target.
+object_recognition_msgs_generate_messages_cpp/fast:
+	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/build.make planning/CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/build
+.PHONY : object_recognition_msgs_generate_messages_cpp/fast
+
+# Convenience name for target.
+planning/CMakeFiles/object_recognition_msgs_generate_messages_eus.dir/rule:
+	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/object_recognition_msgs_generate_messages_eus.dir/rule
+.PHONY : planning/CMakeFiles/object_recognition_msgs_generate_messages_eus.dir/rule
+
+# Convenience name for target.
+object_recognition_msgs_generate_messages_eus: planning/CMakeFiles/object_recognition_msgs_generate_messages_eus.dir/rule
+
+.PHONY : object_recognition_msgs_generate_messages_eus
+
+# fast build rule for target.
+object_recognition_msgs_generate_messages_eus/fast:
+	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/object_recognition_msgs_generate_messages_eus.dir/build.make planning/CMakeFiles/object_recognition_msgs_generate_messages_eus.dir/build
+.PHONY : object_recognition_msgs_generate_messages_eus/fast
+
+# Convenience name for target.
+planning/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/rule:
+	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/rule
+.PHONY : planning/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/rule
+
+# Convenience name for target.
+object_recognition_msgs_generate_messages_lisp: planning/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/rule
+
+.PHONY : object_recognition_msgs_generate_messages_lisp
+
+# fast build rule for target.
+object_recognition_msgs_generate_messages_lisp/fast:
+	cd /home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/build && $(MAKE) -f planning/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/build.make planning/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/build
+.PHONY : object_recognition_msgs_generate_messages_lisp/fast
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -1180,69 +955,41 @@ help:
 	@echo "... install"
 	@echo "... rebuild_cache"
 	@echo "... install/strip"
-	@echo "... tf2_msgs_generate_messages_nodejs"
-	@echo "... tf2_msgs_generate_messages_lisp"
-	@echo "... tf2_msgs_generate_messages_eus"
 	@echo "... octomap_msgs_generate_messages_py"
 	@echo "... octomap_msgs_generate_messages_lisp"
 	@echo "... octomap_msgs_generate_messages_cpp"
 	@echo "... object_recognition_msgs_generate_messages_py"
-	@echo "... object_recognition_msgs_generate_messages_nodejs"
-	@echo "... object_recognition_msgs_generate_messages_lisp"
-	@echo "... object_recognition_msgs_generate_messages_eus"
-	@echo "... octomap_msgs_generate_messages_eus"
-	@echo "... object_recognition_msgs_generate_messages_cpp"
-	@echo "... shape_msgs_generate_messages_py"
-	@echo "... shape_msgs_generate_messages_lisp"
-	@echo "... moveit_msgs_generate_messages_py"
-	@echo "... trajectory_msgs_generate_messages_py"
+	@echo "... baxter_core_msgs_generate_messages_py"
+	@echo "... baxter_core_msgs_generate_messages_eus"
+	@echo "... intera_motion_msgs_generate_messages_py"
+	@echo "... baxter_core_msgs_generate_messages_cpp"
+	@echo "... baxter_core_msgs_generate_messages_lisp"
+	@echo "... edit_cache"
+	@echo "... intera_core_msgs_generate_messages_cpp"
 	@echo "... baxter_maintenance_msgs_generate_messages_eus"
+	@echo "... trajectory_msgs_generate_messages_py"
+	@echo "... control_msgs_generate_messages_eus"
+	@echo "... shape_msgs_generate_messages_py"
+	@echo "... intera_interface_gencfg"
+	@echo "... intera_motion_msgs_generate_messages_nodejs"
+	@echo "... baxter_maintenance_msgs_generate_messages_nodejs"
+	@echo "... shape_msgs_generate_messages_cpp"
+	@echo "... control_msgs_generate_messages_cpp"
+	@echo "... control_msgs_generate_messages_nodejs"
 	@echo "... trajectory_msgs_generate_messages_eus"
-	@echo "... test"
-	@echo "... octomap_msgs_generate_messages_nodejs"
-	@echo "... shape_msgs_generate_messages_eus"
-	@echo "... trajectory_msgs_generate_messages_cpp"
-	@echo "... intera_core_msgs_generate_messages_nodejs"
 	@echo "... intera_motion_msgs_generate_messages_cpp"
 	@echo "... control_msgs_generate_messages_py"
 	@echo "... install/local"
 	@echo "... trajectory_msgs_generate_messages_nodejs"
 	@echo "... baxter_interface_gencfg"
 	@echo "... moveit_msgs_generate_messages_eus"
-	@echo "... control_msgs_generate_messages_nodejs"
-	@echo "... actionlib_msgs_generate_messages_py"
-	@echo "... moveit_msgs_generate_messages_nodejs"
-	@echo "... control_msgs_generate_messages_eus"
-	@echo "... actionlib_msgs_generate_messages_eus"
-	@echo "... actionlib_generate_messages_lisp"
-	@echo "... actionlib_msgs_generate_messages_lisp"
-	@echo "... intera_core_msgs_generate_messages_eus"
-	@echo "... actionlib_generate_messages_cpp"
-	@echo "... tf2_msgs_generate_messages_py"
-	@echo "... actionlib_msgs_generate_messages_nodejs"
+	@echo "... intera_core_msgs_generate_messages_nodejs"
+	@echo "... baxter_core_msgs_generate_messages_nodejs"
+	@echo "... intera_motion_msgs_generate_messages_eus"
 	@echo "... control_msgs_generate_messages_lisp"
 	@echo "... trajectory_msgs_generate_messages_lisp"
-	@echo "... control_msgs_generate_messages_cpp"
-	@echo "... actionlib_generate_messages_py"
-	@echo "... actionlib_generate_messages_nodejs"
-	@echo "... actionlib_msgs_generate_messages_cpp"
-	@echo "... intera_interface_gencfg"
-	@echo "... intera_motion_msgs_generate_messages_nodejs"
-	@echo "... actionlib_generate_messages_eus"
-	@echo "... baxter_core_msgs_generate_messages_cpp"
-	@echo "... tf2_msgs_generate_messages_cpp"
-	@echo "... baxter_core_msgs_generate_messages_lisp"
-	@echo "... edit_cache"
-	@echo "... intera_core_msgs_generate_messages_cpp"
-	@echo "... baxter_core_msgs_generate_messages_eus"
-	@echo "... intera_motion_msgs_generate_messages_py"
-	@echo "... intera_motion_msgs_generate_messages_eus"
-	@echo "... baxter_core_msgs_generate_messages_nodejs"
-	@echo "... baxter_core_msgs_generate_messages_py"
-	@echo "... shape_msgs_generate_messages_cpp"
-	@echo "... baxter_maintenance_msgs_generate_messages_nodejs"
-	@echo "... shape_msgs_generate_messages_nodejs"
-	@echo "... baxter_maintenance_msgs_generate_messages_py"
+	@echo "... object_recognition_msgs_generate_messages_nodejs"
+	@echo "... intera_core_msgs_generate_messages_eus"
 	@echo "... intera_core_msgs_generate_messages_lisp"
 	@echo "... baxter_maintenance_msgs_generate_messages_lisp"
 	@echo "... intera_core_msgs_generate_messages_py"
@@ -1250,6 +997,19 @@ help:
 	@echo "... baxter_maintenance_msgs_generate_messages_cpp"
 	@echo "... moveit_msgs_generate_messages_cpp"
 	@echo "... moveit_msgs_generate_messages_lisp"
+	@echo "... moveit_msgs_generate_messages_nodejs"
+	@echo "... moveit_msgs_generate_messages_py"
+	@echo "... test"
+	@echo "... octomap_msgs_generate_messages_nodejs"
+	@echo "... trajectory_msgs_generate_messages_cpp"
+	@echo "... shape_msgs_generate_messages_eus"
+	@echo "... shape_msgs_generate_messages_lisp"
+	@echo "... baxter_maintenance_msgs_generate_messages_py"
+	@echo "... shape_msgs_generate_messages_nodejs"
+	@echo "... octomap_msgs_generate_messages_eus"
+	@echo "... object_recognition_msgs_generate_messages_cpp"
+	@echo "... object_recognition_msgs_generate_messages_eus"
+	@echo "... object_recognition_msgs_generate_messages_lisp"
 .PHONY : help
 
 

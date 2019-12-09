@@ -1,0 +1,8 @@
+prefix=/home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/install
+
+Name: ar_track_alvar_msgs
+Description: Description of ar_track_alvar_msgs
+Version: 0.7.1
+Cflags: -I/home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/install/include
+Libs: -L/home/cc/ee106a/fa19/class/ee106a-abs/ros_workspaces/tetrisBot/106A-Project/install/lib 
+Requires: message_runtime std_msgs geometry_msgs

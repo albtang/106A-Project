@@ -13,12 +13,13 @@ COLORS = {
     "green": [[40,60,60], [70,255,255]],
     "black": [[0, 0, 0], [180, 230, 30]],
     "purple": [[140, 100, 100], [160, 255, 255]],
-    "wood": [[10, 50, 175], [21, 150, 240]]
+    "wood": [[10, 30, 70], [21, 150, 255]],
+    "white": [[0,30,205], [166,100,255]]
 }
 
 def segment_by_color(image, color):
     # img = cv2.imread(image)
-    img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+    img = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
     mask = None
     if color == "red":
         low = color + "_low"
@@ -28,13 +29,39 @@ def segment_by_color(image, color):
         mask = mask1 + mask2
     else:
         mask = cv2.inRange(img, np.array(COLORS[color][0]), np.array(COLORS[color][1]))
-    # return mask
-    masked_img = cv2.bitwise_and(cv_image, cv_image, mask = mask)
-    image, contours, hierarchy = cv2.findContours(masked_img,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
-    img = cv2.drawContours(img, contours, -1, (0,255,0), 3)
-    # plt.imshow(mask, cmap='gray')
-    # plt.title("Segmentation by %s" % color)
+    return mask
+    plt.imshow(img, cmap='gray')
+    plt.title("Segmentation by %s" % color)
+    plt.show()
+
+def mask_white(mask, image):
+    masked_img = cv2.bitwise_and(image, image, mask = mask)
+    masked_img = cv2.cvtColor(masked_img, cv2.COLOR_BGR2GRAY)
+    masked_img = cv2.inRange(image, np.array(COLORS['white'][0]), np.array(COLORS['white'][1]))
+    return masked_img
+
+def contours(mask, cv_image):
+    image, contours, hierarchy = cv2.findContours(mask,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
+    cnt_image = cv2.drawContours(cv_image, contours, -1, (0,255,0), 3)
+    # cnts = contours[0]
+    # print(len(contours))
+    # x,y,w,h = cv2.boundingRect(cnts)
+    # cv2.circle(image,(x,y), 3, (0,0,255), -1)
+    # cv2.circle(image,(x+w,y), 3, (0,0,255), -1)
+    # cv2.circle(image,(x+w,y+h), 3, (0,0,255), -1)
+    # cv2.circle(image,(x,y+h), 3, (0,0,255), -1)
+    # # # cv2.imshow("Corners of grid", image)
+    # plt.imshow(cnt_image)
     # plt.show()
+    return contours, cnt_image
+
+def corners(img, color):
+    mask = segment_by_color(img, color)
+    gray = np.float32(mask)
+    dst = cv2.cornerHarris(gray, 2, 3, 0.04)
+    # cv2.imshow('dst',img)
+    # if cv2.waitKey(0) & 0xff == 27:
+    #     cv2.destroyAllWindows()
 
 if __name__ == '__main__':
     test = './testdata/test.jpg'
@@ -43,6 +70,9 @@ if __name__ == '__main__':
     crossed = './testdata/crossed.jpg'
     cross = './testdata/cross.jpg'
     wood = './testdata/wood.jpg'
-    image = cv2.imread(wood)
-    segment_by_color(image, "wood")
+    table = './testdata/table2.jpg'
+    image = cv2.imread(table)
+    mask = segment_by_color(image, "wood")
+    contours(mask, image)
+    # corners(image, "wood")
    
