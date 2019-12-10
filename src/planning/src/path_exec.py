@@ -23,6 +23,7 @@ from path_planner import PathPlanner
 # from controller import Controller
 from final_calculation import decipher_final_configuration
 
+
 def main():
     """
     Main Script

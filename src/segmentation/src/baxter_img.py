@@ -21,11 +21,6 @@ length = 30
 conversion = 2.54/100
 HOMOGRAPHY_DEST = np.array([[0.0,0.0],[3600.0, 0.0], [0.0, 3000.0],[3600.0, 3000.0]])
 
-# right_hand_camera values
-# - Translation: [0.403, 0.288, 0.225]
-# - Rotation: in Quaternion [0.424, 0.867, -0.133, 0.228]
-#             in RPY (radian) [-3.098, 0.532, 2.244]
-#             in RPY (degree) [-177.491, 30.484, 128.585]
 
 bridge = CvBridge()
 
