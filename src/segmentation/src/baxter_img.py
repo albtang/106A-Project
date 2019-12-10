@@ -19,7 +19,7 @@ IMAGE_SUB_TOPIC = '/cameras/right_hand_camera/image'
 width = 36
 length = 30
 conversion = 2.54/100
-HOMOGRAPHY_DEST = [[0, 0], [0, (length*2.54)/100], [(width*2.54)/100, 0], [(width*2.54)/100, (length*2.54)/100]]
+HOMOGRAPHY_DEST = np.array([[0.0,0.0],[3600.0, 0.0], [0.0, 3000.0],[3600.0, 3000.0]])
 
 # right_hand_camera values
 # - Translation: [0.403, 0.288, 0.225]
@@ -28,33 +28,55 @@ HOMOGRAPHY_DEST = [[0, 0], [0, (length*2.54)/100], [(width*2.54)/100, 0], [(widt
 #             in RPY (degree) [-177.491, 30.484, 128.585]
 
 bridge = CvBridge()
-# homography = None
-# numCorners = 0
 
 class BaxterImage():
     def __init__(self):
-        self.numCorners = 0
-        self.homography = None
+        self.corners = None
+        self.H = None
+        self.numConverge = 0
 
     def image_callback(self, img_msg):
         try:
             cv_image = bridge.imgmsg_to_cv2(img_msg, "bgr8")
-            # if self.numCorners == 0:
-            #     thresh = grayscale(cv_image)
-            #     cnt = contours(thresh, cv_image)
-            #     crnrs = corners(cv_image, cnt)
-            #     self.homography = cv2.findHomography(np.array(crnrs), np.array(HOMOGRAPHY_DEST))
-            #     # print(self.homography)
-            #     self.numCorners += 1
+            # if not self.corners:
+            thresh = grayscale(cv_image)
+            cnt = contours(thresh, cv_image)
+            crnrs = corners(cv_image, cnt)
+            self.H, status = cv2.findHomography(np.array(crnrs), np.array(HOMOGRAPHY_DEST))
+            print(type(self.H))
+            print(self.H)
+            self.corners = crnrs
+            if self.numConverge < 10:
+                homography, status = cv2.findHomography(np.array(self.corners), np.array(HOMOGRAPHY_DEST))
+                if np.allclose(self.H, homography, atol=.1):
+                    self.numConverge += 1
+                self.H = homography
         except CvBridgeError as e:
             print(e)
-        # mask = segment_by_color(cv_image, "purple")
+        mask = segment_by_color(cv_image, "purple")
+        self.homography(cv_image)
         cv2.imshow('image', cv_image)
         
         cv2.waitKey(1)
 
-    def homography(self, img1, img2):
-        return None
+    def homography(self, img):
+        #---- 4 corner points of the bounding box
+        pts_src = np.array(self.corners)
+
+        #---- 4 corner points of the black image you want to impose it on
+        pts_dst = HOMOGRAPHY_DEST #np.array([[0.0,3000.0],[3600.0, 3000.0],[ 0.0,0.0],[3600.0, 0.0]])
+
+        #---- forming the black image of specific size
+        im_dst = np.zeros((3001, 3601, 3), np.uint8)
+
+        #---- transforming the image bound in the rectangle to straighten
+        image = cv2.warpPerspective(img, self.H, (im_dst.shape[1],im_dst.shape[0]))
+        cv2.imwrite("image.jpg", image)
+
+        #find midpoint of pieces
+        #use homography matrix to transform into x, y in straightened image
+
+        #use ar tag to find x, y in real life
 
     def getRealPosition(self):
         return None

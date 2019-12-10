@@ -7,15 +7,15 @@ import matplotlib.pyplot as plt
 COLORS = {
     "red_low": [[0, 100, 100], [10, 255, 255]],
     "red_high": [[160, 100, 100], [179, 255, 255]],
-    "orange": [[15, 100, 100], [20, 255, 255]],
-    "yellow": [[25, 100, 100], [45, 255, 255]],
-    "blue": [[110,50,100], [130,255,240]],
-    "green": [[40,60,60], [70,255,255]],
-    "black": [[0, 0, 0], [180, 230, 30]],
-    "purple": [[150, 70, 80], [170, 255, 255]],
-    "wood": [[0, 0, 100], [21, 150, 255]],
-    "bleach": [[0, 0, 100], [0, 50, 255]],
-    "white": [[0,30,205], [166,100,255]]
+    # "orange": [[15, 100, 100], [20, 255, 255]],
+    # "yellow": [[25, 100, 100], [45, 255, 255]],
+    "blue": [[97,79,35], [123,149,100]],
+    "green": [[59,44,94], [93,92,150]],
+    # "black": [[0, 0, 0], [180, 230, 30]],
+    "purple": [[130, 70, 70], [160, 255, 255]],
+    # "wood": [[0, 0, 100], [21, 150, 255]],
+    # "bleach": [[0, 0, 100], [0, 50, 255]],
+    # "white": [[0,30,205], [166,100,255]]
 }
 
 def segment_by_color(image, color):
@@ -30,7 +30,7 @@ def segment_by_color(image, color):
         mask = mask1 + mask2
     else:
         mask = cv2.inRange(img, np.array(COLORS[color][0]), np.array(COLORS[color][1]))
-    # return mask
+    return mask
     plt.imshow(mask, cmap='gray')
     plt.title("Segmentation by %s" % color)
     plt.show()
@@ -68,16 +68,29 @@ def corners(img, cnts):
     top = tuple(cnts[cnts[:, :, 1].argmin()][0])
     bottom = tuple(cnts[cnts[:, :, 1].argmax()][0])
     cv2.drawContours(img, [cnts], -1, (0, 255, 255), 2)
-    cv2.circle(img, left, 8, (0, 0, 255), -1)
-    cv2.circle(img, right, 8, (0, 255, 0), -1)
-    cv2.circle(img, top, 8, (255, 0, 0), -1)
-    cv2.circle(img, bottom, 8, (255, 255, 0), -1)
+    cv2.circle(img, left, 8, (0, 0, 255), -1) #red
+    cv2.circle(img, right, 8, (0, 255, 0), -1) #green
+    cv2.circle(img, top, 8, (255, 0, 0), -1) #blue
+    cv2.circle(img, bottom, 8, (255, 255, 0), -1) #cyan
+    print([left, right, top, bottom])
 
-    return [left, right, top, bottom]
+    return [left, bottom, top, right]
  
     # show the output image
     # plt.imshow(img)
     # plt.show()
+
+def midpoint(img, cnts):
+    min_x = cnts[cnts[:, :, 0].argmin()][0][0]
+    max_x = cnts[cnts[:, :, 0].argmax()][0][0]
+    min_y = cnts[cnts[:, :, 1].argmin()][0][1]
+    max_y = cnts[cnts[:, :, 1].argmax()][0][1]
+    x_coord = min_x + (max_x - min_x) / 2
+    y_coord = min_y + (max_y - min_y) / 2
+
+    cv2.circle(img, tuple([x_coord, y_coord]), 8, (255, 255, 255), -1)
+    plt.imshow(img)
+    plt.show()
 
 
 if __name__ == '__main__':
@@ -96,8 +109,9 @@ if __name__ == '__main__':
     # grayscale(image)
     # thresh = grayscale(image)
     # contours = contours(thresh, image)
-    segment_by_color(image, "blue")
+    mask = segment_by_color(image, "red")
     # mask = segment_by_color(image, "wood")
-    # contours(mask, image) 
-    # corners(image, contours)
+    cnts = contours(mask, image)
+    crnrs = corners(image, cnts)
+    midpoint(image, cnts)
    

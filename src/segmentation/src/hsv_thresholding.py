@@ -1,6 +1,8 @@
+#!/usr/bin/env python
 import cv2
 import sys
 import numpy as np
+import matplotlib.pyplot as plt
 
 def nothing(x):
     pass
@@ -79,6 +81,7 @@ while(1):
 
     # Display output image
     cv2.imshow('image',output)
+    # plt.show()
 
     # Wait longer to prevent freeze for videos.
     if cv2.waitKey(waitTime) & 0xFF == ord('q'):
