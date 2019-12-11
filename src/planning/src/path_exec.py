@@ -4,14 +4,8 @@ Path Planning Script for project
 Author: Parth Baokar, Jasmine Le, Albert Tang, Justin Villamor, Teresa Yang, Valmik Prabhu
 """
 import sys
-assert sys.argv[1] in ("sawyer", "baxter")
-ROBOT = sys.argv[1]
 
-if ROBOT == "baxter":
-    from baxter_interface import Limb, gripper as robot_gripper
-else:
-    from intera_interface import Limb, gripper as robot_gripper
-
+from baxter_interface import Limb, gripper as robot_gripper
 import rospy
 import numpy as np
 import traceback
@@ -23,12 +17,16 @@ from path_planner import PathPlanner
 # from controller import Controller
 from final_calculation import decipher_final_configuration
 
-# Ros Set Up
+### GLOBAL VARIABLES ###
+
 NODE = 'moveit_node'
 OBJECTS_SUB_TOPIC = "detected_objects"
-rospy.init_node(NODE)
 
-#TODO: add the rest of the colors
+"""
+A mapping from color to piece letter
+Used for processing actual configuration information from segmentation
+TODO: add the rest of the colors when necessary
+"""
 ColorMapping = {
     "blue" : "O",
     "red" : "L",
@@ -38,7 +36,7 @@ ColorMapping = {
 """
 Code to parse output from CV and passes a dictionary that maps Piece letters to Poses to main()
 Input: String goals
-Output: Dictionary actual {Piece letters : PoseStamped Messages} that contain initial/actual poses for each piece
+Calls: main() with Dictionary actual {Piece letters : PoseStamped Messages} that contain initial/actual poses for each piece
 Assumptions: pieces are unique and objects_msg is formatted correctly
 """
 def parseActual(objects_msg):
@@ -48,12 +46,10 @@ def parseActual(objects_msg):
         piece = PoseStamped()
         piece.header.frame_id = "base"
         piece.pose = pose
-        actual[colors[0]] = piece
+        actual[ColorMapping[colors[0]]] = piece
         colors.pop(0)
     actual_subscriber.shutdown()
     main(actual)
-    
-actual_subscriber = rospy.Subscriber(OBJECTS_SUB_TOPIC, PoseArray, parseActual)
 
 """
 Code to parse user input for goals and return a dictionary that maps Piece letters to Poses
@@ -117,7 +113,12 @@ def actuate(actual, goals):
     orien_const.absolute_z_axis_tolerance = 0.1;
     orien_const.weight = 1.0;
 
+    # List of letters corresponding to the pieces in the actual configuration
     actual_list = actual.keys()
+    
+    # Creation of a copy PoseStamped message to use for z translation
+    above = PoseStamped()
+    above.header.frame_id = "base"
 
     raw_input("Press <Enter> to move the right arm to pick up a piece: ")
     while not rospy.is_shutdown() and len(actual_list) > 0:
@@ -129,18 +130,21 @@ def actuate(actual, goals):
         while not rospy.is_shutdown() and not picked:
             try:
                 original = actual[piece]
+
+                # Setting above's value to correspond to just above original position
+                above.pose.position.x = original.pose.position.x
+                above.pose.position.y = original.pose.position.y
+                above.pose.position.z = original.pose.position.z + 0.2
+                above.pose.orientation = original.pose.orientation
+
                 # Pick up the piece in the original position
                 if not in_hand:
                     # Translate over such that the piece is above the actual position
-                    original.pose.position.z += .2
-                    plan = planner.plan_to_pose(original, [orien_const])
+                    plan = planner.plan_to_pose(above, [orien_const])
                     if not planner.execute_plan(plan):
-                        # Reset position of z such that if the loop fails, we haven't mutated it
-                        original.pose.position.z -= .2
                         raise Exception("Execution failed")
 
                     # Actually pick up the piece
-                    original.pose.position.z -= .2
                     plan = planner.plan_to_pose(original, [orien_const])
                     if not planner.execute_plan(plan):
                         raise Exception("Execution failed")
@@ -150,11 +154,8 @@ def actuate(actual, goals):
                     in_hand = True
 
                 # Raise the arm a little bit so that other pieces are not affected
-                original.pose.position.z += .2
-                plan = planner.plan_to_pose(original, [orien_const])
+                plan = planner.plan_to_pose(above, [orien_const])
                 if not planner.execute_plan(plan):
-                    # Reset position of z such that if the loop fails, we haven't mutated it
-                    original.pose.position.z -= .2
                     raise Exception("Execution failed")
 
                 picked = True
@@ -176,17 +177,19 @@ def actuate(actual, goals):
                 goal = goals.get(piece)[0]
                 print(goal)
 
+                # Setting above's value to correspond to just above original position
+                above.pose.position.x = goal.pose.position.x
+                above.pose.position.y = goal.pose.position.y
+                above.pose.position.z = goal.pose.position.z + 0.2
+                above.pose.orientation = goal.pose.orientation
+
                 if in_hand:
                     # Translate over such that the piece is above the desired position
-                    goal.pose.position.z += .2
-                    plan = planner.plan_to_pose(goal, [orien_const])
+                    plan = planner.plan_to_pose(above, [orien_const])
                     if not planner.execute_plan(plan):
-                        # Reset position of z such that if the loop fails, we haven't mutated it
-                        goal.pose.position.z -= .2
                         raise Exception("Execution failed")
 
                     # Actually place the piece on table
-                    goal.pose.position.z -= .2
                     plan = planner.plan_to_pose(goal, [orien_const])
                     if not planner.execute_plan(plan):
                         raise Exception("Execution failed")
@@ -196,11 +199,8 @@ def actuate(actual, goals):
                     in_hand = False
 
                 # Raise the arm a little bit so that other pieces are not affected
-                goal.pose.position.z += .2
-                plan = planner.plan_to_pose(goal, [orien_const])
+                plan = planner.plan_to_pose(above, [orien_const])
                 if not planner.execute_plan(plan):
-                    # Reset position of z such that if the loop fails, we haven't mutated it
-                    goal.pose.position.z -= .2
                     raise Exception("Execution failed")
 
                 temp = goals.get(piece).pop(0)
@@ -220,28 +220,26 @@ def actuate(actual, goals):
             goals.insert(0, temp)
 
 """
-Given actual, will prompt user for goals and pass in appropriate params to actuate
+Given actual, will prompt user for goals and pass in appropriate params to actuate()
 Input: Dictionary actual {Piece letters : PoseStamped Messages} that contain initial/actual poses for each piece
+Calls: actuate()
 """
 def main(actual):
-
-    # Get the initial position and orientation of each piece ###PARTH"S FUNCTION
     # x, y, z = 0.47, -0.85, 0.07
     x, y, z = 0.6, -0.4, -.1
     # x, y, z = .68,-0.85,-0.1
     
+    # DUMMY POSE
     original = PoseStamped()
     original.header.frame_id = "base"
-
-    # x, y, and z position
     original.pose.position.x = x
     original.pose.position.y = y
     original.pose.position.z = z
-    # Orientation as a quaternion
     original.pose.orientation.x = 0.0
     original.pose.orientation.y = -1.0
     original.pose.orientation.z = 0.0
     original.pose.orientation.w = 0.0
+
     actual = {"L" : original, "O": original, "Z": original, "S": original, "I": original}
 
     # Get the desired position and orientation of each piece by parsing the desired string
@@ -261,4 +259,6 @@ def main(actual):
     #     # goals = raw_input("Enter in a 2D matrix of your desired layout, with each element separated by spaces and each row separated by periods: ")
 
 if __name__ == '__main__':
+    rospy.init_node(NODE)
+    actual_subscriber = rospy.Subscriber(OBJECTS_SUB_TOPIC, PoseArray, parseActual)
     main("")
