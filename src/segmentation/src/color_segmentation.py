@@ -43,7 +43,7 @@ def segment_by_color(image, color):
 
 def grayscale(image):
     img = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    ret, thresh = cv2.threshold(img,170,255,cv2.THRESH_BINARY_INV)
+    ret, thresh = cv2.threshold(img,100,255,cv2.THRESH_BINARY_INV)
     return thresh
     # plt.imshow(thresh)
     # plt.show()
@@ -72,7 +72,7 @@ def corners(img, cnts):
     cv2.circle(img, right, 8, (0, 255, 0), -1) #green
     cv2.circle(img, top, 8, (255, 0, 0), -1) #blue
     cv2.circle(img, bottom, 8, (255, 255, 0), -1) #cyan
-    print([left, right, top, bottom])
+    # print([left, right, top, bottom])
 
     return [left, bottom, top, right]
  

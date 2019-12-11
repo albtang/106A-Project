@@ -7,6 +7,7 @@ roslib.load_manifest("moveit_python")
 import numpy as np
 import cv2
 import cmath
+from ar_track_alvar_msgs.msg import AlvarMarkers
 from geometry_msgs.msg import Pose, PoseArray
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge, CvBridgeError
@@ -15,6 +16,7 @@ from color_segmentation import *
 
 OBJECTS_PUB_TOPIC = 'detected_objects'
 IMAGE_SUB_TOPIC = '/cameras/right_hand_camera/image'
+AR_TRACKER_TOPIC = '/ar_pose_marker'
 
 width = 36
 length = 30
@@ -30,6 +32,8 @@ class BaxterImage():
         self.H = None
         self.numConverge = 0
         self.centers = []
+        self.ar_pos = None
+        self.times_centers_found = 0
 
     def image_callback(self, img_msg):
         try:
@@ -39,8 +43,8 @@ class BaxterImage():
             cnt = contours(thresh, cv_image)
             crnrs = corners(cv_image, cnt)
             self.H, status = cv2.findHomography(np.array(crnrs), np.array(HOMOGRAPHY_DEST))
-            print(type(self.H))
-            print(self.H)
+            # print(type(self.H))
+            # print(self.H)
             self.corners = crnrs
             if self.numConverge < 10:
                 homography, status = cv2.findHomography(np.array(self.corners), np.array(HOMOGRAPHY_DEST))
@@ -49,13 +53,31 @@ class BaxterImage():
                 self.H = homography
         except CvBridgeError as e:
             print(e)
-        for color in COLORS: 
-            mask = segment_by_color(cv_image, color)
-            cnts = contours(mask, cv_image)
-            self.corners.append(midpoint(cv_image, cnts))
-            self.homography(cv_image)
+
+        # if self.times_centers_found < 10:
+        mask = segment_by_color(cv_image, "purple")
+        cnts = contours(mask, cv_image)
+        self.centers.append(np.array(midpoint(cv_image, cnts)))
+        self.homography(cv_image)
+        self.times_centers_found += 1
+
+        purple_center = np.dot(self.H, np.array([self.centers[0][0], self.centers[0][1], 1]))
+        print((purple_center * conversion) / 100)
+        purple_center = (purple_center * conversion) / 100
+
+        # for color in COLORS: 
+        #     mask = segment_by_color(cv_image, color)
+        #     cnts = contours(mask, cv_image)
+        #     self.centers.append(midpoint(cv_image, cnts))
+        #     self.homography(cv_image)
         cv2.imshow('image', cv_image)
         cv2.waitKey(1)
+
+    def ar_callback(self, ar_msg):
+        if self.ar_pos is None:
+            self.ar_pos = np.array(ar_msg.markers[0].pose.pose.position)
+        # print(ar_msg.markers)
+        # print(self.ar_pos)
 
     def homography(self, img):
         #---- 4 corner points of the bounding box
@@ -83,6 +105,7 @@ class BaxterImage():
         rospy.init_node('object_positions', anonymous=True)
         position_publisher = rospy.Publisher(OBJECTS_PUB_TOPIC, PoseArray, queue_size=10)
         image_subscriber = rospy.Subscriber(IMAGE_SUB_TOPIC, Image, self.image_callback)
+        ar_subscriber = rospy.Subscriber(AR_TRACKER_TOPIC, AlvarMarkers, self.ar_callback)
         rospy.spin()
         cv2.destroyAllWindows()
 
