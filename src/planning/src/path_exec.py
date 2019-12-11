@@ -17,7 +17,7 @@ import numpy as np
 import traceback
 
 from moveit_msgs.msg import OrientationConstraint
-from geometry_msgs.msg import PoseStamped
+from geometry_msgs.msg import PoseStamped, PoseArray
 
 from path_planner import PathPlanner
 # from controller import Controller
@@ -27,7 +27,6 @@ from final_calculation import decipher_final_configuration
 NODE = 'moveit_node'
 OBJECTS_SUB_TOPIC = "detected_objects"
 rospy.init_node(NODE)
-actual_subscriber = rospy.Subscriber(OBJECTS_SUB_TOPIC, PoseArray, parseActual)
 
 #TODO: add the rest of the colors
 ColorMapping = {
@@ -53,6 +52,8 @@ def parseActual(objects_msg):
         colors.pop(0)
     actual_subscriber.shutdown()
     main(actual)
+    
+actual_subscriber = rospy.Subscriber(OBJECTS_SUB_TOPIC, PoseArray, parseActual)
 
 """
 Code to parse user input for goals and return a dictionary that maps Piece letters to Poses

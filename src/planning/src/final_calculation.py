@@ -11,32 +11,40 @@ Output: dictionary mapping letter to list of final desired Poses for each piece
 '''
 
 def decipher_final_configuration(ideal):
-    # def block_I():
-    #     # Determine orientation of the piece in the configuration passed in
-    #     if j+3 < len(ideal[i]) and ideal[i][j+1] == "I" and ideal[i][j+2] == "I" and ideal[i][j+3] == "I": #horizontal
-    #         ignore.append([i, j+1])
-    #         ignore.append([i, j+2])
-    #         ignore.append([i, j+3])
+    pieces = {"I": [], "O": [], "J": [], "L": [], "S": [], "Z": [], "T": []}
+    ignore = []
+    block_size = 0.1016 # 4 inches in m
+    # x, y, z = 1, -0.5, -.2
+    # x, y, z = -0.47, -0.5, -.25
+    # x, y, z = 0.4, -0.8, 0
+    x, y, z = 0.47, -0.85, 0.07
 
-    #         pose.pose.position.x = x + i*block_size+2*block_size
-    #         #orientation
-    #         pose.pose.orientation.x = 0
-    #         pose.pose.orientation.y = 1.0
-    #         pose.pose.orientation.z = 0
-    #         pose.pose.orientation.w = 0
-    #     elif i+3 < len(ideal) and ideal[i+1][j] == "I" and ideal[i+2][j] == "I" and ideal[i+3][j] == "I": #vertical
-    #         ignore.append([i+1, j])
-    #         ignore.append([i+2, j])
-    #         ignore.append([i+3, j])
+    def block_I():
+        # Determine orientation of the piece in the configuration passed in
+        if j+3 < len(ideal[i]) and ideal[i][j+1] == "I" and ideal[i][j+2] == "I" and ideal[i][j+3] == "I": #horizontal
+            ignore.append([i, j+1])
+            ignore.append([i, j+2])
+            ignore.append([i, j+3])
 
-    #         pose.pose.position.y = y + j*block_size+2*block_size
-    #         #orientation
-    #         pose.pose.orientation.x = 0
-    #         pose.pose.orientation.y = 1.0
-    #         pose.pose.orientation.z = 0
-    #         pose.pose.orientation.w = 0
+            # pose.pose.position.x = x + i*block_size+2*block_size
+            #orientation
+            pose.pose.orientation.x = 0
+            pose.pose.orientation.y = 1.0
+            pose.pose.orientation.z = 0
+            pose.pose.orientation.w = 0
+        elif i+3 < len(ideal) and ideal[i+1][j] == "I" and ideal[i+2][j] == "I" and ideal[i+3][j] == "I": #vertical
+            ignore.append([i+1, j])
+            ignore.append([i+2, j])
+            ignore.append([i+3, j])
+
+            # pose.pose.position.y = y + j*block_size+2*block_size
+            #orientation
+            pose.pose.orientation.x = 0
+            pose.pose.orientation.y = 1.0
+            pose.pose.orientation.z = 0
+            pose.pose.orientation.w = 0
         # ADD POSITION AND ORIENTATION
-        # pieces.get("I").append(pose)
+        pieces.get("I").append(pose)
 
     #x --> i, y --> j
     def block_Z():
@@ -45,8 +53,8 @@ def decipher_final_configuration(ideal):
             ignore.append([i+1, j+1])
             ignore.append([i+1, j+2])
 
-            pose.pose.position.x = x + i*block_size+block_size
-            pose.pose.position.y = y + j*block_size+1.5*block_size
+            # pose.pose.position.x = x + i*block_size+block_size
+            # pose.pose.position.y = y + j*block_size+1.5*block_size
 
             #orientation
             pose.pose.orientation.x = 0
@@ -58,8 +66,8 @@ def decipher_final_configuration(ideal):
             ignore.append([i+1, j+1])
             ignore.append([i+2, j+1])
 
-            pose.pose.position.x = x + i*block_size+1.5*block_size
-            pose.pose.position.y = y + j*block_size-block_size
+            # pose.pose.position.x = x + i*block_size+1.5*block_size
+            # pose.pose.position.y = y + j*block_size-block_size
 
             #orientation
             pose.pose.orientation.x = 0
@@ -72,8 +80,8 @@ def decipher_final_configuration(ideal):
         ignore.append([i+1, j])
         ignore.append([i+1, j+1])
 
-        pose.pose.position.x = x + i*block_size+block_size
-        pose.pose.position.y = y + j*block_size+block_size
+        # pose.pose.position.x = x + i*block_size+block_size
+        # pose.pose.position.y = y + j*block_size+block_size
         #orientation
         pose.pose.orientation.x = 0
         pose.pose.orientation.y = 1.0
@@ -85,8 +93,8 @@ def decipher_final_configuration(ideal):
             ignore.append([i+1, j])
             ignore.append([i, j+1])
             ignore.append([i, j+2])
-            pose.pose.position.x = x + i*block_size+block_size
-            pose.pose.position.y = y + j*block_size+1.5*block_size
+            # pose.pose.position.x = x + i*block_size+block_size
+            # pose.pose.position.y = y + j*block_size+1.5*block_size
             #orientation
             pose.pose.orientation.x = 0
             pose.pose.orientation.y = 1.0
@@ -96,8 +104,8 @@ def decipher_final_configuration(ideal):
             ignore.append([i, j+1])
             ignore.append([i+1, j+1])
             ignore.append([i+2, j+1])
-            pose.pose.position.x = x + i*block_size+1.5*block_size
-            pose.pose.position.y = y + j*block_size+block_size
+            # pose.pose.position.x = x + i*block_size+1.5*block_size
+            # pose.pose.position.y = y + j*block_size+block_size
             #orientation
             pose.pose.orientation.x = 0
             pose.pose.orientation.y = 1.0
@@ -107,8 +115,8 @@ def decipher_final_configuration(ideal):
             ignore.append([i+1, j])
             ignore.append([i+2, j])
             ignore.append([i+2, j+1])
-            pose.pose.position.x = x + i*block_size+1.5*block_size
-            pose.pose.position.y = y + j*block_size+block_size
+            # pose.pose.position.x = x + i*block_size+1.5*block_size
+            # pose.pose.position.y = y + j*block_size+block_size
             #orientation
             pose.pose.orientation.x = 0
             pose.pose.orientation.y = 1.0
@@ -118,8 +126,8 @@ def decipher_final_configuration(ideal):
             ignore.append([i+1, j])
             ignore.append([i+1, j-1])
             ignore.append([i+1, j-2])
-            pose.pose.position.x = x + i*block_size+block_size
-            pose.pose.position.y = y + j*block_size-1.5*block_size
+            # pose.pose.position.x = x + i*block_size+block_size
+            # pose.pose.position.y = y + j*block_size-1.5*block_size
             #orientation
             pose.pose.orientation.x = 0
             pose.pose.orientation.y = 1.0
@@ -131,8 +139,8 @@ def decipher_final_configuration(ideal):
             ignore.append([i+1, j])
             ignore.append([i+1, j+1])
             ignore.append([i+1, j+2])
-            pose.pose.position.x = x + i*block_size+block_size
-            pose.pose.position.y = y + j*block_size+1.5*block_size
+            # pose.pose.position.x = x + i*block_size+block_size
+            # pose.pose.position.y = y + j*block_size+1.5*block_size
             #orientation
             pose.pose.orientation.x = 0
             pose.pose.orientation.y = 1.0
@@ -142,8 +150,8 @@ def decipher_final_configuration(ideal):
             ignore.append([i, j+1])
             ignore.append([i+1, j])
             ignore.append([i+2, j])
-            pose.pose.position.x = x + i*block_size+1.5*block_size
-            pose.pose.position.y = y + j*block_size+block_size
+            # pose.pose.position.x = x + i*block_size+1.5*block_size
+            # pose.pose.position.y = y + j*block_size+block_size
             #orientation
             pose.pose.orientation.x = 0
             pose.pose.orientation.y = 1.0
@@ -153,8 +161,8 @@ def decipher_final_configuration(ideal):
             ignore.append([i+1, j])
             ignore.append([i+2, j])
             ignore.append([i+2, j-1])
-            pose.pose.position.x = x + i*block_size+1.5*block_size
-            pose.pose.position.y = y + j*block_size-block_size
+            # pose.pose.position.x = x + i*block_size+1.5*block_size
+            # pose.pose.position.y = y + j*block_size-block_size
             #orientation
             pose.pose.orientation.x = 0
             pose.pose.orientation.y = 1.0
@@ -164,79 +172,72 @@ def decipher_final_configuration(ideal):
             ignore.append([i, j+1])
             ignore.append([i, j+2])
             ignore.append([i+1, j+2])
-            pose.pose.position.x = x + i*block_size+block_size
-            pose.pose.position.y = y + j*block_size+1.5*block_size
+            # pose.pose.position.x = x + i*block_size+block_size
+            # pose.pose.position.y = y + j*block_size+1.5*block_size
             #orientation
             pose.pose.orientation.x = 0
             pose.pose.orientation.y = 1.0
             pose.pose.orientation.z = 0
             pose.pose.orientation.w = 0
         pieces.get("J").append(pose)
-    # def block_S():
-    #     if i+1 < len(ideal) and j+1 < len(ideal[i]) and j-1 >= 0 and ideal[i][j+1] == "S" and ideal[i+1][j] == "S" and ideal[i+1][j-1] == "S": #horizontal
-    #         ignore.append([i, j+1])
-    #         ignore.append([i+1, j])
-    #         ignore.append([i+1, j-1])
-    #         #orientation
-    #         pose.pose.orientation.x = 0
-    #         pose.pose.orientation.y = 1.0
-    #         pose.pose.orientation.z = 0
-    #         pose.pose.orientation.w = 0
-    #     elif i+2 < len(ideal) and j+1 < len(ideal[i+1]) and j+1 < len(ideal[i+2]) and ideal[i+1][j] == "S" and ideal[i+1][j+1] == "S" and ideal[i+2][j+1] == "S": #horizontal #vertical
-    #         ignore.append([i+1, j])
-    #         ignore.append([i+1, j+1])
-    #         ignore.append([i+2, j+1])
-    #         #orientation
-    #         pose.pose.orientation.x = 0
-    #         pose.pose.orientation.y = 1.0
-    #         pose.pose.orientation.z = 0
-    #         pose.pose.orientation.w = 0
-    #     pieces.get("S").append(pose)
-    # def block_T():
-    #     if i+1 < len(ideal) and j+2 < len(ideal[i]) and j+1 < len(ideal[i+1]) and ideal[i][j+1] == "T" and ideal[i][j+2] == "T" and ideal[i+1][j+1] == "T":
-    #         ignore.append([i, j+1])
-    #         ignore.append([i, j+2])
-    #         ignore.append([i+1, j+1])
-    #         #orientation
-    #         pose.pose.orientation.x = 0
-    #         pose.pose.orientation.y = 1.0
-    #         pose.pose.orientation.z = 0
-    #         pose.pose.orientation.w = 0
-    #     elif i+2 < len(ideal) and j+1 < len(ideal[i+1]) and ideal[i+1][j] == "T" and ideal[i+1][j+1] == "T" and ideal[i+2][j] == "T":
-    #         ignore.append([i+1, j])
-    #         ignore.append([i+1, j+1])
-    #         ignore.append([i+2, j])
-    #         #orientation
-    #         pose.pose.orientation.x = 0
-    #         pose.pose.orientation.y = 1.0
-    #         pose.pose.orientation.z = 0
-    #         pose.pose.orientation.w = 0
-    #     elif i+2 < len(ideal) and j-1 >= 0 and ideal[i+1][j] == "T" and ideal[i+1][j-1] == "T" and ideal[i+2][j] == "T":
-    #         ignore.append([i+1, j])
-    #         ignore.append([i+1, j-1])
-    #         ignore.append([i+2, j])
-    #         #orientation
-    #         pose.pose.orientation.x = 0
-    #         pose.pose.orientation.y = 1.0
-    #         pose.pose.orientation.z = 0
-    #         pose.pose.orientation.w = 0
-    #     elif i+1 < len(ideal) and j+1 < len(ideal[i+1]) and j-1 >= 0 and ideal[i+1][j] == "T" and ideal[i+1][j+1] == "T" and ideal[i+1][j-1] == "T":
-    #         ignore.append([i+1, j])
-    #         ignore.append([i+1, j+1])
-    #         ignore.append([i+1, j-1])
-    #         #orientation
-    #         pose.pose.orientation.x = 0
-    #         pose.pose.orientation.y = 1.0
-    #         pose.pose.orientation.z = 0
-    #         pose.pose.orientation.w = 0
-    #     pieces.get("T").append(pose)
-    
-    pieces = {"I": [], "O": [], "J": [], "L": [], "S": [], "Z": [], "T": []}
-    ignore = []
-    block_size = 0.1016 # 4 inches in m
-    # x, y, z = 1, -0.5, -.2
-    # x, y, z = -0.47, -0.5, -.25
-    x, y, z = 0.6, 0.2, -.15
+    def block_S():
+        if i+1 < len(ideal) and j+1 < len(ideal[i]) and j-1 >= 0 and ideal[i][j+1] == "S" and ideal[i+1][j] == "S" and ideal[i+1][j-1] == "S": #horizontal
+            ignore.append([i, j+1])
+            ignore.append([i+1, j])
+            ignore.append([i+1, j-1])
+            #orientation
+            pose.pose.orientation.x = 0
+            pose.pose.orientation.y = 1.0
+            pose.pose.orientation.z = 0
+            pose.pose.orientation.w = 0
+        elif i+2 < len(ideal) and j+1 < len(ideal[i+1]) and j+1 < len(ideal[i+2]) and ideal[i+1][j] == "S" and ideal[i+1][j+1] == "S" and ideal[i+2][j+1] == "S": #horizontal #vertical
+            ignore.append([i+1, j])
+            ignore.append([i+1, j+1])
+            ignore.append([i+2, j+1])
+            #orientation
+            pose.pose.orientation.x = 0
+            pose.pose.orientation.y = 1.0
+            pose.pose.orientation.z = 0
+            pose.pose.orientation.w = 0
+        pieces.get("S").append(pose)
+    def block_T():
+        if i+1 < len(ideal) and j+2 < len(ideal[i]) and j+1 < len(ideal[i+1]) and ideal[i][j+1] == "T" and ideal[i][j+2] == "T" and ideal[i+1][j+1] == "T":
+            ignore.append([i, j+1])
+            ignore.append([i, j+2])
+            ignore.append([i+1, j+1])
+            #orientation
+            pose.pose.orientation.x = 0
+            pose.pose.orientation.y = 1.0
+            pose.pose.orientation.z = 0
+            pose.pose.orientation.w = 0
+        elif i+2 < len(ideal) and j+1 < len(ideal[i+1]) and ideal[i+1][j] == "T" and ideal[i+1][j+1] == "T" and ideal[i+2][j] == "T":
+            ignore.append([i+1, j])
+            ignore.append([i+1, j+1])
+            ignore.append([i+2, j])
+            #orientation
+            pose.pose.orientation.x = 0
+            pose.pose.orientation.y = 1.0
+            pose.pose.orientation.z = 0
+            pose.pose.orientation.w = 0
+        elif i+2 < len(ideal) and j-1 >= 0 and ideal[i+1][j] == "T" and ideal[i+1][j-1] == "T" and ideal[i+2][j] == "T":
+            ignore.append([i+1, j])
+            ignore.append([i+1, j-1])
+            ignore.append([i+2, j])
+            #orientation
+            pose.pose.orientation.x = 0
+            pose.pose.orientation.y = 1.0
+            pose.pose.orientation.z = 0
+            pose.pose.orientation.w = 0
+        elif i+1 < len(ideal) and j+1 < len(ideal[i+1]) and j-1 >= 0 and ideal[i+1][j] == "T" and ideal[i+1][j+1] == "T" and ideal[i+1][j-1] == "T":
+            ignore.append([i+1, j])
+            ignore.append([i+1, j+1])
+            ignore.append([i+1, j-1])
+            #orientation
+            pose.pose.orientation.x = 0
+            pose.pose.orientation.y = 1.0
+            pose.pose.orientation.z = 0
+            pose.pose.orientation.w = 0
+        pieces.get("T").append(pose)
 
     for i in range(len(ideal)): #horizontal?
     	for j in range(len(ideal[i])): #vertical
