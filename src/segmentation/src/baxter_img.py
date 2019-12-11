@@ -86,14 +86,14 @@ class BaxterImage():
                 cntr = np.dot(self.H, np.array([mp[0], mp[1], 1]))
                 cntr_xy = (cntr * conversion) / 100
                 pose = Pose()
-                pose.position.x = cntr_xy[0]
-                pose.position.y = cntr_xy[1]
-                pose.position.z = 1
+                pose.position.x = self.ar_pos[0] - cntr_xy[0]
+                pose.position.y = self.ar_pos[1] - cntr_xy[1]
+                pose.position.z = self.ar_pos[2]
 
                 positions.poses.append(pose)
                 # self.centers[i] = np.array([cntr_xy[0], cntr_xy[1], 1])
                 # self.centers[i] = np.array([cntr_xy[0] + self.ar_pos.x, cntr_xy[1] + self.ar_pos.y, self.ar_pos.z])
-                self.homography(cv_image)
+            self.homography(cv_image)
             # print(self.centers)
             # return positions
             self.position_publisher.publish(positions)
@@ -103,7 +103,7 @@ class BaxterImage():
 
     def ar_callback(self, ar_msg):
         if self.ar_pos is None:
-            self.ar_pos = np.array(ar_msg.markers[0].pose.pose.position)
+            self.ar_pos = np.array([ar_msg.markers[0].pose.pose.position.x, ar_msg.markers[0].pose.pose.position.y, ar_msg.markers[0].pose.pose.position.z])
         # print(ar_msg.markers)
         # print(self.ar_pos)
 

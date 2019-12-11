@@ -17,7 +17,7 @@ def decipher_final_configuration(ideal):
     # x, y, z = 1, -0.5, -.2
     # x, y, z = -0.47, -0.5, -.25
     # x, y, z = 0.4, -0.8, 0
-    x, y, z = 0.47, -0.85, 0.07
+    x, y, z = 0.47, -0.85, -.15
 
     def block_I():
         # Determine orientation of the piece in the configuration passed in
@@ -80,8 +80,8 @@ def decipher_final_configuration(ideal):
         ignore.append([i+1, j])
         ignore.append([i+1, j+1])
 
-        # pose.pose.position.x = x + i*block_size+block_size
-        # pose.pose.position.y = y + j*block_size+block_size
+        pose.pose.position.x = x + i*block_size+block_size
+        pose.pose.position.y = y + j*block_size+block_size
         #orientation
         pose.pose.orientation.x = 0
         pose.pose.orientation.y = 1.0
@@ -93,8 +93,8 @@ def decipher_final_configuration(ideal):
             ignore.append([i+1, j])
             ignore.append([i, j+1])
             ignore.append([i, j+2])
-            # pose.pose.position.x = x + i*block_size+block_size
-            # pose.pose.position.y = y + j*block_size+1.5*block_size
+            pose.pose.position.x = x + i*block_size+block_size
+            pose.pose.position.y = y + j*block_size+1.5*block_size
             #orientation
             pose.pose.orientation.x = 0
             pose.pose.orientation.y = 1.0
@@ -104,8 +104,8 @@ def decipher_final_configuration(ideal):
             ignore.append([i, j+1])
             ignore.append([i+1, j+1])
             ignore.append([i+2, j+1])
-            # pose.pose.position.x = x + i*block_size+1.5*block_size
-            # pose.pose.position.y = y + j*block_size+block_size
+            pose.pose.position.x = x + i*block_size+1.5*block_size
+            pose.pose.position.y = y + j*block_size+block_size
             #orientation
             pose.pose.orientation.x = 0
             pose.pose.orientation.y = 1.0
@@ -115,8 +115,8 @@ def decipher_final_configuration(ideal):
             ignore.append([i+1, j])
             ignore.append([i+2, j])
             ignore.append([i+2, j+1])
-            # pose.pose.position.x = x + i*block_size+1.5*block_size
-            # pose.pose.position.y = y + j*block_size+block_size
+            pose.pose.position.x = x + i*block_size+1.5*block_size
+            pose.pose.position.y = y + j*block_size+block_size
             #orientation
             pose.pose.orientation.x = 0
             pose.pose.orientation.y = 1.0
@@ -126,8 +126,8 @@ def decipher_final_configuration(ideal):
             ignore.append([i+1, j])
             ignore.append([i+1, j-1])
             ignore.append([i+1, j-2])
-            # pose.pose.position.x = x + i*block_size+block_size
-            # pose.pose.position.y = y + j*block_size-1.5*block_size
+            pose.pose.position.x = x + i*block_size+block_size
+            pose.pose.position.y = y + j*block_size-1.5*block_size
             #orientation
             pose.pose.orientation.x = 0
             pose.pose.orientation.y = 1.0
@@ -139,8 +139,8 @@ def decipher_final_configuration(ideal):
             ignore.append([i+1, j])
             ignore.append([i+1, j+1])
             ignore.append([i+1, j+2])
-            # pose.pose.position.x = x + i*block_size+block_size
-            # pose.pose.position.y = y + j*block_size+1.5*block_size
+            pose.pose.position.x = x + i*block_size+block_size
+            pose.pose.position.y = y + j*block_size+1.5*block_size
             #orientation
             pose.pose.orientation.x = 0
             pose.pose.orientation.y = 1.0
@@ -150,8 +150,8 @@ def decipher_final_configuration(ideal):
             ignore.append([i, j+1])
             ignore.append([i+1, j])
             ignore.append([i+2, j])
-            # pose.pose.position.x = x + i*block_size+1.5*block_size
-            # pose.pose.position.y = y + j*block_size+block_size
+            pose.pose.position.x = x + i*block_size+1.5*block_size
+            pose.pose.position.y = y + j*block_size+block_size
             #orientation
             pose.pose.orientation.x = 0
             pose.pose.orientation.y = 1.0
@@ -161,8 +161,8 @@ def decipher_final_configuration(ideal):
             ignore.append([i+1, j])
             ignore.append([i+2, j])
             ignore.append([i+2, j-1])
-            # pose.pose.position.x = x + i*block_size+1.5*block_size
-            # pose.pose.position.y = y + j*block_size-block_size
+            pose.pose.position.x = x + i*block_size+1.5*block_size
+            pose.pose.position.y = y + j*block_size-block_size
             #orientation
             pose.pose.orientation.x = 0
             pose.pose.orientation.y = 1.0
@@ -172,8 +172,8 @@ def decipher_final_configuration(ideal):
             ignore.append([i, j+1])
             ignore.append([i, j+2])
             ignore.append([i+1, j+2])
-            # pose.pose.position.x = x + i*block_size+block_size
-            # pose.pose.position.y = y + j*block_size+1.5*block_size
+            pose.pose.position.x = x + i*block_size+block_size
+            pose.pose.position.y = y + j*block_size+1.5*block_size
             #orientation
             pose.pose.orientation.x = 0
             pose.pose.orientation.y = 1.0

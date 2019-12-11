@@ -40,15 +40,15 @@ Calls: main() with Dictionary actual {Piece letters : PoseStamped Messages} that
 Assumptions: pieces are unique and objects_msg is formatted correctly
 """
 def parseActual(objects_msg):
-    colors = objects_msg.header.split()
+    colors = objects_msg.header.frame_id.split()
     actual = {}
-    for pose in objects_msg:
+    for pose in objects_msg.poses:
         piece = PoseStamped()
         piece.header.frame_id = "base"
         piece.pose = pose
         actual[ColorMapping[colors[0]]] = piece
         colors.pop(0)
-    actual_subscriber.shutdown()
+    # actual_subscriber.shutdown()
     main(actual)
 
 """
@@ -60,7 +60,6 @@ def parseGoals(goals):
     goals = goals.split(".")
     for row_i in range(len(goals)):
         goals[row_i] = goals[row_i].split()
-    # goals = [[None, "L", "L"], ["O","O", "L"], ["O","O", "L"]]
     goals = decipher_final_configuration(goals)
     return goals
 
@@ -115,6 +114,7 @@ def actuate(actual, goals):
 
     # List of letters corresponding to the pieces in the actual configuration
     actual_list = actual.keys()
+    actual_list = ["L", "J", "O"]
     
     # Creation of a copy PoseStamped message to use for z translation
     above = PoseStamped()
@@ -125,6 +125,7 @@ def actuate(actual, goals):
         # Booleans to track state
         in_hand, picked, placed = False, False, False
         piece = actual_list.pop(0)
+        print(piece)
 
         ### PICKING UP PIECE FROM ACTUAL LOCATION ###
         while not rospy.is_shutdown() and not picked:
@@ -226,7 +227,7 @@ Calls: actuate()
 """
 def main(actual):
     # x, y, z = 0.47, -0.85, 0.07
-    x, y, z = 0.6, -0.4, -.1
+    x, y, z = 0.6, -0.4, -.15
     # x, y, z = .68,-0.85,-0.1
     
     # DUMMY POSE
@@ -240,11 +241,11 @@ def main(actual):
     original.pose.orientation.z = 0.0
     original.pose.orientation.w = 0.0
 
-    actual = {"L" : original, "O": original, "Z": original, "S": original, "I": original}
+    actual = {"J": original, "L" : original, "O": original}
 
     # Get the desired position and orientation of each piece by parsing the desired string
     # goals = raw_input("Enter in a 2D matrix of your desired layout, with each element separated by spaces and each row separated by periods: ")
-    goals = "L O O G S S.L O O S S Z Z.L L I I I I Z Z"
+    goals = "L L L G.L J J G.G J O O.G J O O"
     goals = parseGoals(goals)
     actuate(actual, goals)
 
@@ -261,4 +262,5 @@ def main(actual):
 if __name__ == '__main__':
     rospy.init_node(NODE)
     actual_subscriber = rospy.Subscriber(OBJECTS_SUB_TOPIC, PoseArray, parseActual)
+    rospy.spin()
     main("")
