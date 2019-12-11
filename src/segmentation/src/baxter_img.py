@@ -23,17 +23,26 @@ length = 30
 conversion = 2.54/100
 HOMOGRAPHY_DEST = np.array([[0.0,0.0],[3600.0, 0.0], [0.0, 3000.0],[3600.0, 3000.0]])
 
-COLORS = ["red", "purple", "blue", "green"]
+COLORS = ["red", "purple", "blue"]
 bridge = CvBridge()
+
+class RealWorldPos:
+    def __init__(self, x, y, z, color):
+        self.x = x
+        self.y = y
+        self.z = z
+        self.color = color
 
 class BaxterImage():
     def __init__(self):
         self.corners = None
         self.H = None
         self.numConverge = 0
-        self.centers = []
+        self.centers = [] * len(COLORS)
         self.ar_pos = None
         self.times_centers_found = 0
+        self.position_publisher = rospy.Publisher(OBJECTS_PUB_TOPIC, PoseArray, queue_size=10)
+
 
     def image_callback(self, img_msg):
         try:
@@ -50,26 +59,45 @@ class BaxterImage():
                 homography, status = cv2.findHomography(np.array(self.corners), np.array(HOMOGRAPHY_DEST))
                 if np.allclose(self.H, homography, atol=.1):
                     self.numConverge += 1
+                else:
+                    self.numConverge = 0
                 self.H = homography
         except CvBridgeError as e:
             print(e)
 
         # if self.times_centers_found < 10:
-        mask = segment_by_color(cv_image, "purple")
-        cnts = contours(mask, cv_image)
-        self.centers.append(np.array(midpoint(cv_image, cnts)))
-        self.homography(cv_image)
-        self.times_centers_found += 1
+        # mask = segment_by_color(cv_image, "purple")
+        # cnts = contours(mask, cv_image)
+        # self.centers.append(np.array(midpoint(cv_image, cnts)))
+        # self.homography(cv_image)
+        # self.times_centers_found += 1
 
-        purple_center = np.dot(self.H, np.array([self.centers[0][0], self.centers[0][1], 1]))
-        print((purple_center * conversion) / 100)
-        purple_center = (purple_center * conversion) / 100
+        # purple_center = np.dot(self.H, np.array([self.centers[0][0], self.centers[0][1], 1]))
+        # print((purple_center * conversion) / 100)
+        # purple_center = (purple_center * conversion) / 100
+        if self.numConverge >= 10:
+            positions = PoseArray()
+            positions.poses = []
+            positions.header.frame_id = ' '.join(COLORS)
+            for i, color in enumerate(COLORS): 
+                mask = segment_by_color(cv_image, color)
+                cnts = contours(mask, cv_image)
+                mp = midpoint(cv_image, cnts)
+                cntr = np.dot(self.H, np.array([mp[0], mp[1], 1]))
+                cntr_xy = (cntr * conversion) / 100
+                pose = Pose()
+                pose.position.x = cntr_xy[0]
+                pose.position.y = cntr_xy[1]
+                pose.position.z = 1
 
-        # for color in COLORS: 
-        #     mask = segment_by_color(cv_image, color)
-        #     cnts = contours(mask, cv_image)
-        #     self.centers.append(midpoint(cv_image, cnts))
-        #     self.homography(cv_image)
+                positions.poses.append(pose)
+                # self.centers[i] = np.array([cntr_xy[0], cntr_xy[1], 1])
+                # self.centers[i] = np.array([cntr_xy[0] + self.ar_pos.x, cntr_xy[1] + self.ar_pos.y, self.ar_pos.z])
+                self.homography(cv_image)
+            # print(self.centers)
+            # return positions
+            self.position_publisher.publish(positions)
+            
         cv2.imshow('image', cv_image)
         cv2.waitKey(1)
 
@@ -103,7 +131,6 @@ class BaxterImage():
 
     def main(self):
         rospy.init_node('object_positions', anonymous=True)
-        position_publisher = rospy.Publisher(OBJECTS_PUB_TOPIC, PoseArray, queue_size=10)
         image_subscriber = rospy.Subscriber(IMAGE_SUB_TOPIC, Image, self.image_callback)
         ar_subscriber = rospy.Subscriber(AR_TRACKER_TOPIC, AlvarMarkers, self.ar_callback)
         rospy.spin()

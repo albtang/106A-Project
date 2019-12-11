@@ -43,7 +43,7 @@ def segment_by_color(image, color):
 
 def grayscale(image):
     img = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    ret, thresh = cv2.threshold(img,100,255,cv2.THRESH_BINARY_INV)
+    ret, thresh = cv2.threshold(img,130,255,cv2.THRESH_BINARY_INV)
     return thresh
     # plt.imshow(thresh)
     # plt.show()
