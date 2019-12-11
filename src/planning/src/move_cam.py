@@ -1,71 +1,80 @@
 #!/usr/bin/env python
-import rospy
-from moveit_msgs.srv import GetPositionIK, GetPositionIKRequest, GetPositionIKResponse
-from geometry_msgs.msg import PoseStamped
-from moveit_commander import MoveGroupCommander
-import numpy as np
-from numpy import linalg
 import sys
-from baxter_interface import gripper as robot_gripper
+assert sys.argv[1] in ("sawyer", "baxter")
+ROBOT = sys.argv[1]
+
+if ROBOT == "baxter":
+    from baxter_interface import Limb
+else:
+    from intera_interface import Limb
+
+import rospy
+import numpy as np
+import traceback
+
+from moveit_msgs.msg import OrientationConstraint
+from geometry_msgs.msg import PoseStamped
+
+from path_planner import PathPlanner
+
+# import rospy
+# from moveit_msgs.srv import GetPositionIK, GetPositionIKRequest, GetPositionIKResponse
+# from geometry_msgs.msg import PoseStamped
+# from moveit_commander import MoveGroupCommander
+# import numpy as np
+# from numpy import linalg
+# import sys
+# from baxter_interface import gripper as robot_gripper
 # from intera_interface import gripper as robot_gripper
 
-def main(robo):
-    #Wait for the IK service to become available
-    rospy.wait_for_service('compute_ik')
-    rospy.init_node('service_query')
-    arm = 'left'
-    #Create the function used to call the service
-    compute_ik = rospy.ServiceProxy('compute_ik', GetPositionIK)
+def main():
+    # right_hand_camera values
+    # - Translation: [0.403, 0.288, 0.225]
+    # - Rotation: in Quaternion [0.424, 0.867, -0.133, 0.228]
+    #             in RPY (radian) [-3.098, 0.532, 2.244]
+    #             in RPY (degree) [-177.491, 30.484, 128.585]
 
+    planner = PathPlanner("left_arm")
+    limb = Limb("left")
     while not rospy.is_shutdown():
-        raw_input('Press [ Enter ]: ')
-        
-        #Construct the request
-        request = GetPositionIKRequest()
-        request.ik_request.group_name = arm + "_arm"
+        while not rospy.is_shutdown():
+            try:
+                if ROBOT == "baxter":
+                    x, y, z = 0.403, 0.288, 0.225
+                else:
+                    x, y, z = 0.8, 0.05, -0.23
+                goal_1 = PoseStamped()
+                goal_1.header.frame_id = "base"
 
-        # request.ik_request.ik_link_name = link
-        request.ik_request.attempts = 20
-        request.ik_request.pose_stamped.header.frame_id = "base"
+                # x, y, z = -.4, -0.85, 0.07
 
-        # # right_hand_camera values
-        # # - Translation: [0.403, 0.288, 0.225]
-        # # - Rotation: in Quaternion [0.424, 0.867, -0.133, 0.228]
-        # #             in RPY (radian) [-3.098, 0.532, 2.244]
-        # #             in RPY (degree) [-177.491, 30.484, 128.585]
-        
-        initial_pos = [0.403, 0.288, 0.255, 0.424, 0.867, -0.133, 0.228]
+                #x, y, and z position
+                goal_1.pose.position.x = x
+                goal_1.pose.position.y = y
+                goal_1.pose.position.z = z
 
-        request.ik_request.pose_stamped.pose.position.x = initial_pos[0]
-        request.ik_request.pose_stamped.pose.position.y = initial_pos[1]
-        request.ik_request.pose_stamped.pose.position.z = initial_pos[2]
-        request.ik_request.pose_stamped.pose.orientation.x = initial_pos[3]
-        request.ik_request.pose_stamped.pose.orientation.y = initial_pos[4]
-        request.ik_request.pose_stamped.pose.orientation.z = initial_pos[5]
-        request.ik_request.pose_stamped.pose.orientation.w = initial_pos[6]
-            
-        try:
-            #Send the request to the service
-            response = compute_ik(request)
+                #Orientation as a quaternion
+                goal_1.pose.orientation.x = 0.0
+                goal_1.pose.orientation.y = -1.0
+                goal_1.pose.orientation.z = 0.0
+                goal_1.pose.orientation.w = 0.0
 
-            #Print the response HERE
-            print(response)
-            group = MoveGroupCommander(arm + "_arm")
+                # Might have to edit this . . . 
+                plan = planner.plan_to_pose(goal_1, [])
+                # plan = planner.plan_to_pose(goal_1, [orien_const])
 
-            # Setting position and orientation target
-            group.set_pose_target(request.ik_request.pose_stamped)
-
-            # TRY THIS
-            # Setting just the position without specifying the orientation
-            # group.set_position_target([0.5, -0.5, 0.0])
-
-            # Plan IK and execute
-            group.go()
-
-        except rospy.ServiceException, e:
-            print "Service call failed: %s"%e
+                raw_input("Press <Enter> to move the right arm to goal pose 1: ")
+                # if not planner.execute_plan(plan):
+                if not planner.execute_plan(plan):
+                    raise Exception("Execution failed")
+            except Exception as e:
+                print e
+                traceback.print_exc()
+            else:
+                break
 
 #Python's syntax for a main() method
 if __name__ == '__main__':
-    main(sys.argv[1])
+    rospy.init_node('moveit_node')
+    main()
 

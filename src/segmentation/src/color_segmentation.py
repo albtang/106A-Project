@@ -89,8 +89,9 @@ def midpoint(img, cnts):
     y_coord = min_y + (max_y - min_y) / 2
 
     cv2.circle(img, tuple([x_coord, y_coord]), 8, (255, 255, 255), -1)
-    plt.imshow(img)
-    plt.show()
+    return (x_coord, y_coord)
+    # plt.imshow(img)
+    # plt.show()
 
 
 if __name__ == '__main__':

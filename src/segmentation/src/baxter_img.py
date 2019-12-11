@@ -21,7 +21,7 @@ length = 30
 conversion = 2.54/100
 HOMOGRAPHY_DEST = np.array([[0.0,0.0],[3600.0, 0.0], [0.0, 3000.0],[3600.0, 3000.0]])
 
-
+COLORS = ["red", "purple", "blue", "green"]
 bridge = CvBridge()
 
 class BaxterImage():
@@ -29,6 +29,7 @@ class BaxterImage():
         self.corners = None
         self.H = None
         self.numConverge = 0
+        self.centers = []
 
     def image_callback(self, img_msg):
         try:
@@ -48,10 +49,12 @@ class BaxterImage():
                 self.H = homography
         except CvBridgeError as e:
             print(e)
-        mask = segment_by_color(cv_image, "purple")
-        self.homography(cv_image)
+        for color in COLORS: 
+            mask = segment_by_color(cv_image, color)
+            cnts = contours(mask, cv_image)
+            self.corners.append(midpoint(cv_image, cnts))
+            self.homography(cv_image)
         cv2.imshow('image', cv_image)
-        
         cv2.waitKey(1)
 
     def homography(self, img):
