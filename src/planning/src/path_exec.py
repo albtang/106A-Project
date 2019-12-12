@@ -46,6 +46,10 @@ def parseActual(objects_msg):
         piece = PoseStamped()
         piece.header.frame_id = "base"
         piece.pose = pose
+        piece.pose.orientation.x = 0.0
+        piece.pose.orientation.y = -1.0
+        piece.pose.orientation.z = 0.0
+        piece.pose.orientation.w = 0.0
         actual[ColorMapping[colors[0]]] = piece
         colors.pop(0)
     # actual_subscriber.shutdown()
@@ -53,14 +57,14 @@ def parseActual(objects_msg):
 
 """
 Code to parse user input for goals and return a dictionary that maps Piece letters to Poses
-Input: String goals
+Input: String goals, float x, y, z for position of starting corner
 Returns: dictionary {Piece letters : PoseStamped Messages}
 """
-def parseGoals(goals):
+def parseGoals(goals, x, y, z):
     goals = goals.split(".")
     for row_i in range(len(goals)):
         goals[row_i] = goals[row_i].split()
-    goals = decipher_final_configuration(goals)
+    goals = decipher_final_configuration(goals, x, y, z)
     return goals
 
 """
@@ -80,7 +84,7 @@ def actuate(actual, goals):
     # ##
     # ## Add the obstacle to the planning scene here
     ### SHOULD WE ADD PLACED PIECES AS OBSTACLES ????
-    # ##
+    ##
     # pose = PoseStamped()
     # pose.header.frame_id = "base"
     # pose.pose.position.x = .5
@@ -103,18 +107,17 @@ def actuate(actual, goals):
     # planner.add_box_obstacle(np.ndarray(shape=(3,), buffer=np.array([.1, 3, 3])), "wall", pose)
 
     # #Create a path constraint for the arm
-    orien_const = OrientationConstraint()
-    orien_const.link_name = "right_gripper";
-    orien_const.header.frame_id = "base";
-    orien_const.orientation.y = -1.0;
-    orien_const.absolute_x_axis_tolerance = 0.1;
-    orien_const.absolute_y_axis_tolerance = 0.1;
-    orien_const.absolute_z_axis_tolerance = 0.1;
-    orien_const.weight = 1.0;
+    # orien_const = OrientationConstraint()
+    # orien_const.link_name = "right_gripper";
+    # orien_const.header.frame_id = "base";
+    # orien_const.orientation.y = -1.0;
+    # orien_const.absolute_x_axis_tolerance = 0.1;
+    # orien_const.absolute_y_axis_tolerance = 0.1;
+    # orien_const.absolute_z_axis_tolerance = 0.1;
+    # orien_const.weight = 1.0;
 
     # List of letters corresponding to the pieces in the actual configuration
     actual_list = actual.keys()
-    actual_list = ["L", "J", "O"]
     
     # Creation of a copy PoseStamped message to use for z translation
     above = PoseStamped()
@@ -124,13 +127,15 @@ def actuate(actual, goals):
     while not rospy.is_shutdown() and len(actual_list) > 0:
         # Booleans to track state
         in_hand, picked, placed = False, False, False
-        piece = actual_list.pop(0)
+        piece = actual_list[0]
         print(piece)
 
         ### PICKING UP PIECE FROM ACTUAL LOCATION ###
         while not rospy.is_shutdown() and not picked:
+            print("PICKING")
             try:
                 original = actual[piece]
+                print(original)
 
                 # Setting above's value to correspond to just above original position
                 above.pose.position.x = original.pose.position.x
@@ -141,12 +146,12 @@ def actuate(actual, goals):
                 # Pick up the piece in the original position
                 if not in_hand:
                     # Translate over such that the piece is above the actual position
-                    plan = planner.plan_to_pose(above, [orien_const])
+                    plan = planner.plan_to_pose(above, [])
                     if not planner.execute_plan(plan):
                         raise Exception("Execution failed")
 
                     # Actually pick up the piece
-                    plan = planner.plan_to_pose(original, [orien_const])
+                    plan = planner.plan_to_pose(original, [])
                     if not planner.execute_plan(plan):
                         raise Exception("Execution failed")
                     ## GRIPPER CLOSE (succ)
@@ -155,11 +160,16 @@ def actuate(actual, goals):
                     in_hand = True
 
                 # Raise the arm a little bit so that other pieces are not affected
-                plan = planner.plan_to_pose(above, [orien_const])
+                plan = planner.plan_to_pose(above, [])
                 if not planner.execute_plan(plan):
                     raise Exception("Execution failed")
 
-                picked = True
+                ### PLACING PIECE AT DESIRED LOCATION ###
+                text = raw_input("Press <Enter> to move the right arm to place the piece or 'back' to redo the previous step: ")
+                if text == "back":
+                    picked = False
+                else:
+                    picked = True
 
             except Exception as e:
                 print e
@@ -167,12 +177,8 @@ def actuate(actual, goals):
             else:
                 break
 
-        ### PLACING PIECE AT DESIRED LOCATION ###
-        text = raw_input("Press <Enter> to move the right arm to place the piece or 'back' to redo the previous step: ")
-        if text is "back":
-            picked = False
-
         while not rospy.is_shutdown() and picked and not placed:
+            print("PLACING")
 
             try:
                 goal = goals.get(piece)[0]
@@ -186,12 +192,12 @@ def actuate(actual, goals):
 
                 if in_hand:
                     # Translate over such that the piece is above the desired position
-                    plan = planner.plan_to_pose(above, [orien_const])
+                    plan = planner.plan_to_pose(above, [])
                     if not planner.execute_plan(plan):
                         raise Exception("Execution failed")
 
                     # Actually place the piece on table
-                    plan = planner.plan_to_pose(goal, [orien_const])
+                    plan = planner.plan_to_pose(goal, [])
                     if not planner.execute_plan(plan):
                         raise Exception("Execution failed")
                     ## GRIPPER OPEN (release)
@@ -200,25 +206,25 @@ def actuate(actual, goals):
                     in_hand = False
 
                 # Raise the arm a little bit so that other pieces are not affected
-                plan = planner.plan_to_pose(above, [orien_const])
+                plan = planner.plan_to_pose(above, [])
                 if not planner.execute_plan(plan):
                     raise Exception("Execution failed")
-
-                temp = goals.get(piece).pop(0)
-                placed = True
-                picked = False
+            
+                text = raw_input("Press <Enter> to move onto the next piece or 'back': ")
+                if text == "back":
+                    placed = False
+                    picked = True
+                else:
+                    placed = True
+                    picked = False
+                    goals.get(piece).pop(0)
+                    actual_list.pop(0)
 
             except Exception as e:
                 print e
                 traceback.print_exc()
             else:
                 break
-            
-        raw_input("Press <Enter> to move onto the next piece or 'back': ")
-        if raw_input is "back":
-            placed = False
-            picked = True
-            goals.insert(0, temp)
 
 """
 Given actual, will prompt user for goals and pass in appropriate params to actuate()
@@ -226,10 +232,10 @@ Input: Dictionary actual {Piece letters : PoseStamped Messages} that contain ini
 Calls: actuate()
 """
 def main(actual):
-    # x, y, z = 0.47, -0.85, 0.07
-    x, y, z = 0.6, -0.4, -.15
-    # x, y, z = .68,-0.85,-0.1
-    
+    # # x, y, z = 0.47, -0.85, 0.07
+    # x, y, z = 0.6, -0.4, -.15
+    x, y, z = 0.47, .3, -.15
+
     # DUMMY POSE
     original = PoseStamped()
     original.header.frame_id = "base"
@@ -241,12 +247,15 @@ def main(actual):
     original.pose.orientation.z = 0.0
     original.pose.orientation.w = 0.0
 
-    actual = {"J": original, "L" : original, "O": original}
+    actual = {"L": original, "J": original, "I": original, "O": original, "Z": original, "S": original, "T": original}
+    # actual = OrderedDict([("L",original), ("J",original), ("I",original), ("O",original), ("Z",original), ("S",original), ("T",original)])
 
     # Get the desired position and orientation of each piece by parsing the desired string
     # goals = raw_input("Enter in a 2D matrix of your desired layout, with each element separated by spaces and each row separated by periods: ")
-    goals = "L L L G.L J J G.G J O O.G J O O"
-    goals = parseGoals(goals)
+    # goals = "L L L G.L J J G.G J O O.G J O O"
+    goals = "J J J G G.Z Z J T G.I Z Z T T.I O O T G.I O O L G.I L L L G"
+    x, y, z = 0.47, -.4, -.15
+    goals = parseGoals(goals, x, y, z)
     actuate(actual, goals)
 
     # # Loop to loop over goals

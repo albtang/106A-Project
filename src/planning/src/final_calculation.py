@@ -10,14 +10,14 @@ Input: 2D Array, where elements correspond to blocks in space, labeled by letter
 Output: dictionary mapping letter to list of final desired Poses for each piece
 '''
 
-def decipher_final_configuration(ideal):
+def decipher_final_configuration(ideal, x, y, z):
     pieces = {"I": [], "O": [], "J": [], "L": [], "S": [], "Z": [], "T": []}
     ignore = []
     block_size = 0.1016 # 4 inches in m
     # x, y, z = 1, -0.5, -.2
     # x, y, z = -0.47, -0.5, -.25
     # x, y, z = 0.4, -0.8, 0
-    x, y, z = 0.47, -0.85, -.15
+    # x, y, z = 0.47, -0.85, -.15
 
     def block_I():
         # Determine orientation of the piece in the configuration passed in

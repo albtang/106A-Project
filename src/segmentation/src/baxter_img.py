@@ -23,7 +23,7 @@ length = 30
 conversion = 2.54/100
 HOMOGRAPHY_DEST = np.array([[0.0,0.0],[3600.0, 0.0], [0.0, 3000.0],[3600.0, 3000.0]])
 
-COLORS = ["red", "purple", "blue"]
+COLORS = ["red"]
 bridge = CvBridge()
 
 class RealWorldPos:
@@ -84,8 +84,9 @@ class BaxterImage():
                 cnts = contours(mask, cv_image)
                 mp = midpoint(cv_image, cnts)
                 cntr = np.dot(self.H, np.array([mp[0], mp[1], 1]))
-                cntr_xy = (cntr * conversion) / 100
+                cntr_xy = (cntr * conversion) / 100 / 100
                 pose = Pose()
+                print(cntr_xy)
                 pose.position.x = self.ar_pos[0] - cntr_xy[0]
                 pose.position.y = self.ar_pos[1] - cntr_xy[1]
                 pose.position.z = self.ar_pos[2]
@@ -93,10 +94,9 @@ class BaxterImage():
                 positions.poses.append(pose)
                 # self.centers[i] = np.array([cntr_xy[0], cntr_xy[1], 1])
                 # self.centers[i] = np.array([cntr_xy[0] + self.ar_pos.x, cntr_xy[1] + self.ar_pos.y, self.ar_pos.z])
-            self.homography(cv_image)
             # print(self.centers)
-            # return positions
             self.position_publisher.publish(positions)
+        self.homography(cv_image)
             
         cv2.imshow('image', cv_image)
         cv2.waitKey(1)
