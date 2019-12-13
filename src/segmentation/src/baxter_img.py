@@ -16,14 +16,14 @@ from color_segmentation import *
 
 OBJECTS_PUB_TOPIC = 'detected_objects'
 IMAGE_SUB_TOPIC = '/cameras/right_hand_camera/image'
-AR_TRACKER_TOPIC = '/ar_pose_marker'
+AR_TRACKER_TOPIC = '/actual_fucking_marker'
 
 width = 36
 length = 30
 conversion = 2.54/100
-HOMOGRAPHY_DEST = np.array([[0.0,0.0],[3600.0, 0.0], [0.0, 3000.0],[3600.0, 3000.0]])
+HOMOGRAPHY_DEST = np.array([[0.0,0.0],[3000.0, 0.0], [3000.0, 3600.0],[0.0, 3600.0]])
 
-COLORS = ["red"]
+COLORS = ["red", "purple", "blue", "green"]
 bridge = CvBridge()
 
 class RealWorldPos:
@@ -75,6 +75,8 @@ class BaxterImage():
         # purple_center = np.dot(self.H, np.array([self.centers[0][0], self.centers[0][1], 1]))
         # print((purple_center * conversion) / 100)
         # purple_center = (purple_center * conversion) / 100
+        # self.homography(cv_image)
+
         if self.numConverge >= 10:
             positions = PoseArray()
             positions.poses = []
@@ -84,26 +86,31 @@ class BaxterImage():
                 cnts = contours(mask, cv_image)
                 mp = midpoint(cv_image, cnts)
                 cntr = np.dot(self.H, np.array([mp[0], mp[1], 1]))
-                cntr_xy = (cntr * conversion) / 100 / 100
+                cntr = cntr / cntr[2]
+                cntr_xy = (cntr * conversion) / 100
                 pose = Pose()
-                print(cntr_xy)
-                pose.position.x = self.ar_pos[0] - cntr_xy[0]
-                pose.position.y = self.ar_pos[1] - cntr_xy[1]
-                pose.position.z = self.ar_pos[2]
-
+                # print(cntr_xy)
+                # print(mp)
+                # print(self.ar_pos[0] - cntr_xy[0], self.ar_pos[1] - cntr_xy[1])
+                pose.position.x = self.ar_pos[0] + cntr_xy[0] - ( 6.5 * conversion) + 0.09
+                pose.position.y = self.ar_pos[1] - cntr_xy[1] + ( 6.5 / 2 * conversion) + 0.03
+                pose.position.z = self.ar_pos[2] + 0.1
+                
+                print(pose)
+                # print(pose)
                 positions.poses.append(pose)
                 # self.centers[i] = np.array([cntr_xy[0], cntr_xy[1], 1])
                 # self.centers[i] = np.array([cntr_xy[0] + self.ar_pos.x, cntr_xy[1] + self.ar_pos.y, self.ar_pos.z])
             # print(self.centers)
+            self.homography(cv_image)
             self.position_publisher.publish(positions)
-        self.homography(cv_image)
             
         cv2.imshow('image', cv_image)
         cv2.waitKey(1)
 
     def ar_callback(self, ar_msg):
         if self.ar_pos is None:
-            self.ar_pos = np.array([ar_msg.markers[0].pose.pose.position.x, ar_msg.markers[0].pose.pose.position.y, ar_msg.markers[0].pose.pose.position.z])
+            self.ar_pos = np.array([ar_msg.position.x, ar_msg.position.y, ar_msg.position.z])
         # print(ar_msg.markers)
         # print(self.ar_pos)
 
@@ -115,10 +122,11 @@ class BaxterImage():
         pts_dst = HOMOGRAPHY_DEST #np.array([[0.0,3000.0],[3600.0, 3000.0],[ 0.0,0.0],[3600.0, 0.0]])
 
         #---- forming the black image of specific size
-        im_dst = np.zeros((3001, 3601, 3), np.uint8)
+        im_dst = np.zeros((3000, 3600, 3), np.uint8)
 
         #---- transforming the image bound in the rectangle to straighten
-        image = cv2.warpPerspective(img, self.H, (im_dst.shape[1],im_dst.shape[0]))
+        image = cv2.warpPerspective(img, self.H, (im_dst.shape[0],im_dst.shape[1]))
+
         cv2.imwrite("image.jpg", image)
 
         #find midpoint of pieces
@@ -132,7 +140,7 @@ class BaxterImage():
     def main(self):
         rospy.init_node('object_positions', anonymous=True)
         image_subscriber = rospy.Subscriber(IMAGE_SUB_TOPIC, Image, self.image_callback)
-        ar_subscriber = rospy.Subscriber(AR_TRACKER_TOPIC, AlvarMarkers, self.ar_callback)
+        ar_subscriber = rospy.Subscriber(AR_TRACKER_TOPIC, Pose, self.ar_callback)
         rospy.spin()
         cv2.destroyAllWindows()
 

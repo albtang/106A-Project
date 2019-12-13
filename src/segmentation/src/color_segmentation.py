@@ -9,7 +9,7 @@ COLORS = {
     "red_high": [[160, 100, 100], [179, 255, 255]],
     # "orange": [[15, 100, 100], [20, 255, 255]],
     # "yellow": [[25, 100, 100], [45, 255, 255]],
-    "blue": [[97,79,35], [123,149,90]],
+    "blue": [[97,79,50], [123,149,90]],
     "green": [[59,44,94], [93,92,150]],
     # "black": [[0, 0, 0], [180, 230, 30]],
     "purple": [[130, 70, 70], [160, 255, 255]],
@@ -43,7 +43,7 @@ def segment_by_color(image, color):
 
 def grayscale(image):
     img = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    ret, thresh = cv2.threshold(img,170,255,cv2.THRESH_BINARY_INV)
+    ret, thresh = cv2.threshold(img,200,255,cv2.THRESH_BINARY_INV)
     return thresh
     # plt.imshow(thresh)
     # plt.show()
@@ -74,7 +74,7 @@ def corners(img, cnts):
     cv2.circle(img, bottom, 8, (255, 255, 0), -1) #cyan
     # print([left, right, top, bottom])
 
-    return [left, bottom, top, right]
+    return [bottom, left, top, right]
  
     # show the output image
     # plt.imshow(img)

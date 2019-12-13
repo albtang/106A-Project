@@ -17,18 +17,18 @@ from path_planner import PathPlanner
 from final_calculation import decipher_final_configuration
 
 ### VARIABLES TO CHANGE FOR DEMO ###
-# CV = True
-CV = False
+CV = True
+# CV = False
 # PREDEFINED_GOAL = None
-PREDEFINED_GOAL = "J J J G G.Z Z J T G.I Z Z T T.I O O T G.I O O L G.I L L L G"
+# PREDEFINED_GOAL = "J J J G G.Z Z J T G.I Z Z T T.I O O T G.I O O L G.I L L L G"
+PREDEFINED_GOAL = "L O O J. L O O J. L L J J. Z Z G G. G Z Z G"
 # ACTUAL = ["L", "J", "I", "O", "Z", "S", "T"]
-ACTUAL_LETTERS = ["L", "J", "O"]
-# goals = "L L L G.L J J G.G J O O.G J O O"
-init_x, init_y, iniz_z = 0.47, .3, -.15
+ACTUAL_LETTERS = ["L"]
+init_x, init_y, init_z = 0.5, .2, -.28
 # x, y, z = 0.47, -0.85, -0.15
 # x, y, z = 0.6, -0.4, -.15
 # x, y, z = 0.47, .3, -.15
-final_x, final_y, final_z = 0.47, -.4, -.15
+final_x, final_y, final_z = 0.8, -.4, -.28
 # x, y, z = 1, -0.5, -.15
 # x, y, z = -0.47, -0.5, -.15
 # x, y, z = 0.4, -0.8, -.15
@@ -47,10 +47,10 @@ TODO: add the rest of the colors when necessary
 ColorMapping = {
     "blue" : "O",
     "red" : "L",
-    "purple" : "J"
+    "purple" : "J",
     # "yellow" : "I",
-    # "black" : "Z",
-    # "green" : "S",
+    # "black" : "S",
+    "green" : "Z"
     # "orange" : "T"
 }
 
@@ -60,6 +60,7 @@ Input: String goals
 Calls: main() with Dictionary actual {Piece letters : PoseStamped Messages} that contain initial/actual poses for each piece
 Assumptions: pieces are unique and objects_msg is formatted correctly
 """
+
 def parseActual(objects_msg):
     colors = objects_msg.header.frame_id.split()
     actual = {}
