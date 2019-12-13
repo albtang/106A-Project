@@ -14,11 +14,28 @@ from moveit_msgs.msg import OrientationConstraint
 from geometry_msgs.msg import PoseStamped, PoseArray
 
 from path_planner import PathPlanner
-# from controller import Controller
 from final_calculation import decipher_final_configuration
 
-### GLOBAL VARIABLES ###
+### VARIABLES TO CHANGE FOR DEMO ###
+# CV = True
+CV = False
+# PREDEFINED_GOAL = None
+PREDEFINED_GOAL = "J J J G G.Z Z J T G.I Z Z T T.I O O T G.I O O L G.I L L L G"
+# ACTUAL = ["L", "J", "I", "O", "Z", "S", "T"]
+ACTUAL_LETTERS = ["L", "J", "O"]
+# goals = "L L L G.L J J G.G J O O.G J O O"
+init_x, init_y, iniz_z = 0.47, .3, -.15
+# x, y, z = 0.47, -0.85, -0.15
+# x, y, z = 0.6, -0.4, -.15
+# x, y, z = 0.47, .3, -.15
+final_x, final_y, final_z = 0.47, -.4, -.15
+# x, y, z = 1, -0.5, -.15
+# x, y, z = -0.47, -0.5, -.15
+# x, y, z = 0.4, -0.8, -.15
+# x, y, z = 0.47, -0.85, -.15
+# x, y, z = 0.47, -.4, -.15
 
+### GLOBAL NAMES ###
 NODE = 'moveit_node'
 OBJECTS_SUB_TOPIC = "detected_objects"
 
@@ -31,6 +48,10 @@ ColorMapping = {
     "blue" : "O",
     "red" : "L",
     "purple" : "J"
+    # "yellow" : "I",
+    # "black" : "Z",
+    # "green" : "S",
+    # "orange" : "T"
 }
 
 """
@@ -52,7 +73,6 @@ def parseActual(objects_msg):
         piece.pose.orientation.w = 0.0
         actual[ColorMapping[colors[0]]] = piece
         colors.pop(0)
-    # actual_subscriber.shutdown()
     main(actual)
 
 """
@@ -118,6 +138,7 @@ def actuate(actual, goals):
 
     # List of letters corresponding to the pieces in the actual configuration
     actual_list = actual.keys()
+    print(actual_list)
     
     # Creation of a copy PoseStamped message to use for z translation
     above = PoseStamped()
@@ -128,7 +149,6 @@ def actuate(actual, goals):
         # Booleans to track state
         in_hand, picked, placed = False, False, False
         piece = actual_list[0]
-        print(piece)
 
         ### PICKING UP PIECE FROM ACTUAL LOCATION ###
         while not rospy.is_shutdown() and not picked:
@@ -232,41 +252,36 @@ Input: Dictionary actual {Piece letters : PoseStamped Messages} that contain ini
 Calls: actuate()
 """
 def main(actual):
-    # # x, y, z = 0.47, -0.85, 0.07
-    # x, y, z = 0.6, -0.4, -.15
-    x, y, z = 0.47, .3, -.15
+    # If CV is False, pass in hard coded values
+    if not CV:
+        x, y, z = init_x, init_y, init_z
 
-    # DUMMY POSE
-    original = PoseStamped()
-    original.header.frame_id = "base"
-    original.pose.position.x = x
-    original.pose.position.y = y
-    original.pose.position.z = z
-    original.pose.orientation.x = 0.0
-    original.pose.orientation.y = -1.0
-    original.pose.orientation.z = 0.0
-    original.pose.orientation.w = 0.0
+        # DUMMY POSE
+        original = PoseStamped()
+        original.header.frame_id = "base"
+        original.pose.position.x = x
+        original.pose.position.y = y
+        original.pose.position.z = z
+        original.pose.orientation.x = 0.0
+        original.pose.orientation.y = -1.0
+        original.pose.orientation.z = 0.0
+        original.pose.orientation.w = 0.0
 
-    actual = {"L": original, "J": original, "I": original, "O": original, "Z": original, "S": original, "T": original}
-    # actual = OrderedDict([("L",original), ("J",original), ("I",original), ("O",original), ("Z",original), ("S",original), ("T",original)])
+        actual = {}
+
+        for letter in ACTUAL_LETTERS:
+            actual[letter] = original
 
     # Get the desired position and orientation of each piece by parsing the desired string
-    # goals = raw_input("Enter in a 2D matrix of your desired layout, with each element separated by spaces and each row separated by periods: ")
-    # goals = "L L L G.L J J G.G J O O.G J O O"
-    goals = "J J J G G.Z Z J T G.I Z Z T T.I O O T G.I O O L G.I L L L G"
-    x, y, z = 0.47, -.4, -.15
+    if PREDEFINED_GOAL is None:
+        goals = raw_input("Enter in a 2D matrix of your desired layout, with each element separated by spaces and each row separated by periods: ")
+    else:
+        goals = PREDEFINED_GOAL
+
+    x, y, z = final_x, final_y, final_z
     goals = parseGoals(goals, x, y, z)
+
     actuate(actual, goals)
-
-    # # Loop to loop over goals
-    # while goals:
-    #     goals = parseGoals(goals)
-
-    #     actuate(actual, goals)
-        
-    #     print("We have finished solving the puzzle. If you would like to continue: ")
-    #     goals = None
-    #     # goals = raw_input("Enter in a 2D matrix of your desired layout, with each element separated by spaces and each row separated by periods: ")
 
 if __name__ == '__main__':
     rospy.init_node(NODE)
