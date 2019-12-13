@@ -21,18 +21,20 @@ CV = True
 # CV = False
 # PREDEFINED_GOAL = None
 # PREDEFINED_GOAL = "J J J G G.Z Z J T G.I Z Z T T.I O O T G.I O O L G.I L L L G"
-PREDEFINED_GOAL = "L O O J. L O O J. L L J J. Z Z G G. G Z Z G"
+PREDEFINED_GOAL = "L O O J . L O O J. L L J J. Z Z G G. G Z Z G"
+# PREDEFINED_GOAL = "J J Z Z G. J O O Z Z.J O O L G.G L L L G" # GOOD
 # ACTUAL = ["L", "J", "I", "O", "Z", "S", "T"]
 ACTUAL_LETTERS = ["L"]
 init_x, init_y, init_z = 0.5, .2, -.28
 # x, y, z = 0.47, -0.85, -0.15
 # x, y, z = 0.6, -0.4, -.15
 # x, y, z = 0.47, .3, -.15
-final_x, final_y, final_z = 0.8, -.4, -.28
+final_x, final_y, final_z = 0.9, -.4, -.28
 # x, y, z = 1, -0.5, -.15
 # x, y, z = -0.47, -0.5, -.15
 # x, y, z = 0.4, -0.8, -.15
 # x, y, z = 0.47, -0.85, -.15
+
 # x, y, z = 0.47, -.4, -.15
 
 ### GLOBAL NAMES ###

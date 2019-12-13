@@ -16,7 +16,7 @@ from color_segmentation import *
 
 OBJECTS_PUB_TOPIC = 'detected_objects'
 IMAGE_SUB_TOPIC = '/cameras/right_hand_camera/image'
-AR_TRACKER_TOPIC = '/actual_fucking_marker'
+AR_TRACKER_TOPIC = '/actual_ar_pose'
 
 width = 36
 length = 30
@@ -94,7 +94,7 @@ class BaxterImage():
                 # print(self.ar_pos[0] - cntr_xy[0], self.ar_pos[1] - cntr_xy[1])
                 pose.position.x = self.ar_pos[0] + cntr_xy[0] - ( 6.5 * conversion) + 0.09
                 pose.position.y = self.ar_pos[1] - cntr_xy[1] + ( 6.5 / 2 * conversion) + 0.03
-                pose.position.z = self.ar_pos[2] + 0.1
+                pose.position.z = self.ar_pos[2] + 0.08
                 
                 print(pose)
                 # print(pose)
