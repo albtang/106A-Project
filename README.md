@@ -1,5 +1,4 @@
-# 106A-Project
- Tetris Puzzle Robot
+# Tetrisbot
 
 You can find our website at https://sites.google.com/berkeley.edu/tetrisbot
 
